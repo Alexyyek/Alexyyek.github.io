@@ -127,7 +127,7 @@
 
 <div class="article-share" id="share">
 
-  <div data-url="http://yoursite.com/2014/11/15/new/" data-title="Java处理字符串-删除所有标点 | AlexYoung&#39;s blog" data-tsina="null" class="share clearfix">
+  <div data-url="http://yoursite.com/2014/11/15/new/" data-title="Java处理字符串-删除所有标点 | AlexYoung&#39;s blog" data-tsina="Alex_young" class="share clearfix">
   </div>
 
 </div>
@@ -135,6 +135,10 @@
 	</article>
 	
 	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
 </div>  
       <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
 
@@ -188,7 +192,11 @@
 	
 	<div class="social-font clearfix">
 		
+		<a href="http://weibo.com/alexyyek" target="_blank" title="weibo"></a>
 		
+		
+		
+		<a href="https://github.com/Alexyyek" target="_blank" title="github"></a>
 		
 		
 		
@@ -310,7 +318,40 @@ $(document).ready(function(){
 </script>
 
 
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"null"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
 
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
 
 
 
