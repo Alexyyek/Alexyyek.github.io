@@ -112,6 +112,7 @@
 <p>在这里利用的是Unicode编码，Unicode 编码并不只是为某个字符简单定义了一个编码，而且还将其进行了归类。</p>
 <p>\pP 其中的小写 p 是 property 的意思，表示 Unicode 属性，用于 Unicode 正表达式的前缀。</p>
 <p>大写 P 表示 Unicode 字符集七个字符属性之一：标点字符。其他六个包括：</p>
+<blockquote>
 <ul>
 <li>L：字母 </li>
 <li>M：标记符号（一般不会单独出现）</li>
@@ -120,6 +121,7 @@
 <li>N：数字（比如阿拉伯数字、罗马数字等）</li>
 <li>C：其他字符</li>
 </ul>
+</blockquote>
 <p>Java 中用于 Unicode 的正则表达式数据都是由 Unicode 组织提供的。<br>Unicode 正则表达式<a href="http://www.unicode.org/reports/tr18/" target="_blank" rel="external">标准</a>（可以找到所有的子属性）<br>这个<a href="http://www.unicode.org/Public/UNIDATA/UnicodeData.txt" target="_blank" rel="external">文本文档</a>一行是一个字符，第一列是 Unicode 编码，第二列是字符名，第三列是 Unicode 属性，以及其他一些字符信息。</p>
 <h3 id="实例">实例</h3>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">String</span> str = <span class="string">",.!，，D_NAME。！；‘’”“《》**dfs  #$%^&()-+1431221中国123漢字かどうかのjavaを決定"</span>;  </div><div class="line">str = str.replaceAll(<span class="string">"[\\pP‘’“”]"</span>, <span class="string">""</span>);  </div><div class="line">System.out.println(str);</div></pre></td></tr></table></figure>
