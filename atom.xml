@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Coding Life, Enrich Life, Appraciate Life]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2014-11-15T08:36:14.372Z</updated>
+  <updated>2014-11-15T08:38:58.477Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -19,12 +19,12 @@
     <link href="http://yoursite.com/2014/11/15/new/"/>
     <id>http://yoursite.com/2014/11/15/new/</id>
     <published>2014-11-15T06:45:40.000Z</published>
-    <updated>2014-11-15T08:35:35.000Z</updated>
+    <updated>2014-11-15T08:38:51.000Z</updated>
     <content type="html"><![CDATA[<h3 id="代码">代码</h3>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">str = str.replaceAll(<span class="string">"[\\pP‘’“”]"</span>, <span class="string">""</span>);</div></pre></td></tr></table></figure>
 
 <p>在这里利用的是Unicode编码，Unicode 编码并不只是为某个字符简单定义了一个编码，而且还将其进行了归类。</p>
-<p>\pP 其中的小写 p 是 property 的意思，表示 Unicode 属性，用于 Unicode 正表达式的前缀。</p>
+<p><a id="more"></a><br>\pP 其中的小写 p 是 property 的意思，表示 Unicode 属性，用于 Unicode 正表达式的前缀。</p>
 <p>大写 P 表示 Unicode 字符集七个字符属性之一：标点字符。其他六个包括：</p>
 <ul>
 <li>L：字母 </li>
@@ -42,7 +42,11 @@
 ]]></content>
     <summary type="html">
     <![CDATA[<h3 id="代码">代码</h3>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><]]>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">str = str.replaceAll(<span class="string">"[\\pP‘’“”]"</span>, <span class="string">""</span>);</div></pre></td></tr></table></figure>
+
+<p>在这里利用的是Unicode编码，Unicode 编码并不只是为某个字符简单定义了一个编码，而且还将其进行了归类。</p>
+<p>]]>
+    
     </summary>
     
       <category term="coding" scheme="http://yoursite.com/tags/coding/"/>
