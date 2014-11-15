@@ -3,17 +3,32 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Archives | AlexYoung&#39;s blog</title>
+  <title>Java处理字符串-删除所有标点 | AlexYoung&#39;s blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="coding, reading, creating">
-<meta property="og:type" content="website">
-<meta property="og:title" content="AlexYoung's blog">
-<meta property="og:url" content="http://yoursite.com/archives/">
+  <meta name="description" content="代码
+1str = str.replaceAll('[\\pP‘’“”]', '');
+
+在这里利用的是Unicode编码，Unicode 编码并不只是为某个字符简单定义了一个编码，而且还将其进行了归类。
+\pP 其中的小写 p 是 property 的意思，表示 Unicode 属性，用于 Unicode 正表达式的前缀。
+大写 P 表示 Unicode 字符集七个字符属性之一：标点字符。其他六">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java处理字符串-删除所有标点">
+<meta property="og:url" content="http://yoursite.com/2014/11/15/new/">
 <meta property="og:site_name" content="AlexYoung's blog">
-<meta property="og:description" content="coding, reading, creating">
+<meta property="og:description" content="代码
+1str = str.replaceAll('[\\pP‘’“”]', '');
+
+在这里利用的是Unicode编码，Unicode 编码并不只是为某个字符简单定义了一个编码，而且还将其进行了归类。
+\pP 其中的小写 p 是 property 的意思，表示 Unicode 属性，用于 Unicode 正表达式的前缀。
+大写 P 表示 Unicode 字符集七个字符属性之一：标点字符。其他六">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="AlexYoung's blog">
-<meta name="twitter:description" content="coding, reading, creating">
+<meta name="twitter:title" content="Java处理字符串-删除所有标点">
+<meta name="twitter:description" content="代码
+1str = str.replaceAll('[\\pP‘’“”]', '');
+
+在这里利用的是Unicode编码，Unicode 编码并不只是为某个字符简单定义了一个编码，而且还将其进行了归类。
+\pP 其中的小写 p 是 property 的意思，表示 Unicode 属性，用于 Unicode 正表达式的前缀。
+大写 P 表示 Unicode 字符集七个字符属性之一：标点字符。其他六">
 
   
     <link rel="alternative" href="/atom.xml" title="AlexYoung&#39;s blog" type="application/atom+xml">
@@ -65,9 +80,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-new" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-new" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2014/11/15/new/" class="article-date">
   <time datetime="2014-11-15T06:45:40.000Z" itemprop="datePublished">11月 15 2014</time>
@@ -84,8 +97,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/11/15/new/">Java处理字符串-删除所有标点</a>
+    <h1 class="article-title" itemprop="name">
+      Java处理字符串-删除所有标点
     </h1>
   
 
@@ -126,65 +139,20 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/11/14/hello-world/" class="article-date">
-  <time datetime="2014-11-14T08:59:40.000Z" itemprop="datePublished">11月 14 2014</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/11/14/hello-world/">Hello World</a>
-    </h1>
+    <a href="/2014/11/14/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hello World</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="http://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="http://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="http://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">trobuleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick_Start">Quick Start</h2>
-<h3 id="Create_a_new_post">Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run_server">Run server</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate_static_files">Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy_to_remote_sites">Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-
-<p>More info: <a href="http://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/11/14/hello-world/" data-id="59yqsbz1gq2kwvk7" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
   
 </article>
 
-
-  
-  
 </section>
         
           <aside id="sidebar">
