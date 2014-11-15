@@ -67,77 +67,36 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-new" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2014/11/15/new/" class="article-date">
-  <time datetime="2014-11-15T06:45:40.000Z" itemprop="datePublished">11月 15 2014</time>
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2014" class="archive-year">2014</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <a href="/2014/11/15/new/" class="archive-article-date">
+  <time datetime="2014-11-15T06:45:40.000Z" itemprop="datePublished">11月 15</time>
 </a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Java/">Java</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-<div class="article-gallery">
-  <div class="article-gallery-photos">
-    
-      <a class="article-gallery-img fancybox" href="http://farm4.staticflickr.com/3824/9041440555_2175b32078_m.jpg" rel="gallery_7ay81k73lbel6fsc">
-        <img src="http://farm4.staticflickr.com/3824/9041440555_2175b32078_m.jpg" itemprop="image">
-      </a>
-    
-  </div>
-</div>
-
-    
-      <header class="article-header">
-        
+      
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/11/15/new/">Java处理字符串-删除所有标点</a>
+      <a class="archive-article-title" href="/2014/11/15/new/">Java处理字符串-删除所有标点</a>
     </h1>
   
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="代码">代码</h3>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">str = str.replaceAll(<span class="string">"[\\pP‘’“”]"</span>, <span class="string">""</span>);</div></pre></td></tr></table></figure>
-
-<p>在这里利用的是Unicode编码，Unicode 编码并不只是为某个字符简单定义了一个编码，而且还将其进行了归类。</p>
-<p>\pP 其中的小写 p 是 property 的意思，表示 Unicode 属性，用于 Unicode 正表达式的前缀。</p>
-<p>大写 P 表示 Unicode 字符集七个字符属性之一：标点字符。其他六个包括：</p>
-<ul>
-<li>L：字母 </li>
-<li>M：标记符号（一般不会单独出现）</li>
-<li>Z：分隔符（比如空格、换行等）      </li>
-<li>S：符号（比如数学符号、货币符号等）</li>
-<li>N：数字（比如阿拉伯数字、罗马数字等）</li>
-<li>C：其他字符</li>
-</ul>
-<p>Java 中用于 Unicode 的正则表达式数据都是由 Unicode 组织提供的。<br>Unicode 正则表达式<a href="http://www.unicode.org/reports/tr18/" target="_blank" rel="external">标准</a>（可以找到所有的子属性）<br>这个<a href="http://www.unicode.org/Public/UNIDATA/UnicodeData.txt" target="_blank" rel="external">文本文档</a>一行是一个字符，第一列是 Unicode 编码，第二列是字符名，第三列是 Unicode 属性，以及其他一些字符信息。</p>
-<h3 id="实例">实例</h3>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">String</span> str = <span class="string">",.!，，D_NAME。！；‘’”“《》**dfs  #$%^&()-+1431221中国123漢字かどうかのjavaを決定"</span>;  </div><div class="line">str = str.replaceAll(<span class="string">"[\\pP‘’“”]"</span>, <span class="string">""</span>);  </div><div class="line">System.out.println(str);</div></pre></td></tr></table></figure>
-
-<p>输出结果: DNAMEdfs  $^+1431221中国123漢字かどうかのjavaを決定</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2014/11/15/new/" data-id="7ay81k73lbel6fsc" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/coding/">coding</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/skill/">skill</a></li></ul>
-
-    </footer>
+    </header>
   </div>
-  
 </article>
-
-
   
+  
+    </div></section>
   
 </section>
         
