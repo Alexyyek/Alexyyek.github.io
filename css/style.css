@@ -882,7 +882,59 @@ article .article-content {
   color: #413f3f;
   font-size: 100%;
 }
-article .article-content .kb {
+.post-content .post-content:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  bottom: 15px;
+  left: 10px;
+  width: 50%;
+  height: 20%;
+  -webkit-box-shadow: 0 15px 10px rgba(0,0,0,0.7);
+  -moz-box-shadow: 0 15px 10px rgba(0,0,0,0.7);
+  -webkit-box-shadow: 0 15px 15px rgba(0,0,0,0.7);
+  box-shadow: 0 15px 15px rgba(0,0,0,0.7);
+  -webkit-transform: rotate(-2deg);
+  -moz-transform: rotate(-2deg);
+  -o-transform: rotate(-2deg);
+  -webkit-transform: rotate(-2deg);
+  -moz-transform: rotate(-2deg);
+  -o-transform: rotate(-2deg);
+  -ms-transform: rotate(-2deg);
+  transform: rotate(-2deg);
+}
+.post-content .post-content:after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  bottom: 15px;
+  left: 10px;
+  width: 50%;
+  height: 20%;
+  -webkit-box-shadow: 0 15px 10px rgba(0,0,0,0.7);
+  -moz-box-shadow: 0 15px 10px rgba(0,0,0,0.7);
+  -webkit-box-shadow: 0 15px 15px rgba(0,0,0,0.7);
+  box-shadow: 0 15px 15px rgba(0,0,0,0.7);
+  -webkit-transform: rotate(-2deg);
+  -moz-transform: rotate(-2deg);
+  -o-transform: rotate(-2deg);
+  -webkit-transform: rotate(-2deg);
+  -moz-transform: rotate(-2deg);
+  -o-transform: rotate(-2deg);
+  -ms-transform: rotate(-2deg);
+  transform: rotate(-2deg);
+  right: 10px;
+  left: auto;
+  -webkit-transform: rotate(2deg);
+  -moz-transform: rotate(2deg);
+  -o-transform: rotate(2deg);
+  -webkit-transform: rotate(2deg);
+  -moz-transform: rotate(2deg);
+  -o-transform: rotate(2deg);
+  -ms-transform: rotate(2deg);
+  transform: rotate(2deg);
+}
+.post-content .post-content:after .kb {
   padding: 0.1em 0.6em;
   border: 1px solid #ccc;
   background-color: code-color;
@@ -897,100 +949,100 @@ article .article-content .kb {
   line-height: 1.5;
   white-space: nowrap;
 }
-article .article-content h1,
-article .article-content h2 {
+.post-content .post-content:after h1,
+.post-content .post-content:after h2 {
   font-size: 180%;
   line-height: 1.2em;
   padding-bottom: 0.3em;
   margin-top: 1.5em;
   border-bottom: 2px solid #dbdbdb;
 }
-article .article-content h3 {
+.post-content .post-content:after h3 {
   font-size: 140%;
   line-height: 1em;
   margin-top: 1.3em;
 }
-article .article-content h4,
-article .article-content h5,
-article .article-content h6 {
+.post-content .post-content:after h4,
+.post-content .post-content:after h5,
+.post-content .post-content:after h6 {
   font-size: 140%;
 }
-article .article-content h1,
-article .article-content h2,
-article .article-content h3,
-article .article-content h4,
-article .article-content h5,
-article .article-content h6 {
+.post-content .post-content:after h1,
+.post-content .post-content:after h2,
+.post-content .post-content:after h3,
+.post-content .post-content:after h4,
+.post-content .post-content:after h5,
+.post-content .post-content:after h6 {
   color: #333;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-article .article-content h1 >code,
-article .article-content h2 >code,
-article .article-content h3 >code,
-article .article-content h4 >code,
-article .article-content h5 >code,
-article .article-content h6 >code {
+.post-content .post-content:after h1 >code,
+.post-content .post-content:after h2 >code,
+.post-content .post-content:after h3 >code,
+.post-content .post-content:after h4 >code,
+.post-content .post-content:after h5 >code,
+.post-content .post-content:after h6 >code {
   color: #a3a3a3;
 }
-article .article-content hr {
+.post-content .post-content:after hr {
   border: 1px solid #dbdbdb;
 }
-article .article-content strong {
+.post-content .post-content:after strong {
   font-weight: bold;
 }
-article .article-content em {
+.post-content .post-content:after em {
   font-style: italic;
 }
-article .article-content acronym,
-article .article-content abbr {
+.post-content .post-content:after acronym,
+.post-content .post-content:after abbr {
   border-bottom: 1px dotted;
 }
-article .article-content blockquote {
+.post-content .post-content:after blockquote {
   border-left: 0.2em solid #06406c;
   margin: 0.65em 0 0.65em 1%;
   padding-left: 1%;
   line-height: 1.5;
   font-size: 100%;
 }
-article .article-content blockquote footer {
+.post-content .post-content:after blockquote footer {
   background: #fafafa;
   padding: 0;
   margin: 0;
   font-size: 80%;
   line-height: 1em;
 }
-article .article-content blockquote cite {
+.post-content .post-content:after blockquote cite {
   font-style: italic;
   padding-left: 0.5em;
 }
-article .article-content ul,
-article .article-content ol {
+.post-content .post-content:after ul,
+.post-content .post-content:after ol {
   padding-left: 1.5em;
   font-size: 100%;
   padding-top: 0.7em;
 }
 @media only screen and (min-width: 768px) {
-  article .article-content ul,
-  article .article-content ol {
+  .post-content .post-content:after ul,
+  .post-content .post-content:after ol {
     padding-left: 1.5em;
   }
 }
-article .article-content ul li {
+.post-content .post-content:after ul li {
   list-style: disc;
   text-align: match-parent;
 }
-article .article-content ol li {
+.post-content .post-content:after ol li {
   list-style-type: decimal;
 }
-article .article-content dl dt {
+.post-content .post-content:after dl dt {
   font-weight: blod;
 }
-article .article-content ul li>code,
-article .article-content ol li>code,
-article .article-content p code,
-article .article-content strong code,
-article .article-content em code {
+.post-content .post-content:after ul li>code,
+.post-content .post-content:after ol li>code,
+.post-content .post-content:after p code,
+.post-content .post-content:after strong code,
+.post-content .post-content:after em code {
   font-family: Monaco, Menlo, Consolas, Courier New, monospace;
   background: #eee;
   color: #d14;
@@ -1004,46 +1056,46 @@ article .article-content em code {
   -webkit-border-radius: 0.25em;
   border-radius: 0.25em;
 }
-article .article-content p {
+.post-content .post-content:after p {
   line-height: 1.5;
   margin-top: 0.7em;
 }
 @media only screen and (min-width: 1024px) {
-  article .article-content p {
+  .post-content .post-content:after p {
     margin-top: 1em;
   }
 }
-article .article-content img,
-article .article-content video,
-article .article-content figure img {
+.post-content .post-content:after img,
+.post-content .post-content:after video,
+.post-content .post-content:after figure img {
   max-width: 100%;
   height: auto;
   vertical-align: middle;
   padding-top: 0.5em;
 }
 @media only screen and (min-width: 1024px) {
-  article .article-content img,
-  article .article-content video,
-  article .article-content figure img {
+  .post-content .post-content:after img,
+  .post-content .post-content:after video,
+  .post-content .post-content:after figure img {
     padding-top: 0.7em;
   }
 }
-article .article-content figcaption,
-article .article-content .caption {
+.post-content .post-content:after figcaption,
+.post-content .post-content:after .caption {
   text-align: center;
   display: block;
   font-size: 0.9em;
   font-weight: blod;
 }
-article .article-content .video-container {
+.post-content .post-content:after .video-container {
   position: relative;
   padding-top: 56%;
   height: 0;
   overflow: hidden;
 }
-article .article-content .video-container iframe,
-article .article-content .video-container object,
-article .article-content .video-container embed {
+.post-content .post-content:after .video-container iframe,
+.post-content .post-content:after .video-container object,
+.post-content .post-content:after .video-container embed {
   position: absolute;
   top: 0;
   left: 0;
@@ -1051,32 +1103,32 @@ article .article-content .video-container embed {
   height: 100%;
   margin-top: 0;
 }
-article .article-content table {
+.post-content .post-content:after table {
   width: 100%;
   border-collapse: collapse;
   border-spacing: 0;
 }
-article .article-content table th {
+.post-content .post-content:after table th {
   font-weight: bold;
   border-bottom: 3px solid #dbdbdb;
   padding-bottom: 0.5em;
 }
-article .article-content table td {
+.post-content .post-content:after table td {
   border-bottom: 1px solid #dbdbdb;
   padding: 10px 0;
 }
-article .article-content .pullquote {
+.post-content .post-content:after .pullquote {
   text-align: left;
   width: 45%;
   margin: 0;
   border: none;
 }
-article .article-content .left {
+.post-content .post-content:after .left {
   margin-left: 0.5em;
   margin-right: 1em;
   float: left;
 }
-article .article-content .right {
+.post-content .post-content:after .right {
   margin-right: 0.5em;
   margin-left: 1em;
   float: right;
