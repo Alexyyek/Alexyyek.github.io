@@ -4,7 +4,7 @@
   <subtitle><![CDATA[do not go gentle into life]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2014-11-17T11:32:46.167Z</updated>
+  <updated>2014-11-17T12:17:45.170Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://yoursite.com/2014/11/17/Single-Number/"/>
     <id>http://yoursite.com/2014/11/17/Single-Number/</id>
     <published>2014-11-17T08:30:25.000Z</published>
-    <updated>2014-11-17T11:32:42.000Z</updated>
+    <updated>2014-11-17T12:17:39.000Z</updated>
     <content type="html"><![CDATA[<h2 id="Single_Number">Single Number</h2>
 <p>Question : Given an array of integers, every element appears twice except for one. Find that single one.<br><a id="more"></a><br><br></p>
 <h3 id="Best_solution">Best solution</h3>
@@ -30,6 +30,17 @@
 
 <p>从性能上来评判用XOR无疑使最好的，复杂度只有O(N)。</p>
 <p>我个人的方法略显笨拙，复杂度虽然也是O(N), 但开辟的多余的内存空间，不过当element出现的次数改变时，反而有更好的鲁棒性.<br><br></p>
+<h3 id="change_question">change question</h3>
+<p>Given an array of integers, every element appears <code>three</code> times except for one. Find that single one.<br><br></p>
+<h4 id="best_answer">best answer</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">singleNumber</span>(<span class="keyword">int</span>[] A) {</div><div class="line">    <span class="keyword">int</span> ones = <span class="number">0</span>, twos = <span class="number">0</span>;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; A.length; i++){</div><div class="line">        ones = (ones ^ A[i]) & ~twos;</div><div class="line">        twos = (twos ^ A[i]) & ~ones;</div><div class="line">    }</div><div class="line">    <span class="keyword">return</span> ones;</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<h4 id="Inference">Inference</h4>
+<p>题目中改变了element的出现次数，变成了出现三次，当然用我之前的程序改个数字就能搞定，但仍需要分析一下最优的解法。<br>best answer思路：出现三次，可以用2个bit来表征这三个状态，分别是00→10→01→00<br>ones和twos分别承担了这两个bit位<br>如果推理一下可以发现</p>
+<blockquote>
+<p>ones = ones ^ A[i]; if (twos == 1) then ones = 0, that can be tansformed to ones = (ones ^ &gt;A[i]) &amp; ~twos.</p>
+<p>twos = twos ^ A[i]; if (ones == 1) then twos = 0 and twos = (twos ^ A[i]) &amp; ~ones.<br><br></p>
+</blockquote>
 <h2 id="回顾">回顾</h2>
 <p><br></p>
 <h3 id="位移动运算符:">位移动运算符:</h3>
