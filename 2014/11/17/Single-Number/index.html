@@ -93,7 +93,7 @@ Question : Given an array of integers, every element appears twice except for on
 		</div>
 		
 		<h2 id="Single_Number">Single Number</h2>
-<p>Question : Given an array of integers, every element appears twice except for one. Find that single one.<br><a id="more"></a><br><br></p>
+<p>Question : Given an array of integers, every element appears <code>twice</code> except for one. Find that single one.<br><a id="more"></a><br><br></p>
 <h3 id="Best_solution">Best solution</h3>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">singleNumber</span>(<span class="keyword">int</span>[] A) {</div><div class="line">        <span class="keyword">int</span> result = <span class="number">0</span>;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; A.length; i++) {</div><div class="line">			result ^= A[i];</div><div class="line">		}</div><div class="line">		<span class="keyword">return</span> result;</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
 
@@ -109,7 +109,7 @@ Question : Given an array of integers, every element appears twice except for on
 
 <p><br></p>
 <h4 id="Inference">Inference</h4>
-<p>题目中改变了element的出现次数，变成了出现三次，当然用我之前的程序改个数字就能搞定，但仍需要分析一下最优的解法。<br>best answer思路：出现三次，可以用2个bit来表征这三个状态，分别是00→10→01→00<br>ones和twos分别承担了这两个bit位<br>如果推理一下可以发现</p>
+<p>题目中改变了element的出现次数，变成了出现三次，当然用我之前的程序改个数字就能搞定，但仍需要分析一下最优的解法<br>best answer思路：出现三次，可以用2个bit来表征这三个状态，分别是00→10→01→00<br>ones和twos分别承担了这两个bit位<br>如果推理一下可以发现</p>
 <blockquote>
 <p>ones = ones ^ A[i]; if (twos == 1) then ones = 0, that can be tansformed to ones = (ones ^ &gt;A[i]) &amp; ~twos.</p>
 <p>twos = twos ^ A[i]; if (ones == 1) then twos = 0 and twos = (twos ^ A[i]) &amp; ~ones.</p>
