@@ -90,7 +90,7 @@ Best solution
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Single_Number"><span class="toc-number">1.</span> <span class="toc-text">Single Number</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Best_solution"><span class="toc-number">1.0.1.</span> <span class="toc-text">Best solution</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#My_solution"><span class="toc-number">1.0.2.</span> <span class="toc-text">My solution</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运算符"><span class="toc-number">2.</span> <span class="toc-text">运算符</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#位移动运算符:"><span class="toc-number">2.1.</span> <span class="toc-text">位移动运算符:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#位运算:"><span class="toc-number">2.2.</span> <span class="toc-text">位运算:</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Single_Number"><span class="toc-number">1.</span> <span class="toc-text">Single Number</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Best_solution"><span class="toc-number">1.0.1.</span> <span class="toc-text">Best solution</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#My_solution"><span class="toc-number">1.0.2.</span> <span class="toc-text">My solution</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运算符"><span class="toc-number">2.</span> <span class="toc-text">运算符</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#位移动运算符:"><span class="toc-number">2.0.1.</span> <span class="toc-text">位移动运算符:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#位运算:"><span class="toc-number">2.0.2.</span> <span class="toc-text">位运算:</span></a></li></ol></li></ol></li></ol>
 		
 		</div>
 		
@@ -106,7 +106,7 @@ Best solution
 <p>我个人的方法略显笨拙，复杂度虽然也是O(N), 但开辟的多余的内存空间，不过当element出现的次数改变时，反而有更好的鲁棒性.     </p>
 <h2 id="运算符">运算符</h2>
 <p>回顾一下java的位运算</p>
-<h3 id="位移动运算符:">位移动运算符:</h3>
+<h4 id="位移动运算符:">位移动运算符:</h4>
 <p><strong>&lt;&lt;</strong>表示左移, 左移一位表示原来的值乘2.</p>
 <p>例如：3 &lt;&lt;2(3为int型) </p>
 <blockquote>
@@ -118,7 +118,7 @@ Best solution
 </blockquote>
 <p>同理<strong>&gt;&gt;</strong>表示右移. 右移一位表示除2. </p>
 <p>低位移出(舍弃)，高位的空位补符号位，即正数补零，负数补1 </p>
-<h3 id="位运算:">位运算:</h3>
+<h4 id="位运算:">位运算:</h4>
 <p>位运算符包括:　与（&amp;）、非（~）、或（|）、异或（^）</p>
 <blockquote>
 <p>&amp;：当两边操作数的位同时为1时，结果为1，否则为0。如1100&amp;1010=1000 　</p>
@@ -185,7 +185,7 @@ Best solution
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Single_Number"><span class="toc-number">1.</span> <span class="toc-text">Single Number</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Best_solution"><span class="toc-number">1.0.1.</span> <span class="toc-text">Best solution</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#My_solution"><span class="toc-number">1.0.2.</span> <span class="toc-text">My solution</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运算符"><span class="toc-number">2.</span> <span class="toc-text">运算符</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#位移动运算符:"><span class="toc-number">2.1.</span> <span class="toc-text">位移动运算符:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#位运算:"><span class="toc-number">2.2.</span> <span class="toc-text">位运算:</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Single_Number"><span class="toc-number">1.</span> <span class="toc-text">Single Number</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Best_solution"><span class="toc-number">1.0.1.</span> <span class="toc-text">Best solution</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#My_solution"><span class="toc-number">1.0.2.</span> <span class="toc-text">My solution</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#运算符"><span class="toc-number">2.</span> <span class="toc-text">运算符</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#位移动运算符:"><span class="toc-number">2.0.1.</span> <span class="toc-text">位移动运算符:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#位运算:"><span class="toc-number">2.0.2.</span> <span class="toc-text">位运算:</span></a></li></ol></li></ol></li></ol>
  
   </div>
 

@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Coding Life, Enrich Life, Appraciate Life]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2014-11-17T08:40:55.627Z</updated>
+  <updated>2014-11-17T08:43:05.216Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://yoursite.com/2014/11/17/Single-Number/"/>
     <id>http://yoursite.com/2014/11/17/Single-Number/</id>
     <published>2014-11-17T08:30:25.000Z</published>
-    <updated>2014-11-17T08:40:52.000Z</updated>
+    <updated>2014-11-17T08:43:01.000Z</updated>
     <content type="html"><![CDATA[<h2 id="Single_Number">Single Number</h2>
 <p>Question : Given an array of integers, every element appears twice except for one. Find that single one.<br><br></p>
 <h4 id="Best_solution">Best solution</h4>
@@ -32,7 +32,7 @@
 <p>我个人的方法略显笨拙，复杂度虽然也是O(N), 但开辟的多余的内存空间，不过当element出现的次数改变时，反而有更好的鲁棒性.     </p>
 <h2 id="运算符">运算符</h2>
 <p>回顾一下java的位运算</p>
-<h3 id="位移动运算符:">位移动运算符:</h3>
+<h4 id="位移动运算符:">位移动运算符:</h4>
 <p><strong>&lt;&lt;</strong>表示左移, 左移一位表示原来的值乘2.</p>
 <p>例如：3 &lt;&lt;2(3为int型) </p>
 <blockquote>
@@ -44,7 +44,7 @@
 </blockquote>
 <p>同理<strong>&gt;&gt;</strong>表示右移. 右移一位表示除2. </p>
 <p>低位移出(舍弃)，高位的空位补符号位，即正数补零，负数补1 </p>
-<h3 id="位运算:">位运算:</h3>
+<h4 id="位运算:">位运算:</h4>
 <p>位运算符包括:　与（&amp;）、非（~）、或（|）、异或（^）</p>
 <blockquote>
 <p>&amp;：当两边操作数的位同时为1时，结果为1，否则为0。如1100&amp;1010=1000 　</p>
