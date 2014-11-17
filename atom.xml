@@ -4,7 +4,7 @@
   <subtitle><![CDATA[do not go gentle into life]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2014-11-17T11:21:22.358Z</updated>
+  <updated>2014-11-17T11:32:46.167Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://yoursite.com/2014/11/17/Single-Number/"/>
     <id>http://yoursite.com/2014/11/17/Single-Number/</id>
     <published>2014-11-17T08:30:25.000Z</published>
-    <updated>2014-11-17T10:21:26.000Z</updated>
+    <updated>2014-11-17T11:32:42.000Z</updated>
     <content type="html"><![CDATA[<h2 id="Single_Number">Single Number</h2>
 <p>Question : Given an array of integers, every element appears twice except for one. Find that single one.<br><a id="more"></a><br><br></p>
 <h3 id="Best_solution">Best solution</h3>
