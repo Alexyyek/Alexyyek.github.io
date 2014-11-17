@@ -10,9 +10,9 @@
     <meta name="author" content="AlexYoung">
     
     <meta name="description" content="Single Number
-Question : Given an array of integers, every element appears twice except for one. Find that single one.      
+Question : Given an array of integers, every element appears twice except for one. Find that single one.
 Best solution
-123456789pu">
+123456789public c">
     
     
     
@@ -95,7 +95,7 @@ Best solution
 		</div>
 		
 		<h2 id="Single_Number">Single Number</h2>
-<p>Question : Given an array of integers, every element appears twice except for one. Find that single one.      </p>
+<p>Question : Given an array of integers, every element appears twice except for one. Find that single one.<br><br></p>
 <h4 id="Best_solution">Best solution</h4>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">singleNumber</span>(<span class="keyword">int</span>[] A) {</div><div class="line">        <span class="keyword">int</span> result = <span class="number">0</span>;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; A.length; i++) {</div><div class="line">			result ^= A[i];</div><div class="line">		}</div><div class="line">		<span class="keyword">return</span> result;</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
 
@@ -104,7 +104,6 @@ Best solution
 
 <p>从性能上来评判用XOR无疑使最好的，复杂度只有O(N)。</p>
 <p>我个人的方法略显笨拙，复杂度虽然也是O(N), 但开辟的多余的内存空间，不过当element出现的次数改变时，反而有更好的鲁棒性.     </p>
-<hr>
 <h2 id="运算符">运算符</h2>
 <p>回顾一下java的位运算</p>
 <h3 id="位移动运算符:">位移动运算符:</h3>
