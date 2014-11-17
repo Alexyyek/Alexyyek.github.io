@@ -90,23 +90,25 @@ Best solution
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Single_Number"><span class="toc-number">1.</span> <span class="toc-text">Single Number</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Best_solution"><span class="toc-number">1.0.1.</span> <span class="toc-text">Best solution</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#My_solution"><span class="toc-number">1.0.2.</span> <span class="toc-text">My solution</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#位移动运算符:"><span class="toc-number">1.0.3.</span> <span class="toc-text">位移动运算符:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#位运算:"><span class="toc-number">1.0.4.</span> <span class="toc-text">位运算:</span></a></li></ol></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Single_Number"><span class="toc-number">1.</span> <span class="toc-text">Single Number</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Best_solution"><span class="toc-number">1.1.</span> <span class="toc-text">Best solution</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#My_solution"><span class="toc-number">1.2.</span> <span class="toc-text">My solution</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#回顾"><span class="toc-number">2.</span> <span class="toc-text">回顾</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#位移动运算符:"><span class="toc-number">2.1.</span> <span class="toc-text">位移动运算符:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#位运算:"><span class="toc-number">2.2.</span> <span class="toc-text">位运算:</span></a></li></ol></li></ol>
 		
 		</div>
 		
 		<h2 id="Single_Number">Single Number</h2>
 <p>Question : Given an array of integers, every element appears twice except for one. Find that single one.<br><br></p>
-<h4 id="Best_solution">Best solution</h4>
+<h3 id="Best_solution">Best solution</h3>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">singleNumber</span>(<span class="keyword">int</span>[] A) {</div><div class="line">        <span class="keyword">int</span> result = <span class="number">0</span>;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; A.length; i++) {</div><div class="line">			result ^= A[i];</div><div class="line">		}</div><div class="line">		<span class="keyword">return</span> result;</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
 
-<h4 id="My_solution">My solution</h4>
+<h3 id="My_solution">My solution</h3>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">singleNumber</span>(<span class="keyword">int</span>[] A) {</div><div class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;Integer, Integer&gt;();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; A.length; i++) {</div><div class="line">			<span class="keyword">int</span> key = A[i];</div><div class="line">			<span class="keyword">if</span> (map.containsKey(key)) {</div><div class="line">				map.put(key, map.get(key) + <span class="number">1</span>);</div><div class="line">				<span class="keyword">if</span> (map.get(key) == <span class="number">2</span>) {</div><div class="line">					map.remove(key);</div><div class="line">				}</div><div class="line">			} <span class="keyword">else</span> {</div><div class="line">				map.put(key, <span class="number">1</span>);</div><div class="line">			}</div><div class="line">		}</div><div class="line">		String result = map.keySet().toString();</div><div class="line">		<span class="keyword">int</span> out = Integer.parseInt(result.substring(<span class="number">1</span>, result.length()-<span class="number">1</span>));</div><div class="line">		<span class="keyword">return</span> out;</div><div class="line">	}</div><div class="line">}</div></pre></td></tr></table></figure>
 
 <p>从性能上来评判用XOR无疑使最好的，复杂度只有O(N)。</p>
-<p>我个人的方法略显笨拙，复杂度虽然也是O(N), 但开辟的多余的内存空间，不过当element出现的次数改变时，反而有更好的鲁棒性.     </p>
+<p>我个人的方法略显笨拙，复杂度虽然也是O(N), 但开辟的多余的内存空间，不过当element出现的次数改变时，反而有更好的鲁棒性.<br><br></p>
 <hr>
 <p><br></p>
-<h4 id="位移动运算符:">位移动运算符:</h4>
+<h2 id="回顾">回顾</h2>
+<p><br></p>
+<h3 id="位移动运算符:">位移动运算符:</h3>
 <p><strong>&lt;&lt;</strong>表示左移, 左移一位表示原来的值乘2.</p>
 <p>例如：3 &lt;&lt;2(3为int型) </p>
 <blockquote>
@@ -118,7 +120,8 @@ Best solution
 </blockquote>
 <p>同理<strong>&gt;&gt;</strong>表示右移. 右移一位表示除2. </p>
 <p>低位移出(舍弃)，高位的空位补符号位，即正数补零，负数补1 </p>
-<h4 id="位运算:">位运算:</h4>
+<p><br></p>
+<h3 id="位运算:">位运算:</h3>
 <p>位运算符包括:　与（&amp;）、非（~）、或（|）、异或（^）</p>
 <blockquote>
 <p>&amp;：当两边操作数的位同时为1时，结果为1，否则为0。如1100&amp;1010=1000 　</p>
@@ -185,7 +188,7 @@ Best solution
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Single_Number"><span class="toc-number">1.</span> <span class="toc-text">Single Number</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Best_solution"><span class="toc-number">1.0.1.</span> <span class="toc-text">Best solution</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#My_solution"><span class="toc-number">1.0.2.</span> <span class="toc-text">My solution</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#位移动运算符:"><span class="toc-number">1.0.3.</span> <span class="toc-text">位移动运算符:</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#位运算:"><span class="toc-number">1.0.4.</span> <span class="toc-text">位运算:</span></a></li></ol></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Single_Number"><span class="toc-number">1.</span> <span class="toc-text">Single Number</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Best_solution"><span class="toc-number">1.1.</span> <span class="toc-text">Best solution</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#My_solution"><span class="toc-number">1.2.</span> <span class="toc-text">My solution</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#回顾"><span class="toc-number">2.</span> <span class="toc-text">回顾</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#位移动运算符:"><span class="toc-number">2.1.</span> <span class="toc-text">位移动运算符:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#位运算:"><span class="toc-number">2.2.</span> <span class="toc-text">位运算:</span></a></li></ol></li></ol>
  
   </div>
 
