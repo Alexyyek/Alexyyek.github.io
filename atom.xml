@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title><![CDATA[AlexYoung's blog]]></title>
-  <subtitle><![CDATA[Coding Life, Enrich Life, Appraciate Life]]></subtitle>
+  <subtitle><![CDATA[do not go gentle into life]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yoursite.com/"/>
-  <updated>2014-11-17T10:21:41.545Z</updated>
+  <updated>2014-11-17T11:21:22.358Z</updated>
   <id>http://yoursite.com/</id>
   
   <author>
