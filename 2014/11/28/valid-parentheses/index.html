@@ -5,15 +5,12 @@
   <meta charset="UTF-8">
   <meta name="baidu-site-verification" content="GliC1jSe3E" />
   
-    <title>AlexYoung&#39;s blog</title>
+    <title>valid parentheses | AlexYoung&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="AlexYoung">
     
-    <meta name="description" content="title: valid parenthesesdate: 2014-11-28 22:42:18categories: Javatags: [stack, leetcode]description : Given a string containing just the characters ‘(‘, ‘)’, ‘{‘, ‘}’, ‘[‘ and ‘]’, determine if the input string is valid.
-The brackets must close in the correct order, () and ()[]{} are all valid but (] and ([)] are not.
-Valid Parentheses
-Question：Given a string containing just the characters ‘(‘, ‘)’, ‘{‘, ‘}’, ‘[‘ and ‘]’, determine if the input string is valid.The brackets must close in the correct order, () and ()[]{} are all valid but (] and ([)] are not.">
+    <meta name="description" itemprop="description" content="Given a string containing just the characters &#39;(&#39;, &#39;)&#39;, &#39;{&#39;, &#39;}&#39;, &#39;[&#39; and &#39;]&#39;, determine if the input string is valid. The brackets must close in the correct order, `()` and `()[]{}` are all valid but `(]` and `([)]` are not.">
     
     
     
@@ -74,7 +71,7 @@ Question：Given a string containing just the characters ‘(‘, ‘)’, ‘{�
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/11/28/valid-parentheses/" title="" itemprop="url"></a>
+      <a href="/2014/11/28/valid-parentheses/" title="valid parentheses" itemprop="url">valid parentheses</a>
   </h1>
   <p class="article-author">By
        
@@ -91,13 +88,11 @@ Question：Given a string containing just the characters ‘(‘, ‘)’, ‘{�
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#The_brackets_must_close_in_the_correct_order,_()_and_()[]{}_are_all_valid_but_(]_and_([)]_are_not-"><span class="toc-number">1.</span> <span class="toc-text">The brackets must close in the correct order, () and ()[]{} are all valid but (] and ([)] are not.</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Valid_Parentheses"><span class="toc-number">2.</span> <span class="toc-text">Valid Parentheses</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Best_Solution"><span class="toc-number">2.1.</span> <span class="toc-text">Best Solution</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#My_Solution"><span class="toc-number">2.2.</span> <span class="toc-text">My Solution</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Valid_Parentheses"><span class="toc-number">1.</span> <span class="toc-text">Valid Parentheses</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Best_Solution"><span class="toc-number">1.1.</span> <span class="toc-text">Best Solution</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#My_Solution"><span class="toc-number">1.2.</span> <span class="toc-text">My Solution</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<p>title: valid parentheses<br>date: 2014-11-28 22:42:18<br>categories: Java<br>tags: [stack, leetcode]<br>description : Given a string containing just the characters ‘(‘, ‘)’, ‘{‘, ‘}’, ‘[‘ and ‘]’, determine if the input string is valid.</p>
-<h2 id="The_brackets_must_close_in_the_correct_order,_()_and_()[]{}_are_all_valid_but_(]_and_([)]_are_not-">The brackets must close in the correct order, <code>()</code> and <code>()[]{}</code> are all valid but <code>(]</code> and <code>([)]</code> are not.</h2>
-<h2 id="Valid_Parentheses">Valid Parentheses</h2>
+		<h2 id="Valid_Parentheses">Valid Parentheses</h2>
 <p>Question：Given a string containing just the characters ‘(‘, ‘)’, ‘{‘, ‘}’, ‘[‘ and ‘]’, determine if the input string is valid.<br>The brackets must close in the correct order, <code>()</code> and <code>()[]{}</code> are all valid but <code>(]</code> and <code>([)]</code> are not.<br><a id="more"></a>  </p>
 <h3 id="Best_Solution">Best Solution</h3>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">isValid</span>(String s){</div><div class="line">		HashMap&lt;Character, Character&gt;map = <span class="keyword">new</span> HashMap&lt;Character, Character&gt;();</div><div class="line">		map.put(<span class="string">'('</span>, <span class="string">')'</span>);</div><div class="line">		map.put(<span class="string">'['</span>, <span class="string">']'</span>);</div><div class="line">		map.put(<span class="string">'{'</span>, <span class="string">'}'</span>);</div><div class="line">		</div><div class="line">		Stack&lt;Character&gt;stack = <span class="keyword">new</span> Stack&lt;Character&gt;();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; s.length(); i++) {</div><div class="line">			<span class="keyword">char</span> head = s.charAt(i);</div><div class="line">			</div><div class="line">			<span class="keyword">if</span> (map.containsKey(head)) {</div><div class="line">				stack.push(head);</div><div class="line">			}<span class="keyword">else</span> <span class="keyword">if</span> (map.values().contains(head)) {</div><div class="line">				<span class="keyword">if</span> (!stack.isEmpty() && map.get(stack.peek()).equals(head)) {</div><div class="line">					stack.pop();</div><div class="line">				}<span class="keyword">else</span> {</div><div class="line">					<span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">				}</div><div class="line">			}</div><div class="line">		}</div><div class="line">		<span class="keyword">return</span> stack.isEmpty();</div><div class="line">	}</div></pre></td></tr></table></figure>
@@ -111,13 +106,23 @@ Question：Given a string containing just the characters ‘(‘, ‘)’, ‘{�
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Java/">Java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/stack/">stack</a><a href="/tags/leetcode/">leetcode</a>
+  </div>
 
 </div>
 
 
 <div class="article-share" id="share">
 
-  <div data-url="http://alexyyek.github.io/2014/11/28/valid-parentheses/" data-title="AlexYoung&#39;s blog" data-tsina="null" class="share clearfix">
+  <div data-url="http://alexyyek.github.io/2014/11/28/valid-parentheses/" data-title="valid parentheses | AlexYoung&#39;s blog" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -155,7 +160,7 @@ Question：Given a string containing just the characters ‘(‘, ‘)’, ‘{�
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#The_brackets_must_close_in_the_correct_order,_()_and_()[]{}_are_all_valid_but_(]_and_([)]_are_not-"><span class="toc-number">1.</span> <span class="toc-text">The brackets must close in the correct order, () and ()[]{} are all valid but (] and ([)] are not.</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Valid_Parentheses"><span class="toc-number">2.</span> <span class="toc-text">Valid Parentheses</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Best_Solution"><span class="toc-number">2.1.</span> <span class="toc-text">Best Solution</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#My_Solution"><span class="toc-number">2.2.</span> <span class="toc-text">My Solution</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Valid_Parentheses"><span class="toc-number">1.</span> <span class="toc-text">Valid Parentheses</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Best_Solution"><span class="toc-number">1.1.</span> <span class="toc-text">Best Solution</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#My_Solution"><span class="toc-number">1.2.</span> <span class="toc-text">My Solution</span></a></li></ol></li></ol>
  
   </div>
 
@@ -168,7 +173,7 @@ Question：Given a string containing just the characters ‘(‘, ‘)’, ‘{�
 	<p class="asidetitle">分类</p>
 		<ul>
 		
-			<li><a href="/categories/Java/" title="Java">Java<sup>3</sup></a></li>
+			<li><a href="/categories/Java/" title="Java">Java<sup>4</sup></a></li>
 		
 		</ul>
 </div>
@@ -179,11 +184,11 @@ Question：Given a string containing just the characters ‘(‘, ‘)’, ‘{�
 	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
-			<li><a href="/tags/leetcode/" title="leetcode">leetcode<sup>2</sup></a></li>
+			<li><a href="/tags/leetcode/" title="leetcode">leetcode<sup>3</sup></a></li>
+		
+			<li><a href="/tags/stack/" title="stack">stack<sup>2</sup></a></li>
 		
 			<li><a href="/tags/Bit-Manipulation/" title="Bit Manipulation">Bit Manipulation<sup>1</sup></a></li>
-		
-			<li><a href="/tags/stack/" title="stack">stack<sup>1</sup></a></li>
 		
 			<li><a href="/tags/skill/" title="skill">skill<sup>1</sup></a></li>
 		
