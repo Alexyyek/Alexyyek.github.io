@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Do Not Go Gentle Into Life]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://alexyyek.github.io/"/>
-  <updated>2014-11-29T06:16:05.511Z</updated>
+  <updated>2014-11-29T06:17:32.156Z</updated>
   <id>http://alexyyek.github.io/</id>
   
   <author>
@@ -15,11 +15,11 @@
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
   
   <entry>
-    <title><![CDATA[valid parentheses]]></title>
+    <title><![CDATA[Valid Parentheses]]></title>
     <link href="http://alexyyek.github.io/2014/11/28/valid-parentheses/"/>
     <id>http://alexyyek.github.io/2014/11/28/valid-parentheses/</id>
     <published>2014-11-28T14:42:18.000Z</published>
-    <updated>2014-11-29T06:15:41.000Z</updated>
+    <updated>2014-11-29T06:16:50.000Z</updated>
     <content type="html"><![CDATA[<h2 id="Valid_Parentheses">Valid Parentheses</h2>
 <p>Question：Given a string containing just the characters ‘(‘, ‘)’, ‘{‘, ‘}’, ‘[‘ and ‘]’, determine if the input string is valid.<br>The brackets must close in the correct order, <code>()</code> and <code>()[]{}</code> are all valid but <code>(]</code> and <code>([)]</code> are not.<br><a id="more"></a>  </p>
 <h3 id="Best_Solution">Best Solution</h3>
