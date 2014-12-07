@@ -5,13 +5,12 @@
   <meta charset="UTF-8">
   <meta name="baidu-site-verification" content="GliC1jSe3E" />
   
-    <title>Single Number | AlexYoung&#39;s blog</title>
+    <title>HeapSort | AlexYoung&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="AlexYoung">
     
-    <meta name="description" content="Single Number
-Question : Given an array of integers, every element appears twice except for one. Find that single one.">
+    <meta name="description" itemprop="description" content="堆数据结构是一种数组对象，它可以被视为一颗完全二叉树，树中每个节点与数组中存放该节点值的元素对应。">
     
     
     
@@ -72,14 +71,14 @@ Question : Given an array of integers, every element appears twice except for on
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/11/17/Single-Number/" title="Single Number" itemprop="url">Single Number</a>
+      <a href="/2014/12/07/heap/" title="HeapSort" itemprop="url">HeapSort</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/118224772589648180000?rel=author" title="AlexYoung" target="_blank" itemprop="author">AlexYoung</a>
 		
   <p class="article-time">
-    <time datetime="2014-11-17T08:30:25.000Z" itemprop="datePublished"> 发表于 11月 17 2014</time>
+    <time datetime="2014-12-07T06:52:35.000Z" itemprop="datePublished"> 发表于 12月 7 2014</time>
     
   </p>
 </header>
@@ -89,56 +88,47 @@ Question : Given an array of integers, every element appears twice except for on
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Single_Number"><span class="toc-number">1.</span> <span class="toc-text">Single Number</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Best_solution"><span class="toc-number">1.1.</span> <span class="toc-text">Best solution</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#My_solution"><span class="toc-number">1.2.</span> <span class="toc-text">My solution</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#change_question"><span class="toc-number">1.3.</span> <span class="toc-text">change question</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#best_answer"><span class="toc-number">1.3.1.</span> <span class="toc-text">best answer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Inference"><span class="toc-number">1.3.2.</span> <span class="toc-text">Inference</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#回顾"><span class="toc-number">2.</span> <span class="toc-text">回顾</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#位移动运算符:"><span class="toc-number">2.1.</span> <span class="toc-text">位移动运算符:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#位运算:"><span class="toc-number">2.2.</span> <span class="toc-text">位运算:</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#堆排序"><span class="toc-number">1.</span> <span class="toc-text">堆排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#保持堆的性质"><span class="toc-number">1.1.</span> <span class="toc-text">保持堆的性质</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#建堆"><span class="toc-number">1.2.</span> <span class="toc-text">建堆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#堆排序-1"><span class="toc-number">1.3.</span> <span class="toc-text">堆排序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优先级队列"><span class="toc-number">2.</span> <span class="toc-text">优先级队列</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#伪代码"><span class="toc-number">2.1.</span> <span class="toc-text">伪代码</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<h2 id="Single_Number">Single Number</h2>
-<p>Question : Given an array of integers, every element appears <code>twice</code> except for one. Find that single one.<br><a id="more"></a><br><br></p>
-<h3 id="Best_solution">Best solution</h3>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">singleNumber</span>(<span class="keyword">int</span>[] A) {</div><div class="line">        <span class="keyword">int</span> result = <span class="number">0</span>;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; A.length; i++) {</div><div class="line">			result ^= A[i];</div><div class="line">		}</div><div class="line">		<span class="keyword">return</span> result;</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+		<h2 id="堆排序">堆排序</h2>
+<p>堆数据结构是一种数组对象，它可以被视为一颗完全二叉树，树中每个节点与数组中存放该节点值的元素对应。堆分为大根堆和小根堆；大根堆是指除根节点以外每个节点<code>i</code>都有<code>A[parent(i)]&gt;=A[i]</code>，即每个节点的值最多和父节点的值一样大，这样堆中的最大值就在根节点中，且以某个节点为根的子树中，各个节点的值都不大于该子树根节点的值，图1就是一个大根堆。小根堆的刚好相反，每个节点的值都不小于其父节点。</p>
+<center><img src="http://alexyoung.qiniudn.com/B44BD10DE99C61C6E965337C8EFFBE6A_B500_900_392_301.PNG" alt=""></center>
 
-<h3 id="My_solution">My solution</h3>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">singleNumber</span>(<span class="keyword">int</span>[] A) {</div><div class="line">        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;Integer, Integer&gt;();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; A.length; i++) {</div><div class="line">			<span class="keyword">int</span> key = A[i];</div><div class="line">			<span class="keyword">if</span> (map.containsKey(key)) {</div><div class="line">				map.put(key, map.get(key) + <span class="number">1</span>);</div><div class="line">				<span class="keyword">if</span> (map.get(key) == <span class="number">2</span>) {</div><div class="line">					map.remove(key);</div><div class="line">				}</div><div class="line">			} <span class="keyword">else</span> {</div><div class="line">				map.put(key, <span class="number">1</span>);</div><div class="line">			}</div><div class="line">		}</div><div class="line">		String result = map.keySet().toString();</div><div class="line">		<span class="keyword">int</span> out = Integer.parseInt(result.substring(<span class="number">1</span>, result.length()-<span class="number">1</span>));</div><div class="line">		<span class="keyword">return</span> out;</div><div class="line">	}</div><div class="line">}</div></pre></td></tr></table></figure>
+<h3 id="保持堆的性质">保持堆的性质</h3>
+<p><strong>maxHeapify</strong>是对大根堆进行操作的重要子程序，其输入为一个数组A和一个下标i，maxHeapify被调用时假定left(i)和right(i)都满足大根堆的性质，但是A[i]有可能小于其子女而违反了大根堆性质，maxHeapify使A[i]下降，使以A[i]为根的堆成为大根堆。其过程如图 2所示：<br><img src="http://alexyoung.qiniudn.com/CBDE478800037BD91BF72E29598EFEBD_B500_900_500_341.PNG" alt=""><br><br></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">maxHeapify</span>(<span class="keyword">int</span>[] data, <span class="keyword">int</span> length, <span class="keyword">int</span> index){</div><div class="line">		<span class="keyword">int</span> left = getLeftChildIndex(index);</div><div class="line">		<span class="keyword">int</span> right = getRightChildIndex(index);</div><div class="line">		<span class="keyword">int</span> largest = index;</div><div class="line">		</div><div class="line">		<span class="keyword">if</span> (left &lt; length && data[left] &gt; data[index]) {</div><div class="line">			largest = left;</div><div class="line">		}</div><div class="line">		</div><div class="line">		<span class="keyword">if</span> (right &lt; length && data[right] &gt; data[largest]) {</div><div class="line">			largest = right;</div><div class="line">		}</div><div class="line">		</div><div class="line">		<span class="keyword">if</span> (largest != index) {</div><div class="line">			<span class="keyword">int</span> temp = data[index];</div><div class="line">			data[index] = data[largest];</div><div class="line">			data[largest] = temp;</div><div class="line">			maxHeapify(data, length, largest);</div><div class="line">		}</div><div class="line">	}</div></pre></td></tr></table></figure>
 
-<p>从性能上来评判用XOR无疑使最好的，复杂度只有O(N)。</p>
-<p>我个人的方法略显笨拙，复杂度虽然也是O(N), 但开辟的多余的内存空间，不过当element出现的次数改变时，反而有更好的鲁棒性.<br><br></p>
-<h3 id="change_question">change question</h3>
-<p>Given an array of integers, every element appears <code>three</code> times except for one. Find that single one.<br><br></p>
-<h4 id="best_answer">best answer</h4>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">singleNumber</span>(<span class="keyword">int</span>[] A) {</div><div class="line">    <span class="keyword">int</span> ones = <span class="number">0</span>, twos = <span class="number">0</span>;</div><div class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; A.length; i++){</div><div class="line">        ones = (ones ^ A[i]) & ~twos;</div><div class="line">        twos = (twos ^ A[i]) & ~ones;</div><div class="line">    }</div><div class="line">    <span class="keyword">return</span> ones;</div><div class="line">}</div></pre></td></tr></table></figure>
+<h3 id="建堆">建堆</h3>
+<p><strong>buildMaxHeap</strong>算法是利用maxHeapify算法来进行的。用数组存储一个有n个元素堆时，叶节点的下标是n/2+1、n/2+2……n（这里就不做证明了，有兴趣可以自己证明），建立大根堆就是利用这个性质。叶节点可以看做只有一个元素的堆，只有一个元素也就自然满足大根堆的性质，所以以叶节点为根的堆都是大根堆。但是以其它节点为根的堆就不一定是大根堆，为了使他们满足大根堆的性质，就在节点上调用maxHeapify（叶节点是大根堆就满足了函数输入时的条件）。所以建立大根堆的过程就是在除叶节点以为的节点上调用maxHeapify。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">buildMaxHeap</span>(<span class="keyword">int</span>[] data){</div><div class="line">		<span class="keyword">int</span> start = getParentIndex(data.length);</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = start; i &gt;= <span class="number">0</span>; i--) {</div><div class="line">			maxHeapify(data, data.length, i);</div><div class="line">		}</div><div class="line">	}</div></pre></td></tr></table></figure>
 
-<p><br></p>
-<h4 id="Inference">Inference</h4>
-<p>题目中改变了element的出现次数，变成了出现三次，当然用我之前的程序改个数字就能搞定，但仍需要分析一下最优的解法<br>best answer思路：出现三次，可以用2个bit来表征这三个状态，分别是00→10→01→00<br>ones和twos分别承担了这两个bit位<br>如果推理一下可以发现</p>
-<blockquote>
-<p>ones = ones ^ A[i]; if (twos == 1) then ones = 0, that can be tansformed to ones = (ones ^ &gt;A[i]) &amp; ~twos.</p>
-<p>twos = twos ^ A[i]; if (ones == 1) then twos = 0 and twos = (twos ^ A[i]) &amp; ~ones.</p>
-</blockquote>
-<p><br></p>
-<h2 id="回顾">回顾</h2>
-<p><br></p>
-<h3 id="位移动运算符:">位移动运算符:</h3>
-<p><strong>&lt;&lt;</strong>表示左移, 左移一位表示原来的值乘2.</p>
-<p>例如：3 &lt;&lt;2(3为int型) </p>
-<blockquote>
-<ol>
-<li>把3转换为二进制数字0000 0000 0000 0000 0000 0000 0000 0011， </li>
-<li>把该数字高位(左侧)的两个零移出，其他的数字都朝左平移2位， </li>
-<li>在低位(右侧)的两个空位补零。则得到的最终结果是0000 0000 0000 0000 0000 0000 0000 1100. 转换为十进制是12。</li>
-</ol>
-</blockquote>
-<p>同理<strong>&gt;&gt;</strong>表示右移. 右移一位表示除2. </p>
-<p>低位移出(舍弃)，高位的空位补符号位，即正数补零，负数补1 </p>
-<p><br></p>
-<h3 id="位运算:">位运算:</h3>
-<p>位运算符包括:　与（&amp;）、非（~）、或（|）、异或（^）</p>
-<blockquote>
-<p>&amp;：当两边操作数的位同时为1时，结果为1，否则为0。如1100&amp;1010=1000 　</p>
-<p>| ：当两边操作数的位有一边为1时，结果为1，否则为0。如1100|1010=1110 　</p>
-<p>~：0变1,1变0 　　</p>
-<p>^：两边的位不同时，结果为1，否则为0.如1100^1010=0110</p>
-</blockquote>
+<h3 id="堆排序-1">堆排序</h3>
+<p><strong>heapSort</strong>也是利用maxHeapify算法来进行的。在一个大根堆中，最大元素就是堆的根。堆排序就是利用的这个性质。在一个含有n个元素的数组上调用buildMaxHeap，就能得到最大的元素，然后将最大的元素和数组的尾部，再将最大元素从堆中除去，此时堆的元素为n-1个，但是不满足大根堆的性质，就在根节点上调用maxHeapify使其成为大根堆。不断重复这个过程直到堆中只剩下一个元素，就完成了排序。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">heapSort</span>(<span class="keyword">int</span>[] data){</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = data.length - <span class="number">1</span>; i &gt; <span class="number">0</span>; i--) {</div><div class="line">			<span class="keyword">int</span> temp = data[<span class="number">0</span>];</div><div class="line">			data[<span class="number">0</span>]	= data[i];</div><div class="line">			data[i] = temp;</div><div class="line">			maxHeapify(data, i, <span class="number">0</span>);</div><div class="line">		}</div><div class="line">	}</div></pre></td></tr></table></figure>
+
+<h2 id="优先级队列">优先级队列</h2>
+<p>优先级队列是一种用来维护由一组数组元素构成集合S的数据结构，每个元素都有一个关键字key。</p>
+<ul>
+<li>INSERT(S,x)：元素x插入集合S</li>
+<li>MAXIMUN(S)：返回S中具有最大key的元素</li>
+<li>EXTRACT-MAX(S)：去掉并返回S中具有最大key的元素</li>
+<li>INCREASE-KEY(S,x,k)：将元素x的key值增加到k，k&gt;=key</li>
+</ul>
+<h3 id="伪代码">伪代码</h3>
+<p>HEAP-MAXIMUN(A)，时间复杂度<code>O(1)</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">return</span> A[<span class="number">1</span>];</div></pre></td></tr></table></figure>
+
+<p>HEAP-EXTRACT-MAX(A)，时间复杂度<code>O(lgn)</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> heap-size[A]&lt;<span class="number">1</span></div><div class="line">    then error <span class="string">"heap underflow"</span></div><div class="line">max ← A[<span class="number">1</span>]</div><div class="line">A[<span class="number">1</span>] ← A[heap-size[A]]</div><div class="line">heap-size[A] ← heap-size[A]-<span class="number">1</span></div><div class="line">MAX-HEAPIFY(A,<span class="number">1</span>)</div><div class="line"><span class="keyword">return</span> max</div></pre></td></tr></table></figure>
+
+<p>HEAP-INCREASE-KEY(A,i,key)，时间复杂度<code>O(lgn)</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span> key&lt;A[i]</div><div class="line">    then error <span class="string">"new key is smaller than the current key"</span></div><div class="line">A[i] ← key</div><div class="line"><span class="keyword">while</span> i&gt;<span class="number">1</span> && A[parent[i]]&lt;A[i]</div><div class="line">    do exchange A[i] ↔ A[parent[i]]</div><div class="line">    i ← parent(i)</div></pre></td></tr></table></figure>
+
+<p>HEAP-INSERT(A,key)，时间复杂度<code>O(lgn)</code></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">heap-size[A] ← heap-size[A]+<span class="number">1</span></div><div class="line">A[heap-size[A]] ← -∞</div><div class="line">HEAP-INCREASE-KEY(A,heap-size[A],key)</div></pre></td></tr></table></figure>
+
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -152,7 +142,7 @@ Question : Given an array of integers, every element appears twice except for on
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/Bit-Manipulation/">Bit Manipulation</a><a href="/tags/leetcode/">leetcode</a>
+  <span></span> <a href="/tags/heap/">heap</a><a href="/tags/coding/">coding</a>
   </div>
 
 </div>
@@ -160,7 +150,7 @@ Question : Given an array of integers, every element appears twice except for on
 
 <div class="article-share" id="share">
 
-  <div data-url="http://alexyyek.github.io/2014/11/17/Single-Number/" data-title="Single Number | AlexYoung&#39;s blog" data-tsina="null" class="share clearfix">
+  <div data-url="http://alexyyek.github.io/2014/12/07/heap/" data-title="HeapSort | AlexYoung&#39;s blog" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -169,19 +159,11 @@ Question : Given an array of integers, every element appears twice except for on
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2014/11/19/Stack/" title="Min Stack">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Min Stack</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2014/11/15/new/"  title="Java处理字符串-删除所有标点">
+<a href="/2014/12/06/CountAndSay/"  title="Count And Say">
  <strong>下一篇：</strong><br/> 
- <span>Java处理字符串-删除所有标点
+ <span>Count And Say
 </span>
 </a>
 </div>
@@ -206,7 +188,7 @@ Question : Given an array of integers, every element appears twice except for on
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Single_Number"><span class="toc-number">1.</span> <span class="toc-text">Single Number</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Best_solution"><span class="toc-number">1.1.</span> <span class="toc-text">Best solution</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#My_solution"><span class="toc-number">1.2.</span> <span class="toc-text">My solution</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#change_question"><span class="toc-number">1.3.</span> <span class="toc-text">change question</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#best_answer"><span class="toc-number">1.3.1.</span> <span class="toc-text">best answer</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Inference"><span class="toc-number">1.3.2.</span> <span class="toc-text">Inference</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#回顾"><span class="toc-number">2.</span> <span class="toc-text">回顾</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#位移动运算符:"><span class="toc-number">2.1.</span> <span class="toc-text">位移动运算符:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#位运算:"><span class="toc-number">2.2.</span> <span class="toc-text">位运算:</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#堆排序"><span class="toc-number">1.</span> <span class="toc-text">堆排序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#保持堆的性质"><span class="toc-number">1.1.</span> <span class="toc-text">保持堆的性质</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#建堆"><span class="toc-number">1.2.</span> <span class="toc-text">建堆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#堆排序-1"><span class="toc-number">1.3.</span> <span class="toc-text">堆排序</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#优先级队列"><span class="toc-number">2.</span> <span class="toc-text">优先级队列</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#伪代码"><span class="toc-number">2.1.</span> <span class="toc-text">伪代码</span></a></li></ol></li></ol>
  
   </div>
 
