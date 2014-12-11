@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Do Not Go Gentle Into Life]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://alexyyek.github.io/"/>
-  <updated>2014-12-08T14:10:26.724Z</updated>
+  <updated>2014-12-11T14:26:29.041Z</updated>
   <id>http://alexyyek.github.io/</id>
   
   <author>
@@ -13,6 +13,45 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[散列函数]]></title>
+    <link href="http://alexyyek.github.io/2014/12/11/hash/"/>
+    <id>http://alexyyek.github.io/2014/12/11/hash/</id>
+    <published>2014-12-11T14:12:51.000Z</published>
+    <updated>2014-12-11T14:26:03.000Z</updated>
+    <content type="html"><![CDATA[<p>一个好的散列函数应满足<code>简单一致</code>散列的假设：每个关键字都等可能的散列到m个槽位的任何一个之中，并与其它的关键字已被散列到哪个槽位无关。</p>
+<h2 id="除法散列法">除法散列法</h2>
+<p>在用来设计散列函数的除法散列法中，通过取k除以m的余数，将关键字k映射到m个槽中的某一个上，即散列函数为:</p>
+<p><center> $$h(k)=k mod m$$ <center></center></center></p>
+<p>当应用除法散列法时，要避免选择m的某些值，m常常选择与近2的整数幂的不太接近的<code>素数</code>。<br><strong>Explain</strong>：如果 $m=2^p$，二进制除法相当于右位移<code>&gt;&gt;</code>，例如<code>111010&gt;&gt;3</code>,即除以$2^3$，右移3位变为<code>111</code>，<code>010</code>则作为余数被移除，故在做取余操作时值为<code>010</code>,即为k的p个最低位数字。</p>
+<h2 id="乘法散列法">乘法散列法</h2>
+<p>乘法散列法整体包含两步：</p>
+<ul>
+<li>用关键字k乘上常数<code>A(0&lt;A&lt;1)</code>，并去除kA的小数部分</li>
+<li>用m乘以这个值，再取结果的底<code>floor</code><br>公式：    <code>h(k)=Math.floor[m(kA mod 1)]</code><br><center><img src="http://alexyoung.qiniudn.com/26822401_1334109664MN4j.png" alt=""><center></center></center></li>
+</ul>
+<p><strong>STEP</strong>：</p>
+<ul>
+<li>假设某计算机的字长为 $w$ 位，而 $k$ 正好可容于一个字中（$k&lt;2^w$)</li>
+<li>现在选取范围$[0，2^w]$内的任意数值 $s$，$k×s$ 即可用$R_1·2^w+R_0$来表示</li>
+<li>因此$(k·A) mod 1=k·s/2^w$就是将$k×s$整体向右平移 $w$ 位，此时$R_0$即为小数部分</li>
+<li>再乘以$2^m$相当于左移 $m$ 位，散列值 $h(k)$ 为$R_0$的前m位。</li>
+</ul>
+<h2 id="待续">待续</h2>
+]]></content>
+    <summary type="html">
+    <![CDATA[一个好的散列函数应满足简单一致散列的假设：每个关键字都等可能的散列到m个槽位的任何一个之中，并与其它的关键字已被散列到哪个槽位无关。]]>
+    
+    </summary>
+    
+      <category term="hash" scheme="http://alexyyek.github.io/tags/hash/"/>
+    
+      <category term="coding" scheme="http://alexyyek.github.io/tags/coding/"/>
+    
+      <category term="Java" scheme="http://alexyyek.github.io/categories/Java/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[中位数和顺序统计学]]></title>
