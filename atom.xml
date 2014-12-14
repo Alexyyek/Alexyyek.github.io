@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Do Not Go Gentle Into Life]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://alexyyek.github.io/"/>
-  <updated>2014-12-14T07:11:42.716Z</updated>
+  <updated>2014-12-14T12:02:30.512Z</updated>
   <id>http://alexyyek.github.io/</id>
   
   <author>
@@ -13,6 +13,82 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[哈希碰撞]]></title>
+    <link href="http://alexyyek.github.io/2014/12/14/hashCollapse/"/>
+    <id>http://alexyyek.github.io/2014/12/14/hashCollapse/</id>
+    <published>2014-12-14T11:46:07.000Z</published>
+    <updated>2014-12-14T12:02:00.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="链地址法">链地址法</h2>
+<p>Java.util.Hashtable类实现了JAVA中的哈希表，内部采用Entry[]数组，每个Entry均可作为链表的头，用来解决哈希碰撞。</p>
+<h3 id="Hashtable特点"><strong>Hashtable特点</strong></h3>
+<ul>
+<li>线程安全。</li>
+<li>Key、Value均不能为null。</li>
+<li>包含了一个Entry[]数组，而Entry又是一个链表，用来处理冲突。</li>
+<li>每个Key对应了Entry数组中固定的位置（记为index），称为槽位（Slot）。槽位计算公式为：<pre><code>       (key.hash<span class="variable">Code</span>() &amp; <span class="number">0</span>x7<span class="variable">FFFFFFF</span>) <span class="comment">% Entry[].length() </span>
+</code></pre></li>
+<li>当Entry[]的实际元素数量（Count）超过了分配容量（Capacity）的75%时，新建一个Entry[]是原先的2倍，重新Hash（rehash）。</li>
+<li>rehash的核心思路是，将旧Entry[]数组的元素重新计算槽位，散列到新Entry[]中。<br><br></li>
+</ul>
+<hr>
+<h3 id="Hashtable源码分析"><strong>Hashtable源码分析</strong></h3>
+<p><strong>Entry类</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">class Entry&lt;K,V&gt; <span class="comment">// Entry&lt;K,V&gt;是槽中的元素，可做链表，解决散列冲突。</span></div><div class="line">{</div><div class="line">     <span class="keyword">int</span> hash; <span class="comment">// 即key.hashCode()</span></div><div class="line">     K key;</div><div class="line">     V value;</div><div class="line">     Entry&lt;K,V&gt; next; <span class="comment">// 用来实现链表结构。同一链表中的key的hash是相同的。</span></div><div class="line">     <span class="keyword">protected</span> <span class="title">Entry</span>(<span class="keyword">int</span> hash, K key, V value, Entry&lt;K,V&gt; next) {</div><div class="line">          <span class="keyword">this</span>.hash=hash;<span class="keyword">this</span>.key=key;<span class="keyword">this</span>.value=value;<span class="keyword">this</span>.next=next;</div><div class="line">     }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p><br><br><strong>构造函数</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="title">Hashtable</span>(<span class="keyword">int</span> initialCapacity, <span class="keyword">float</span> loadFactor) {</div><div class="line">    <span class="keyword">if</span> (initialCapacity &lt; <span class="number">0</span>)</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Illegal Capacity: "</span>+</div><div class="line">                initialCapacity);</div><div class="line">    <span class="keyword">if</span> (loadFactor &lt;= <span class="number">0</span> || Float.isNaN(loadFactor))</div><div class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Illegal Load: "</span>+loadFactor);</div><div class="line"> </div><div class="line">    <span class="keyword">if</span> (initialCapacity==<span class="number">0</span>)</div><div class="line">        initialCapacity = <span class="number">1</span>;</div><div class="line">    <span class="keyword">this</span>.loadFactor = loadFactor;</div><div class="line">    table = <span class="keyword">new</span> Entry&lt;?,?&gt;[initialCapacity];</div><div class="line">    threshold = (<span class="keyword">int</span>)Math.min(initialCapacity * loadFactor, MAX_ARRAY_SIZE + <span class="number">1</span>);</div><div class="line">}</div><div class="line"> </div><div class="line"><span class="javadoc">/**</span></div><div class="line"> * Constructs a new, empty hashtable with the specified initial capacity</div><div class="line"> * and default load factor (0.75).</div><div class="line"> *<span class="javadoctag"> @param</span>     initialCapacity   the initial capacity of the hashtable.</div><div class="line"> *<span class="javadoctag"> @exception</span> IllegalArgumentException if the initial capacity is less</div><div class="line"> *              than zero.</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="title">Hashtable</span>(<span class="keyword">int</span> initialCapacity) {</div><div class="line">    <span class="keyword">this</span>(initialCapacity, <span class="number">0.75</span>f);</div><div class="line">}</div><div class="line"> </div><div class="line"><span class="javadoc">/**</span></div><div class="line"> * Constructs a new, empty hashtable with a default initial capacity (11)</div><div class="line"> * and load factor (0.75).</div><div class="line"> */</div><div class="line"><span class="keyword">public</span> <span class="title">Hashtable</span>() {</div><div class="line">    <span class="keyword">this</span>(<span class="number">11</span>, <span class="number">0.75</span>f);</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<ul>
+<li>threshold：Hashtable的阈值，用于判断是否需要调整Hashtable的容量。threshold的值=”容量*加载因子”</li>
+<li>loadFactor：加载因子<br><br></li>
+</ul>
+<p><strong>hashcode</strong><br>考虑一种情况，当向集合中插入对象时，如何判别在集合中是否已经存在该对象了？（注意：集合中不允许重复的元素存在）。</p>
+<p>也许大多数人都会想到调用equals方法来逐个进行比较，这个方法确实可行。但是如果集合中已经存在一万条数据或者更多的数据，如果采用equals方法去逐一比较，效率必然是一个问题。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">boolean</span> <span class="title">containsKey</span>(Object key) {</div><div class="line">    Entry&lt;?,?&gt; tab[] = table;</div><div class="line">    <span class="keyword">int</span> hash = key.hashCode();</div><div class="line">    <span class="keyword">int</span> index = (hash & <span class="number">0x7FFFFFFF</span>) % tab.length;</div><div class="line">    <span class="keyword">for</span> (Entry&lt;?,?&gt; e = tab[index] ; e != <span class="keyword">null</span> ; e = e.next) {</div><div class="line">        <span class="keyword">if</span> ((e.hash == hash) && e.key.equals(key)) {</div><div class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">        }</div><div class="line">    }</div><div class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>当集合要添加新的对象时，先调用这个对象的hashCode方法，得到对应的hashcode值(实际上在HashMap的具体实现中会用一个table保存已经存进去的对象的hashcode值)；</p>
+<ul>
+<li>if（table中没有该hashcode值），then → 直接存进去</li>
+<li>if（存在该hashcode值），then → 调用equals方法与新元素进行比较，相同的话就不存了，不相同就散列其它的地址<br>所以这里存在一个冲突解决的问题，这样一来实际调用equals方法的次数就大大降低了，说通俗一点：<strong>Java中的hashCode方法就是根据一定的规则将与对象相关的信息（比如对象的存储地址，对象的字段等）映射成一个数值，这个数值称作为散列值。</strong><br><br></li>
+</ul>
+<p><strong>addEntry</strong><br>addEntry方法实现向Hashtable中添加k-v值对</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">addEntry</span>(<span class="keyword">int</span> hash, K key, V value, <span class="keyword">int</span> index) {</div><div class="line">    modCount++;</div><div class="line"> </div><div class="line">    Entry&lt;?,?&gt; tab[] = table;</div><div class="line">    <span class="keyword">if</span> (count &gt;= threshold) {</div><div class="line">        <span class="comment">// Rehash the table if the threshold is exceeded</span></div><div class="line">        rehash();</div><div class="line"> </div><div class="line">        tab = table;</div><div class="line">        hash = key.hashCode();</div><div class="line">        index = (hash & <span class="number">0x7FFFFFFF</span>) % tab.length;</div><div class="line">    }</div><div class="line"> </div><div class="line">    <span class="comment">// Creates the new entry.</span></div><div class="line">    <span class="annotation">@SuppressWarnings</span>(<span class="string">"unchecked"</span>)</div><div class="line">    Entry&lt;K,V&gt; e = (Entry&lt;K,V&gt;) tab[index]; <span class="comment">// 旧有Entry</span></div><div class="line">    tab[index] = <span class="keyword">new</span> Entry&lt;&gt;(hash, key, value, e); <span class="comment">/* 旧有Entry成为了新增Entry的next */</span></div><div class="line">    count++;</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>当count大于阀值时，要重新进行hash，重新确定Hashtable的大小<br><br></p>
+<p><strong>rehash</strong><br>rehash方法即再次hash，当Entry[]的实际存储数量占分配容量的约75%时，扩容并且重新计算各个对象的槽位</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">rehash</span>() {</div><div class="line">          <span class="keyword">int</span> oldCapacity = table.length;</div><div class="line">          Entry[] oldMap = table;</div><div class="line">          <span class="keyword">int</span> newCapacity = (oldCapacity &lt;&lt; <span class="number">1</span>) + <span class="number">1</span>; <span class="comment">// 2倍+1</span></div><div class="line">          Entry[] newMap = <span class="keyword">new</span> Entry[newCapacity];</div><div class="line">          threshold = (<span class="keyword">int</span>)(newCapacity * loadFactor);</div><div class="line">          table = newMap;</div><div class="line"> </div><div class="line">          <span class="keyword">for</span>( <span class="keyword">int</span> i=oldCapacity; i-- &gt;<span class="number">0</span>;){ <span class="comment">//  i的取值范围为 [oldCapacity-1,0]</span></div><div class="line">               <span class="keyword">for</span> (Entry&lt;K,V&gt; old = oldMap[i]; old!=<span class="keyword">null</span>;){ <span class="comment">// 遍历旧Entry[]</span></div><div class="line">                    Entry&lt;K,V&gt; e = old;</div><div class="line">                    <span class="comment">//重新计算各个元素在新Entry[]中的槽位index。</span></div><div class="line">                    <span class="keyword">int</span> index = (e.hash & <span class="number">0x7FFFFFFF</span>) % newCapacity;     </div><div class="line">                    e.next = newMap[index]; <span class="comment">// 已经存在槽位中的Entry成为了新增Entry的next </span></div><div class="line">                    newMap[index]=e;     <span class="comment">// 放到槽位中</span></div><div class="line">                    old = old.next;</div><div class="line">               }</div><div class="line">          }</div><div class="line"> </div><div class="line">     }</div></pre></td></tr></table></figure>
+
+<p><br></p>
+<hr>
+<h3 id="关于hashCode()和equals()方法"><strong>关于hashCode()和equals()方法</strong></h3>
+<p>下面这段话摘自Effective Java一书：</p>
+<blockquote>
+<ul>
+<li>在程序执行期间，只要equals方法的比较操作用到的信息没有被修改，那么对这同一个对象调用多次，hashCode方法必须始终如一地返回同一个整数。</li>
+<li>如果两个对象根据equals方法比较是相等的，那么调用两个对象的hashCode方法必须返回相同的整数结果。</li>
+<li>如果两个对象根据equals方法比较是不等的，则hashCode方法不一定得返回不同的整数。</li>
+</ul>
+</blockquote>
+<p>对于第二条和第三条很好理解，但是第一条，很多时候就会忽略。在《Java编程思想》一书中的P495页也有同第一条类似的一段话：</p>
+<blockquote>
+<p>设计hashCode()时最重要的因素就是：无论何时，对同一个对象调用hashCode()都应该产生同样的值。如果在讲一个对象用put()添加进HashMap时产生一个hashCdoe值，而用get()取出时却产生了另一个hashCode值，那么就无法获取该对象了。</p>
+</blockquote>
+<p><strong>所以如果你的hashCode方法依赖于对象中易变的数据，用户就要当心了，因为此数据发生变化时，hashCode()方法就会生成一个不同的散列码。</strong></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[当多个关键字映射到同一槽位时，便发生哈希碰撞。主要解决方案有两种，一种是基于链表的链地址法，另一种则是开放寻址法。]]>
+    
+    </summary>
+    
+      <category term="hash" scheme="http://alexyyek.github.io/tags/hash/"/>
+    
+      <category term="coding" scheme="http://alexyyek.github.io/tags/coding/"/>
+    
+      <category term="Java" scheme="http://alexyyek.github.io/categories/Java/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[散列函数]]></title>
