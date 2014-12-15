@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Do Not Go Gentle Into Life]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://alexyyek.github.io/"/>
-  <updated>2014-12-15T04:35:58.484Z</updated>
+  <updated>2014-12-15T10:26:58.193Z</updated>
   <id>http://alexyyek.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://alexyyek.github.io/2014/12/14/hashCollapse/"/>
     <id>http://alexyyek.github.io/2014/12/14/hashCollapse/</id>
     <published>2014-12-14T11:46:07.000Z</published>
-    <updated>2014-12-15T04:34:58.000Z</updated>
+    <updated>2014-12-15T10:26:43.000Z</updated>
     <content type="html"><![CDATA[<h2 id="链地址法">链地址法</h2>
 <p>Java.util.Hashtable类实现了JAVA中的哈希表，内部采用Entry[]数组，每个Entry均可作为链表的头，用来解决哈希碰撞。</p>
 <h3 id="Hashtable特点"><strong>Hashtable特点</strong></h3>
@@ -42,7 +42,7 @@
 
 <ul>
 <li>threshold：Hashtable的阈值，用于判断是否需要调整Hashtable的容量。threshold的值=”容量*加载因子”</li>
-<li>loadFactor：加载因子<br><br></li>
+<li>loadFactor：加载因子，通常设为<strong><code>0.75</code></strong><br><br></li>
 </ul>
 <p><strong>hashcode</strong><br>考虑一种情况，当向集合中插入对象时，如何判别在集合中是否已经存在该对象了？（注意：集合中不允许重复的元素存在）。</p>
 <p>也许大多数人都会想到调用equals方法来逐个进行比较，这个方法确实可行。但是如果集合中已经存在一万条数据或者更多的数据，如果采用equals方法去逐一比较，效率必然是一个问题。</p>
