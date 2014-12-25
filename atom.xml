@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Do Not Go Gentle Into Life]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://alexyyek.github.io/"/>
-  <updated>2014-12-25T08:11:21.297Z</updated>
+  <updated>2014-12-25T08:13:27.686Z</updated>
   <id>http://alexyyek.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://alexyyek.github.io/2014/12/23/RBTree/"/>
     <id>http://alexyyek.github.io/2014/12/23/RBTree/</id>
     <published>2014-12-23T08:13:09.000Z</published>
-    <updated>2014-12-25T08:10:22.000Z</updated>
+    <updated>2014-12-25T08:13:10.000Z</updated>
     <content type="html"><![CDATA[<h2 id="红黑树">红黑树</h2>
 <p>红黑树(Red-Black Tree，简称R-B Tree)，它一种特殊的二叉查找树。<br>红黑树是特殊的二叉查找树，意味着它满足二叉查找树的特征：任意一个节点所包含的键值，大于等于左孩子的键值，小于等于右孩子的键值。<br>除了具备该特性之外，红黑树还包括许多额外的信息。</p>
 <h3 id="性质">性质</h3>
@@ -110,7 +110,7 @@
 <hr>
 <p><br></p>
 <h3 id="动态顺序统计">动态顺序统计</h3>
-<p>在之前的<a href="http://alexyyek.github.io/2014/12/08/select/" target="_blank" rel="external">顺序统计学</a>问题中，我们尝试在<code>O(n)</code>的时间内找到无序集合中第i小的数。这里将介绍如何修改红黑树的结构，使得任意的顺序统计量都可以在<code>O(lgn)</code>时间内确定。</p>
+<p>在之前的<a href="http://alexyyek.github.io/2014/12/08/select/" target="_blank" rel="external"><strong>顺序统计学</strong></a>问题中，我们尝试在<code>O(n)</code>的时间内找到无序集合中第i小的数。这里将介绍如何修改红黑树的结构，使得任意的顺序统计量都可以在<code>O(lgn)</code>时间内确定。</p>
 <p>一颗<strong>顺序统计量数</strong>通过在红黑树的每个节点中存入附加信息而成，即除了节点的key值，还包含了域<code>size</code>，如下图size的规则为：</p>
 <p><center> $size[x]=size[left[x]]+size[right[x]]+1$ <center></center></center></p>
 <p><center> <img src="http://alexyoung.qiniudn.com/01212325-22d4dc3f9b39450e9e5254db69372047.png" alt=""><center></center></center></p>
@@ -137,7 +137,7 @@
 <p><center> $size[y] = size[x]$ <center></center></center></p>
 <p><center> $size[x] = size[left[x]] + size[right[x]] + 1$ <center></center></center></p>
 <p><center> <img src="http://alexyoung.qiniudn.com/101600338568211.png" alt=""> <center></center></center></p>
-<p>点击<a href="http://www.cnblogs.com/alan-forever/p/3657086.html" target="_blank" rel="external">具体讲解</a></p>
+<p>点击<a href="http://www.cnblogs.com/alan-forever/p/3657086.html" target="_blank" rel="external"><strong>具体讲解</strong></a></p>
 <figure class="highlight C"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line"><span class="comment">/*</span></div><div class="line"> * x结点上进行左旋转，y结点（x结点的右儿子）的左儿子成为x结点的新右儿子</div><div class="line"> * x结点成为y结点的左儿子的新父结点</div><div class="line"> * x结点的父结点成为y结点的新父结点，y结点成为x结点的新父结点</div><div class="line"> * x结点成为y结点的新左儿子</div><div class="line"> */</div><div class="line"><span class="keyword">void</span> Left_Rotate(RB_Tree *T, RB_TreeNode *x){</div><div class="line">    RB_TreeNode *y = x-&gt;right;       <span class="comment">//x点右儿子          </span></div><div class="line">    x-&gt;right = y-&gt;left;              <span class="comment">//y结点的左儿子会成为x结点的右儿子</span></div><div class="line">    <span class="keyword">if</span>(y-&gt;left != NIL)</div><div class="line">        y-&gt;left-&gt;parent = x;         <span class="comment">//如果y有左儿子,y的左儿子的父结点为x</span></div><div class="line">    y-&gt;parent = x-&gt;parent;</div><div class="line">    <span class="keyword">if</span>(x-&gt;parent == NIL)</div><div class="line">        T-&gt;root = y;                <span class="comment">//如果x的父结点为哨兵，说明x为根结点，则y成为根结点</span></div><div class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(x == x-&gt;parent-&gt;left)</div><div class="line">        x-&gt;parent-&gt;left = y;        </div><div class="line">    <span class="keyword">else</span></div><div class="line">        x-&gt;parent-&gt;right = y;       <span class="comment">//判断x为其父结点的左、右儿子，y成为x父结点对应的儿子</span></div><div class="line">    y-&gt;left = x;                    <span class="comment">//y的左儿子为x</span></div><div class="line">    x-&gt;parent = y;                  <span class="comment">//x的父结点为y</span></div><div class="line"></div><div class="line">    <span class="comment">/*调整size域*/</span></div><div class="line">    y-&gt;size = x-&gt;size;</div><div class="line">    x-&gt;size = x-&gt;left-&gt;size + x-&gt;right-&gt;size + <span class="number">1</span>;</div><div class="line">}</div></pre></td></tr></table></figure>
 
 <p><br></p>
