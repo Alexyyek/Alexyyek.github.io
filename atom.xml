@@ -4,7 +4,7 @@
   <subtitle><![CDATA[当你的才华还撑不起你的野心时，你就应该静下心来学习。]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://alexyyek.github.io/"/>
-  <updated>2014-12-27T09:19:37.540Z</updated>
+  <updated>2014-12-27T11:45:51.354Z</updated>
   <id>http://alexyyek.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://alexyyek.github.io/2014/12/27/ipv6/"/>
     <id>http://alexyyek.github.io/2014/12/27/ipv6/</id>
     <published>2014-12-27T09:06:18.000Z</published>
-    <updated>2014-12-27T09:17:53.000Z</updated>
+    <updated>2014-12-27T11:45:37.000Z</updated>
     <content type="html"><![CDATA[<p>明光村职业技术学院终于还是没能逃离收费的命运，虽然还有半年就卷铺盖跑路了，但面对每个月只给10G外网流量，100块都不给我的抠门政策，废话不多说，直接上干货。</p>
 <h2 id="目录">目录</h2>
 <h3 id="设置IPV6">设置IPV6</h3>
@@ -37,10 +37,11 @@
 </li>
 <li><p>将生成的hosts文件内容贴到你的hosts文件里并保存：<code>C:\Windows\System32\drivers\etc</code></p>
 </li>
-<li>最后总是以<strong>HTTPS</strong>的方式打开Youtube、facebook，如：<a href="https://www.youtube.com/，https://www.facebook.com/" target="_blank" rel="external">https://www.youtube.com/，https://www.facebook.com/</a><br>如果嫌麻烦，可以 <a href="http://blog.netsh.org/posts/chrome-http-redirect-https_369.netsh.html" target="_blank" rel="external"><strong>点这里</strong></a> 设置chrome强制http定向到https</li>
+<li>最后总是以<strong>HTTPS</strong>的方式打开Youtube、facebook，如：<a href="https://www.youtube.com/" target="_blank" rel="external">https://www.youtube.com/</a>，<a href="https://www.facebook.com/" target="_blank" rel="external">https://www.facebook.com/</a><br>如果嫌麻烦，可以 <a href="http://blog.netsh.org/posts/chrome-http-redirect-https_369.netsh.html" target="_blank" rel="external"><strong>点这里</strong></a> 设置chrome强制http定向到https</li>
 </ul>
 <p>PS.如果某天发生访问不了例如youtube的情况，是因为ipv6地址会经常失效，也可能是地址变更，或者河蟹出现，记得更新hosts。<br>访问youtube看1080P无压力</p>
 <p><img src="http://alexyoung.qiniudn.com/QQ图片20141227161806.jpg" alt=""></p>
+<p><a href="https://code.google.com/p/ipv6-hosts/" target="_blank" rel="external">https://code.google.com/p/ipv6-hosts/</a></p>
 ]]></content>
     <summary type="html">
     <![CDATA[IPV6谁用谁知道]]>
