@@ -4,7 +4,7 @@
   <subtitle><![CDATA[Do Not Go Gentle Into Life]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://alexyyek.github.io/"/>
-  <updated>2014-12-25T08:17:53.035Z</updated>
+  <updated>2014-12-27T09:17:18.996Z</updated>
   <id>http://alexyyek.github.io/</id>
   
   <author>
@@ -13,6 +13,43 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[教育网配置IPV6回避收费及轻松翻墙]]></title>
+    <link href="http://alexyyek.github.io/2014/12/27/ipv6/"/>
+    <id>http://alexyyek.github.io/2014/12/27/ipv6/</id>
+    <published>2014-12-27T09:06:18.000Z</published>
+    <updated>2014-12-27T09:16:41.000Z</updated>
+    <content type="html"><![CDATA[<p>明光村职业技术学院终于还是没能逃离收费的命运，虽然还有半年就卷铺盖跑路了，但面对每个月只给10G外网流量，100块都不给我的抠门政策，废话不多说，直接上干货。</p>
+<h2 id="目录">目录</h2>
+<h3 id="设置IPV6">设置IPV6</h3>
+<ul>
+<li>首先安装ipv6，这个是基础，win7默认安装，xp运行命令<code>ipv6 install</code>。访问网站 <a href="http://6rank.edu.cn/" target="_blank" rel="external">http://6rank.edu.cn</a> 看看IPv6配置是否正常。更详细介绍请自行百度。</li>
+<li>打开网络和共享中心 → 更改适配器设置 → 本地连接 → 属性 → 双击Internet协议版本6（IPV6），设置首选DNS服务器为：<strong>2001:778::37</strong><br><center> <img src="http://alexyoung.qiniudn.com/QQ图片20141227164226.jpg" alt=""> <center></center></center></li>
+<li>将Internet协议版本4（IPV4）前的对勾去掉，确定后退出，即可只通过IPV6访问网站，不用登陆 <a href="http://10.3.8.211/" target="_blank" rel="external">http://10.3.8.211/</a>，此时流量不计入已使用流量</li>
+</ul>
+<h3 id="设置hosts翻墙">设置hosts翻墙</h3>
+<p>如果你是通过代理访问 <a href="https://www.youtube.com/" target="_blank" rel="external">youtube</a>，往往速度很不给力。如果是教育网有ipv6的话，那就好办了，看1080P流畅的一比，而且是教育网使用ipv6是不计费的。方法很简单，就是修改hosts.</p>
+<ul>
+<li><p>访问 <a href="http://serve.netsh.org/pub/ipv6-hosts/" target="_blank" rel="external"><strong>网站</strong></a>，勾选你所要的服务，如下图，点击立刻获取。<br><center> <img src="http://alexyoung.qiniudn.com/QQ图片20141227165359.jpg" alt=""> <center></center></center></p>
+</li>
+<li><p>将生成的hosts文件内容贴到你的hosts文件里并保存：<code>C:\Windows\System32\drivers\etc</code></p>
+</li>
+<li>最后总是以<strong>HTTPS</strong>的方式打开Youtube、facebook，如：<a href="https://www.youtube.com/，https://www.facebook.com/" target="_blank" rel="external">https://www.youtube.com/，https://www.facebook.com/</a><br>如果嫌麻烦，可以 <a href="http://blog.netsh.org/posts/chrome-http-redirect-https_369.netsh.html" target="_blank" rel="external"><strong>点这里</strong></a> 设置chrome强制http定向到https</li>
+</ul>
+<p>PS.如果某天发生访问不了例如youtube的情况，是因为ipv6地址会经常失效，也可能是地址变更，或者河蟹出现，记得更新hosts。<br>访问youtube看1080P无压力</p>
+<p><img src="http://alexyoung.qiniudn.com/QQ图片20141227161806.jpg" alt=""></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[IPV6谁用谁知道]]>
+    
+    </summary>
+    
+      <category term="skill" scheme="http://alexyyek.github.io/tags/skill/"/>
+    
+      <category term="黑科技" scheme="http://alexyyek.github.io/categories/%E9%BB%91%E7%A7%91%E6%8A%80/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[红黑树]]></title>
