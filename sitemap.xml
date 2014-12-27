@@ -2,6 +2,11 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://alexyyek.github.io/about/index.html</loc>
+    <lastmod>2014-12-27T13:50:57.000Z</lastmod>
+  </url>
+  
+  <url>
     <loc>http://alexyyek.github.io/2014/12/27/ipv6/</loc>
     <lastmod>2014-12-27T13:37:08.000Z</lastmod>
   </url>
@@ -74,11 +79,6 @@
   <url>
     <loc>http://alexyyek.github.io/2014/11/15/new/</loc>
     <lastmod>2014-11-28T14:44:06.000Z</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://alexyyek.github.io/about/index.html</loc>
-    <lastmod>2014-11-15T15:49:17.000Z</lastmod>
   </url>
   
   <url>
