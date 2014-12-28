@@ -4,7 +4,7 @@
   <subtitle><![CDATA[当你的才华还撑不起你的野心时，你就应该静下心来学习。]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://alexyyek.github.io/"/>
-  <updated>2014-12-27T13:51:12.890Z</updated>
+  <updated>2014-12-28T08:50:52.149Z</updated>
   <id>http://alexyyek.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://alexyyek.github.io/2014/12/27/ipv6/"/>
     <id>http://alexyyek.github.io/2014/12/27/ipv6/</id>
     <published>2014-12-27T09:06:18.000Z</published>
-    <updated>2014-12-27T13:37:08.000Z</updated>
+    <updated>2014-12-28T08:50:36.000Z</updated>
     <content type="html"><![CDATA[<p>明光村职业技术学院终于还是没能逃离收费的命运，虽然还有半年就卷铺盖跑路了，但面对每个月只给10G外网流量，100块都不给我的抠门政策，废话不多说，直接上干货。</p>
 <h2 id="目录">目录</h2>
 <h3 id="设置IPV6">设置IPV6</h3>
@@ -28,7 +28,7 @@
 <li>打开网络和共享中心 → 更改适配器设置 → 本地连接 → 属性 → 双击Internet协议版本6（IPV6），设置首选DNS服务器为：<strong>2001:778::37</strong></li>
 </ul>
 <p><center> <img src="http://alexyoung.qiniudn.com/QQ图片20141227164226.jpg" alt=""> <center></center></center></p>
-<p><a href="networkshttp://ipv6.lt/nat64_en.php" target="_blank" rel="external"><strong>原理</strong></a>：NAT64服务器，能将所有ipv4的网站都转化对应的ipv6地址，也相当于一种代理。晚上速度比较受影响，日间科研完全可以满足。</p>
+<p><a href="http://ipv6.lt/nat64_en.php" target="_blank" rel="external"><strong>原理</strong></a>：NAT64服务器，能将所有ipv4的网站都转化对应的ipv6地址，也相当于一种代理。晚上速度比较受影响，日间科研完全可以满足。</p>
 <p><center> <img src="http://alexyoung.qiniudn.com/graph_relay.png" alt=""> <center></center></center></p>
 <ul>
 <li>将Internet协议版本4（IPV4）前的对勾去掉，确定后退出，即可只通过IPV6访问网站，不用登陆 <a href="http://10.3.8.211/" target="_blank" rel="external">http://10.3.8.211/</a>，此时流量不计入已使用流量</li>
