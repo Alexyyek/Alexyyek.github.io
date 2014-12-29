@@ -4,7 +4,7 @@
   <subtitle><![CDATA[当你的才华还撑不起你的野心时，你就应该静下心来学习。]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://alexyyek.github.io/"/>
-  <updated>2014-12-28T08:50:52.149Z</updated>
+  <updated>2014-12-29T09:35:21.572Z</updated>
   <id>http://alexyyek.github.io/</id>
   
   <author>
@@ -15,11 +15,207 @@
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[JAVA基本类型和包装类]]></title>
+    <link href="http://alexyyek.github.io/2014/12/29/wrapperClass/"/>
+    <id>http://alexyyek.github.io/2014/12/29/wrapperClass/</id>
+    <published>2014-12-29T09:03:38.000Z</published>
+    <updated>2014-12-29T09:30:52.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="JAVA的包装类">JAVA的包装类</h2>
+<p>Java语言是一个面向对象的语言，但是Java中的基本数据类型却是不面向对象的，这在实际使用时存在很多的不便，为了解决这个不足，在设计类时为每个基本数据类型设计了一个对应的类进行代表，这样八个和基本数据类型对应的类统称为包装类(Wrapper Class)，有些地方也翻译为外覆类或数据类型类，如下表所示：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">基本类型</th>
+<th style="text-align:center">大小</th>
+<th style="text-align:center">包装器类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">boolean</td>
+<td style="text-align:center">/</td>
+<td style="text-align:center">Boolean</td>
+</tr>
+<tr>
+<td style="text-align:center">char</td>
+<td style="text-align:center">16bit</td>
+<td style="text-align:center">Character</td>
+</tr>
+<tr>
+<td style="text-align:center">byte</td>
+<td style="text-align:center">8bit</td>
+<td style="text-align:center">Byte</td>
+</tr>
+<tr>
+<td style="text-align:center">short</td>
+<td style="text-align:center">16bit</td>
+<td style="text-align:center">Short</td>
+</tr>
+<tr>
+<td style="text-align:center">int</td>
+<td style="text-align:center">32bit</td>
+<td style="text-align:center">Integer</td>
+</tr>
+<tr>
+<td style="text-align:center">long</td>
+<td style="text-align:center">64bit</td>
+<td style="text-align:center">Long</td>
+</tr>
+<tr>
+<td style="text-align:center">float</td>
+<td style="text-align:center">32bit</td>
+<td style="text-align:center">Float</td>
+</tr>
+<tr>
+<td style="text-align:center">double</td>
+<td style="text-align:center">64bit</td>
+<td style="text-align:center">Double</td>
+</tr>
+<tr>
+<td style="text-align:center">void</td>
+<td style="text-align:center">/</td>
+<td style="text-align:center">Void</td>
+</tr>
+</tbody>
+</table>
+<p>Java中的包装器类有两个主要的目的： </p>
+<ol>
+<li>提供一种机制，将基本值“包装”到对象中，从而使基本值能够包含在为对象而保留的操作中，比如添加到Collections 中，或者从带对象返回值的方法中返回。注意，java5增加了自动装箱和拆箱，程序员过去需手工执行的许多包装操作，现在可以由java自动处理了。 </li>
+<li>为基本值提供分类功能。这些功能大多数于各种转换有关：在基本值和String对象间相互转换，在基本值和String对象之间按不同基数转换，如二进制、八进制和十六进制。 </li>
+</ol>
+<h3 id="包装类共同的方法">包装类共同的方法</h3>
+<ul>
+<li>带有<code>基本值参数</code>并创建包装类对象的构造函数。如利用Integer包装类创建对象，Integer obj=new Integer(145);</li>
+<li>带有<code>字符串参数</code>并创建包装类对象的构造函数.如：new Integer(“-45.36”);</li>
+<li>可生成对象基本值的<code>typeValue</code>方法，如：obj.intValue();</li>
+<li>将字符串转换为基本值的<code>parseType</code>方法，如：Integer.parseInt(args[0]);</li>
+<li>生成哈稀表代码的<code>hashCode</code>方法，如：obj.hasCode();</li>
+<li>对同一个类的两个对象进行比较的<code>equals()</code>方法，如：obj1.eauqls(obj2);</li>
+<li>生成字符串表示法的<code>toString()</code>方法，如：obj.toString().<br><br></li>
+</ul>
+<hr>
+<h3 id="装箱和拆箱">装箱和拆箱</h3>
+<p>自动装箱和拆箱问题是Java中一个老生常谈的问题了，今天就来一些看一下装箱和拆箱中的若干问题。本文先讲述装箱和拆箱最基本的东西，再来看一下面试笔试中经常遇到的与装箱、拆箱相关的问题。<br><br></p>
+<h4 id="定义">定义</h4>
+<p>在前面的文章中提到，Java为每种基本数据类型都提供了对应的包装器类型，至于为什么会为每种基本数据类型提供包装器类型在此不进行阐述，有兴趣的朋友可以查阅相关资料。在Java SE5之前，如果要生成一个数值为10的Integer对象，必须这样进行：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Integer i = <span class="keyword">new</span> Integer(<span class="number">100</span>);</div></pre></td></tr></table></figure>
+
+<p>而在从Java SE5开始就提供了自动装箱的特性，如果要生成一个数值为10的Integer对象，只需要这样就可以了：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">int</span> i = <span class="number">100</span>;</div></pre></td></tr></table></figure>
+
+<p>这个过程中会自动根据数值创建对应的 Integer对象，这就是装箱。<br>那什么是拆箱呢？顾名思义，跟装箱对应，就是自动将包装器类型转换为基本数据类型：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Integer i = <span class="number">10</span>; <span class="comment">//装箱</span></div><div class="line"><span class="keyword">int</span> index = i;  <span class="comment">//拆箱</span></div></pre></td></tr></table></figure>
+
+<p>简单一点说，装箱就是自动将基本数据类型转换为包装器类型；拆箱就是自动将包装器类型转换为基本数据类型。<br><br></p>
+<h4 id="实现机制">实现机制</h4>
+<p>我们就以Interger类为例，下面看一段代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String[] args){</div><div class="line">    Integer i = <span class="number">10</span>; <span class="comment">//装箱</span></div><div class="line">    <span class="keyword">int</span> index = i;  <span class="comment">//拆箱</span></div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>反编译class文件之后得到如下内容：</p>
+<p><center> <img src="http://alexyoung.qiniudn.com/101641567956500.jpg" alt=""> <center></center></center></p>
+<p>从反编译得到的字节码内容可以看出，在装箱的时候自动调用的是Integer的<code>valueOf(int)</code>方法。而在拆箱的时候自动调用的是Integer的<code>intValue</code>方法。</p>
+<p>其他的也类似，比如Double、Character，不相信的朋友可以自己手动尝试一下。</p>
+<p>因此可以用一句话总结装箱和拆箱的实现过程：</p>
+<p><strong>装箱过程是通过调用包装器的valueOf方法实现的，而拆箱过程是通过调用包装器的xxxValue方法实现的。（xxx代表对应的基本数据类型）。</strong></p>
+<p><br></p>
+<hr>
+<p><br></p>
+<h4 id="面试问题">面试问题</h4>
+<p>虽然大多数人对装箱和拆箱的概念都清楚，但是在面试和笔试中遇到了与装箱和拆箱的问题却不一定会答得上来。下面列举一些常见的与装箱/拆箱有关的面试题，建议先自己尝试编译看源码做做。</p>
+<ul>
+<li>下面这段代码的输出结果是什么？</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>{</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String[] args) {</div><div class="line">        Integer i1 = <span class="number">100</span>;</div><div class="line">        Integer i2 = <span class="number">100</span>;</div><div class="line">        Integer i3 = <span class="number">200</span>;</div><div class="line">        Integer i4 = <span class="number">200</span>;</div><div class="line">        </div><div class="line">        System.out.println(i1==i2);</div><div class="line">        System.out.println(i3==i4);</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>也许有些朋友会说都会输出false，或者也有朋友会说都会输出true。这里注意“==”和“equal”的区别：<br><br></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">基本类型</th>
+<th style="text-align:center">==</th>
+<th style="text-align:center">equals</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">字符串变量</td>
+<td style="text-align:center">对象在内存中的首地址</td>
+<td style="text-align:center">字符串内容</td>
+</tr>
+<tr>
+<td style="text-align:center">非字符串变量</td>
+<td style="text-align:center">对象在内存中的首地址</td>
+<td style="text-align:center">对象在内存中的首地址</td>
+</tr>
+<tr>
+<td style="text-align:center">基本类型</td>
+<td style="text-align:center">值</td>
+<td style="text-align:center">不可用</td>
+</tr>
+<tr>
+<td style="text-align:center">包装类</td>
+<td style="text-align:center">地址</td>
+<td style="text-align:center">内容</td>
+</tr>
+</tbody>
+</table>
+<p>结果：<br>true<br>false</p>
+<p>为什么会出现这样的结果？输出结果表明 i1 和 i2 指向的是同一个对象，而 i3 和 i4 指向的是不同的对象。此时只需一看源码便知究竟，下面这段代码是Integer的<code>valueOf</code>方法的具体实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> Integer <span class="title">valueOf</span>(<span class="keyword">int</span> i) {</div><div class="line">        <span class="keyword">if</span>(i &gt;= -<span class="number">128</span> && i &lt;= IntegerCache.high)</div><div class="line">            <span class="keyword">return</span> IntegerCache.cache[i + <span class="number">128</span>];</div><div class="line">        <span class="keyword">else</span></div><div class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Integer(i);</div><div class="line">    }</div></pre></td></tr></table></figure>
+
+<p>从这2段代码可以看出，在通过valueOf方法创建Integer对象的时候，如果数值在 [-128,127] 之间，便返回指向IntegerCache.cache中已经存在的对象的引用；否则创建一个新的Integer对象。</p>
+<p>上面的代码中 i1 和 i2 的数值为100，因此会直接从cache中取已经存在的对象，所以 i1 和 i2 指向的是同一个对象，而 i3 和 i4 则是分别指向不同的对象。</p>
+<ul>
+<li>下面这段代码的输出结果是什么？</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>{</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String[] args) {</div><div class="line">        Double i1 = <span class="number">100.0</span>;</div><div class="line">        Double i2 = <span class="number">100.0</span>;</div><div class="line">        Double i3 = <span class="number">200.0</span>;</div><div class="line">        Double i4 = <span class="number">200.0</span>;</div><div class="line">        </div><div class="line">        System.out.println(i1==i2);</div><div class="line">        System.out.println(i3==i4);</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>也许有的朋友会认为跟上面一道题目的输出结果相同，但是事实上却不是。实际输出结果为：<br>false<br>false<br>至于具体为什么，读者可以去查看Double类的<code>valueOf</code>的实现。</p>
+<p>在这里只解释一下为什么Double类的valueOf方法会采用与Integer类的valueOf方法不同的实现。很简单：在某个范围内的整型数值的个数是有限的，而浮点数却不是。</p>
+<p>注意，Integer、Short、Byte、Character、Long这几个类的valueOf方法的实现是类似的，Double、Float的valueOf方法的实现是类似的。</p>
+<ul>
+<li>下面这段代码的输出结果是什么？</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>{</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String[] args) {</div><div class="line">        Boolean i1 = <span class="keyword">false</span>;</div><div class="line">        Boolean i2 = <span class="keyword">false</span>;</div><div class="line">        Boolean i3 = <span class="keyword">true</span>;</div><div class="line">        Boolean i4 = <span class="keyword">true</span>;</div><div class="line">         </div><div class="line">        System.out.println(i1==i2);</div><div class="line">        System.out.println(i3==i4);</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>输出结果为：<br>true<br>true<br>至于为什么是这个结果，同样地，看了Boolean类的源码也会一目了然。下面是Boolean的valueOf方法的具体实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> Boolean <span class="title">valueOf</span>(<span class="keyword">boolean</span> b) {</div><div class="line">        <span class="keyword">return</span> (b ? TRUE : FALSE);</div><div class="line">    }</div></pre></td></tr></table></figure>
+
+<p>至于TRUE和FALSE的定义：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="javadoc">/**</span></div><div class="line">     * The {@code Boolean} object corresponding to the primitive</div><div class="line">     * value {@code true}.</div><div class="line">     */</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Boolean TRUE = <span class="keyword">new</span> Boolean(<span class="keyword">true</span>);</div><div class="line"></div><div class="line">    <span class="javadoc">/**</span></div><div class="line">     * The {@code Boolean} object corresponding to the primitive</div><div class="line">     * value {@code false}.</div><div class="line">     */</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> Boolean FALSE = <span class="keyword">new</span> Boolean(<span class="keyword">false</span>);</div></pre></td></tr></table></figure>
+
+<ul>
+<li>谈谈Integer i = new Integer(xxx)和Integer i =xxx;这两种方式的区别。<br>当然，这个题目属于比较宽泛类型的。但是要点一定要答上，我总结一下主要有以下这两点区别：</li>
+</ul>
+<p>1）第一种方式不会触发自动装箱的过程；而第二种方式会触发；</p>
+<p>2）在执行效率和资源占用上的区别。第二种方式的执行效率和资源占用在一般性情况下要优于第一种情况（注意这并不是绝对的）。</p>
+<ul>
+<li>下面这段代码的输出结果是什么？</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>{</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String[] args) {</div><div class="line">        Integer a = <span class="number">1</span>;</div><div class="line">        Integer b = <span class="number">2</span>;</div><div class="line">        Integer c = <span class="number">3</span>;</div><div class="line">        Integer d = <span class="number">3</span>;</div><div class="line">        Integer e = <span class="number">321</span>;</div><div class="line">        Integer f = <span class="number">321</span>;</div><div class="line">        Long g = <span class="number">3</span>L;</div><div class="line">        Long h = <span class="number">2</span>L;</div><div class="line">         </div><div class="line">        System.out.println(c==d);</div><div class="line">        System.out.println(e==f);</div><div class="line">        System.out.println(c==(a+b));</div><div class="line">        System.out.println(c.equals(a+b));</div><div class="line">        System.out.println(g==(a+b));</div><div class="line">        System.out.println(g.equals(a+b));</div><div class="line">        System.out.println(g.equals(a+h));</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>先别看输出结果，读者自己想一下这段代码的输出结果是什么。这里面需要注意的是：当 “==” 运算符的两个操作数都是 包装器类型的引用，则是比较指向的是否是同一个对象，而如果其中有一个操作数是表达式（即包含算术运算）则比较的是数值（即会触发自动拆箱的过程）。另外，对于包装器类型，equals方法并不会进行类型转换。明白了这2点之后，上面的输出结果便一目了然：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">true</span></div><div class="line"><span class="keyword">false</span></div><div class="line"><span class="keyword">true</span></div><div class="line"><span class="keyword">true</span></div><div class="line"><span class="keyword">true</span></div><div class="line"><span class="keyword">false</span></div><div class="line"><span class="keyword">true</span></div></pre></td></tr></table></figure>
+
+<p>第一个和第二个输出结果没有什么疑问。第三句由于  a+b 包含了算术运算，因此会触发自动拆箱过程（会调用intValue方法），因此它们比较的是数值是否相等。而对于c.equals(a+b)会先触发自动拆箱过程，再触发自动装箱过程，也就是说a+b，会先各自调用intValue方法，得到了加法运算后的数值之后，便调用Integer.valueOf方法，再进行equals比较。同理对于后面的也是这样，不过要注意倒数第二个和最后一个输出的结果（如果数值是int类型的，装箱过程调用的是Integer.valueOf；如果是long类型的，装箱调用的Long.valueOf方法）。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[Java语言是一个面向对象的语言，但是Java中的基本数据类型却是不面向对象的，为了解决这个不足，在设计类时为每个基本数据类型设计了一个对应的类进行代表，统称为包装类(Wrapper Class).]]>
+    
+    </summary>
+    
+      <category term="coding" scheme="http://alexyyek.github.io/tags/coding/"/>
+    
+      <category term="Java" scheme="http://alexyyek.github.io/categories/Java/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[教育网配置IPV6回避收费及轻松翻墙]]></title>
     <link href="http://alexyyek.github.io/2014/12/27/ipv6/"/>
     <id>http://alexyyek.github.io/2014/12/27/ipv6/</id>
     <published>2014-12-27T09:06:18.000Z</published>
-    <updated>2014-12-28T08:50:36.000Z</updated>
+    <updated>2014-12-29T09:35:01.000Z</updated>
     <content type="html"><![CDATA[<p>明光村职业技术学院终于还是没能逃离收费的命运，虽然还有半年就卷铺盖跑路了，但面对每个月只给10G外网流量，100块都不给我的抠门政策，废话不多说，直接上干货。</p>
 <h2 id="目录">目录</h2>
 <h3 id="设置IPV6">设置IPV6</h3>
@@ -45,6 +241,7 @@
 <p>PS.如果某天发生访问不了例如youtube的情况，是因为ipv6地址会经常失效，也可能是地址变更，或者河蟹出现，记得更新hosts。<br>访问youtube看1080P无压力</p>
 <p><img src="http://alexyoung.qiniudn.com/QQ图片20141227161806.jpg" alt=""></p>
 <p><a href="https://code.google.com/p/ipv6-hosts/" target="_blank" rel="external">https://code.google.com/p/ipv6-hosts/</a></p>
+<p><strong>PS</strong>：本方法只是临时解决方案，目的是培养大家合力利用搜索引擎，解决实际问题的意识，欢迎大家提出不同的改进意见和更完善的解决方案。</p>
 ]]></content>
     <summary type="html">
     <![CDATA[IPV6谁用谁知道]]>
