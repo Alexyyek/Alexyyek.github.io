@@ -178,7 +178,11 @@
 <p>这个过程中会自动根据数值创建对应的 Integer对象，这就是装箱。<br>那什么是拆箱呢？顾名思义，跟装箱对应，就是自动将包装器类型转换为基本数据类型：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Integer i = <span class="number">10</span>; <span class="comment">//装箱</span></div><div class="line"><span class="keyword">int</span> index = i;  <span class="comment">//拆箱</span></div></pre></td></tr></table></figure>
 
-<p>简单一点说，装箱就是自动将基本数据类型转换为包装器类型；拆箱就是自动将包装器类型转换为基本数据类型。<br><br></p>
+<p>简单一点说，装箱就是自动将基本数据类型转换为包装器类型；拆箱就是自动将包装器类型转换为基本数据类型。</p>
+<p>注意：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Integer test = <span class="keyword">null</span>;</div><div class="line"><span class="keyword">int</span> f = test.intValue();</div></pre></td></tr></table></figure>
+
+<p>上面的代码编写时不会报错，但编译是通不过的。<br><br></p>
 <h4 id="实现机制">实现机制</h4>
 <p>我们就以Interger类为例，下面看一段代码：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String[] args){</div><div class="line">    Integer i = <span class="number">10</span>; <span class="comment">//装箱</span></div><div class="line">    <span class="keyword">int</span> index = i;  <span class="comment">//拆箱</span></div><div class="line">}</div></pre></td></tr></table></figure>
@@ -300,6 +304,14 @@
 	
 <nav class="article-nav clearfix">
  
+ <div class="prev" >
+ <a href="/2014/12/29/Reference/" title="对象和引用">
+  <strong>上一篇：</strong><br/>
+  <span>
+  对象和引用</span>
+</a>
+</div>
+
 
 <div class="next">
 <a href="/2014/12/27/ipv6/"  title="教育网配置IPV6回避收费及轻松翻墙">
@@ -342,7 +354,7 @@
 	<p class="asidetitle">分类</p>
 		<ul>
 		
-			<li><a href="/categories/Java/" title="Java">Java<sup>15</sup></a></li>
+			<li><a href="/categories/Java/" title="Java">Java<sup>16</sup></a></li>
 		
 			<li><a href="/categories/黑科技/" title="黑科技">黑科技<sup>1</sup></a></li>
 		
@@ -355,7 +367,7 @@
 	<p class="asidetitle">标签</p>
 		<ul class="clearfix">
 		
-			<li><a href="/tags/coding/" title="coding">coding<sup>8</sup></a></li>
+			<li><a href="/tags/coding/" title="coding">coding<sup>9</sup></a></li>
 		
 			<li><a href="/tags/leetcode/" title="leetcode">leetcode<sup>6</sup></a></li>
 		
