@@ -4,7 +4,7 @@
   <subtitle><![CDATA[当你的才华还撑不起你的野心时，你就应该静下心来学习。]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://alexyyek.github.io/"/>
-  <updated>2014-12-30T13:07:20.049Z</updated>
+  <updated>2014-12-30T13:08:43.509Z</updated>
   <id>http://alexyyek.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://alexyyek.github.io/2014/12/29/Reference/"/>
     <id>http://alexyyek.github.io/2014/12/29/Reference/</id>
     <published>2014-12-29T13:43:15.000Z</published>
-    <updated>2014-12-30T02:22:45.000Z</updated>
+    <updated>2014-12-30T13:08:38.000Z</updated>
     <content type="html"><![CDATA[<p>Java中对象和引用的东西之前看了不少，但一方面因为网上知识过于繁杂，不能很好的梳理，另一方面不同的博客讲解专业程度不一样，可能会导致一定的误解。此篇博客争取以最精炼，最具条理的方式理清其中的难点和疑点。</p>
 <h2 id="对象和引用">对象和引用</h2>
 <h3 id="对象">对象</h3>
@@ -102,7 +102,7 @@
 <p><strong>PS</strong>：在JAVA里，“=”不能被看成是一个赋值语句，它不是在把一个对象赋给另外一个对象，它的执行过程实质上是将右边对象的地址传给了左边的引用，使得左边的引用指向了右边的对象。JAVA表面上看起来没有指针，但它的引用其实质就是一个指针，引用里面存放的并不是对象，而是该对象的地址，使得该引用指向了对象。在JAVA里，“=”语句不应该被翻译成赋值语句，因为它所执行的确实不是一个赋值的过程，而是一个传地址的过程，被译成赋值语句会造成很多误解，译得不准确。 </p>
 ]]></content>
     <summary type="html">
-    <![CDATA[对象和引用]]>
+    <![CDATA[When you're passing primitives into a method，you get a distinct copy of the primitive. When you're passing a reference into a method, you get a copy of the reference.]]>
     
     </summary>
     
