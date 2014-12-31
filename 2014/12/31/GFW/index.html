@@ -5,12 +5,12 @@
   <meta charset="UTF-8">
   <meta name="baidu-site-verification" content="GliC1jSe3E" />
   
-    <title>教育网配置IPV6回避收费及轻松翻墙 | AlexYoung&#39;s blog</title>
+    <title>免费且使用便捷的翻墙方案 | AlexYoung&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="AlexYoung">
     
-    <meta name="description" itemprop="description" content="IPV6谁用谁知道">
+    <meta name="description" itemprop="description" content="不要问我为什么翻墙，因为墙就在那里。">
     
     
     
@@ -71,14 +71,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2014/12/27/ipv6/" title="教育网配置IPV6回避收费及轻松翻墙" itemprop="url">教育网配置IPV6回避收费及轻松翻墙</a>
+      <a href="/2014/12/31/GFW/" title="免费且使用便捷的翻墙方案" itemprop="url">免费且使用便捷的翻墙方案</a>
   </h1>
   <p class="article-author">By
        
 		<a href="https://plus.google.com/118224772589648180000?rel=author" title="AlexYoung" target="_blank" itemprop="author">AlexYoung</a>
 		
   <p class="article-time">
-    <time datetime="2014-12-27T09:06:18.000Z" itemprop="datePublished"> 发表于 12月 27 2014</time>
+    <time datetime="2014-12-31T09:55:42.000Z" itemprop="datePublished"> 发表于 12月 31 2014</time>
     
   </p>
 </header>
@@ -88,36 +88,70 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#目录"><span class="toc-number">1.</span> <span class="toc-text">目录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#设置IPV6"><span class="toc-number">1.1.</span> <span class="toc-text">设置IPV6</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置hosts翻墙"><span class="toc-number">1.2.</span> <span class="toc-text">设置hosts翻墙</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#目录"><span class="toc-number">1.</span> <span class="toc-text">目录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#入门介绍"><span class="toc-number">1.1.</span> <span class="toc-text">入门介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#申请Google_App_Engine并创建app"><span class="toc-number">1.2.</span> <span class="toc-text">申请Google App Engine并创建app</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载_goagent_并上传至_Google_App_Engine"><span class="toc-number">1.3.</span> <span class="toc-text">下载 goagent 并上传至 Google App Engine</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Chrome下安装Switchysharp"><span class="toc-number">1.4.</span> <span class="toc-text">Chrome下安装Switchysharp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最后"><span class="toc-number">1.5.</span> <span class="toc-text">最后</span></a></li></ol></li></ol>
 		
 		</div>
 		
-		<p>明光村职业技术学院终于还是没能逃离收费的命运，虽然还有半年就卷铺盖跑路了，但面对每个月只给10G外网流量，100块都不给我的抠门政策，废话不多说，直接上干货。</p>
-<h2 id="目录">目录</h2>
-<h3 id="设置IPV6">设置IPV6</h3>
+		<h2 id="目录">目录</h2>
+<p>翻墙方法多如牛毛，但都因为自身的因素而各有利弊。Freegate使用简单，适合初学者，但开启后访问国内网站将出现问题；VPN有的收费有的免费，免费的VPN由于使用者众多网速low的一比，收费的能够提供更好的服务，但需要为之买单。而且从技术角度分析VPN加密流程会发现：你的机子-&gt;(加密)-&gt;VPN-&gt;(解密后的)-&gt;访问目标机子，就算你的机子和VPN之间怎么加密，在最终发给目标机子都会还原成没加密的。这并不是吓唬大家，只是万事有利有弊，自行取舍罢了。而上一篇<a href="http://alexyyek.github.io/2014/12/27/ipv6/" target="_blank" rel="external">改Hosts</a>的办法虽然简单，但能翻的网站有限，而且需要不断更新。</p>
+<p>下面推荐的是一种基于GAE（Google App Engine）+ goagent + switchysharp + chrome的翻墙之法，相对刚才介绍的方案，此方法上手较易，使用体验也非常不错（当你配置完后便能充分的感受到），并且完全免费。所以请不要害怕这过长的篇幅，按部就班10分钟左右搞定。</p>
+<p>那么让我们一起迎接2015这新世界吧。<br><br></p>
+<hr>
+<h3 id="入门介绍">入门介绍</h3>
+<ol>
+<li>GAE（Google App Engine）是一个开发、托管网络应用程序的平台；</li>
+<li>goagent是一个使用Python和Google Appengine SDK编写的代理软件；</li>
+<li>switch sharp是一个chrome插件，具体功能类似于Firefox的AutoProxy.</li>
+</ol>
+<h3 id="申请Google_App_Engine并创建app">申请Google App Engine并创建app</h3>
 <ul>
-<li>首先安装ipv6，这个是基础，win7默认安装，xp运行命令<code>ipv6 install</code>。访问网站 <a href="http://6rank.edu.cn/" target="_blank" rel="external">http://6rank.edu.cn</a> 看看IPv6配置是否正常。更详细介绍请自行百度。</li>
-<li>打开网络和共享中心 → 更改适配器设置 → 本地连接 → 属性 → 双击Internet协议版本6（IPV6），设置首选DNS服务器为：<strong>2001:778::37</strong></li>
+<li>首先去注册一个google账户，没有绑定手机号码的建议<a href="https://security.google.com/settings/security/signinoptions/rescuephone" target="_blank" rel="external">绑定</a>。</li>
+<li>创建属于你的<a href="https://appengine.google.com/start/createapp" target="_blank" rel="external"><strong>Application</strong></a>，填写你的APP ID，</li>
 </ul>
-<p><center> <img src="http://alexyoung.qiniudn.com/QQ图片20141227164226.jpg" alt=""> <center></center></center></p>
-<p><a href="http://ipv6.lt/nat64_en.php" target="_blank" rel="external"><strong>原理</strong></a>：NAT64服务器，能将所有ipv4的网站都转化对应的ipv6地址，也相当于一种代理。晚上速度比较受影响，日间科研完全可以满足。</p>
-<p><center> <img src="http://alexyoung.qiniudn.com/graph_relay.png" alt=""> <center></center></center></p>
+<p><strong>错误体位</strong>：</p>
+<p><center> <img src="http://alexyoung.qiniudn.com/GAE1.png" alt=""> <center></center></center></p>
+<p><strong>正确体位</strong></p>
+<p><center> <img src="http://alexyoung.qiniudn.com/GAE2.png" alt=""> <center></center></center></p>
+<p><strong>填写方式</strong></p>
+<p><center> <img src="http://alexyoung.qiniudn.com/GAE3.png" alt=""> <center></center></center></p>
 <ul>
-<li>将Internet协议版本4（IPV4）前的对勾去掉，确定后退出，即可只通过IPV6访问网站，不用登陆 <a href="http://10.3.8.211/" target="_blank" rel="external">http://10.3.8.211/</a>，此时流量不计入已使用流量</li>
+<li>一切正常的话就会看到下面的界面（告诉你App已经申请成功了）<br><center> <img src="http://alexyoung.qiniudn.com/GAE4.png" alt=""> <center></center></center></li>
 </ul>
-<h3 id="设置hosts翻墙">设置hosts翻墙</h3>
-<p>如果你是通过代理访问 <a href="https://www.youtube.com/" target="_blank" rel="external">youtube</a>，往往速度很不给力。如果是教育网有ipv6的话，那就好办了，看1080P流畅的一比，而且是教育网使用ipv6是不计费的。方法很简单，就是修改hosts.</p>
+<p><br><br><strong>注意</strong>：GAE的check不一定可靠，可能出现提示available但是commit后提示<code>This application ID or version is already in use</code>的情况，所以请另换ID。现在每个用户可以创建25个APP，每个应用每天有1GB的免费流量。如果你经常下载或者观看视频建议多创建几个Google App Engine应用。<br><br></p>
+<hr>
+<h3 id="下载_goagent_并上传至_Google_App_Engine">下载 goagent 并上传至 Google App Engine</h3>
 <ul>
-<li><p>访问 <a href="http://serve.netsh.org/pub/ipv6-hosts/" target="_blank" rel="external"><strong>网站</strong></a>，勾选你所要的服务，如下图，点击立刻获取。<br><center> <img src="http://alexyoung.qiniudn.com/QQ图片20141227165359.jpg" alt=""> <center></center></center></p>
+<li>去Github下载 <a href="https://github.com/goagent/goagent" target="_blank" rel="external"><strong>goagent客户端</strong></a> 并解压，目前是3.2.3版</li>
+<li>修改<code>\local\proxy.ini</code>，把其中 appid = goagent 中的 goagent 改成你之前申请的应用的 appid 后保存。<br><center> <img src="http://alexyoung.qiniudn.com/GFW9.jpg" alt=""> <center></center></center></li>
+</ul>
+<p>如果要使用多个appid，appid之间用<code>|</code>隔开，如：<code>appid1|appid2|appid3</code>，每个 appid 必须确认上传成功才能使用</p>
+<blockquote>
+<p>[gae]<br>appid = appid1|appid2|appid3</p>
+</blockquote>
+<ul>
+<li>双击 server 文件夹下的 uploader.bat， 依次输入你的Application ID，邮箱地址和密码（如果设置了Gmail的两步验证请输入两步验证中生成的16位密码，即为独立应用单独生成的随机16位字符，而不是你的邮箱密码，Gmail两步验证在这里<a href="http://www.cooear.com/archives/168.htm" target="_blank" rel="external">详细介绍</a>）<br><center> <img src="http://alexyoung.qiniudn.com/GFW10.jpg" alt=""> <center></center></center></li>
+</ul>
+<p><br></p>
+<ul>
+<li>看到下面的提示便上传成功。<br><center> <img src="http://alexyoung.qiniudn.com/GFW6.jpg" alt=""> <center></center></center></li>
+</ul>
+<p><strong>注意</strong>：如果输完账户密码后出现：<code>AttributeError: can’t set attribute</code> 的问题，可尝试进入 <a href="https://www.google.com/settings/security" target="_blank" rel="external"><strong>Google 安全性</strong></a> 页面里看到了『帐户所授权限』 中的『不够安全的应用的访问权限』，进入设置之后，点击『启用』即可。<br><br></p>
+<hr>
+<h3 id="Chrome下安装Switchysharp">Chrome下安装Switchysharp</h3>
+<ul>
+<li>去chrome的<a href="https://chrome.google.com/webstore/category/home" target="_blank" rel="external">应用商店</a>安装Switchysharp</li>
+<li><p>下载好后Switchysharp图标会出现在chrome的右上角，点击选项<br><center> <img src="http://alexyoung.qiniudn.com/GFW11.jpg" alt=""> <center></center></center></p>
 </li>
-<li><p>将生成的hosts文件内容贴到你的hosts文件里并保存：<code>C:\Windows\System32\drivers\etc</code></p>
+<li><p>在导入/导出界面，选择从文件恢复，选中<code>\local\SwitchyOptions.bak</code>确认导入<br><center> <img src="http://alexyoung.qiniudn.com/GFW8.jpg" alt=""> <center></center></center></p>
 </li>
-<li>最后总是以<strong>HTTPS</strong>的方式打开Youtube、facebook，如：<a href="https://www.youtube.com/" target="_blank" rel="external">https://www.youtube.com/</a>，<a href="https://www.facebook.com/" target="_blank" rel="external">https://www.facebook.com/</a><br>如果嫌麻烦，可以 <a href="http://blog.netsh.org/posts/chrome-http-redirect-https_369.netsh.html" target="_blank" rel="external"><strong>点这里</strong></a> 设置chrome强制http定向到https</li>
+<li><p>成功导入后，选择自动切换模式即可<br><center> <img src="http://alexyoung.qiniudn.com/GFW12.jpg" alt=""> <center></center></center></p>
+</li>
 </ul>
-<p>PS.如果某天发生访问不了例如youtube的情况，是因为ipv6地址会经常失效，也可能是地址变更，或者河蟹出现，记得更新hosts。<br>访问youtube看1080P无压力</p>
-<p><img src="http://alexyoung.qiniudn.com/QQ图片20141227161806.jpg" alt=""></p>
-<p><a href="https://code.google.com/p/ipv6-hosts/" target="_blank" rel="external">https://code.google.com/p/ipv6-hosts/</a></p>
-<p><strong>PS</strong>：本方法只是临时解决方案，目的是培养大家合理利用搜索引擎，解决实际问题的意识，欢迎大家提出不同的改进意见和更完善的解决方案。</p>
+<p><strong>注意</strong>：使用Firefox浏览器和opera浏览器的同学去<a href="https://github.com/goagent/goagent/blob/wiki/InstallGuide.md" target="_blank" rel="external"><strong>这里</strong></a>看配置插件教程。<br><br></p>
+<hr>
+<h3 id="最后">最后</h3>
+<p>恭喜你已经成功配置好了插件，想去外网时记得先打开<code>local\goagent.exe</code>，最好管理员权限打开，如果嫌每次都打开麻烦，设置开机自动启动也OK，浏览器会根据你浏览的具体界面选择代理方式，一键都不用便可翻墙，这便是此方案便捷的地方。</p>
+<p>有兴趣的同学可以研究研究<a href="http://shadowsocks.cn/" target="_blank" rel="external">ShadowSocks</a>，ShadowSocks服务器端提供了各种版本，如Python、Nodejs、Go、C libev等等，安装配置过程极其简单。而用户端则可以在windows、mac、iOS和android上轻松运行。首先，当然你需要有一个shadowsocks账号。(￣∇￣;)</p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -139,7 +173,7 @@
 
 <div class="article-share" id="share">
 
-  <div data-url="http://alexyyek.github.io/2014/12/27/ipv6/" data-title="教育网配置IPV6回避收费及轻松翻墙 | AlexYoung&#39;s blog" data-tsina="null" class="share clearfix">
+  <div data-url="http://alexyyek.github.io/2014/12/31/GFW/" data-title="免费且使用便捷的翻墙方案 | AlexYoung&#39;s blog" data-tsina="null" class="share clearfix">
   </div>
 
 </div>
@@ -148,19 +182,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2014/12/29/wrapperClass/" title="JAVA基本类型和包装类">
-  <strong>上一篇：</strong><br/>
-  <span>
-  JAVA基本类型和包装类</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2014/12/23/RBTree/"  title="红黑树">
+<a href="/2014/12/29/Reference/"  title="对象和引用">
  <strong>下一篇：</strong><br/> 
- <span>红黑树
+ <span>对象和引用
 </span>
 </a>
 </div>
@@ -185,7 +211,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">文章目录</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#目录"><span class="toc-number">1.</span> <span class="toc-text">目录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#设置IPV6"><span class="toc-number">1.1.</span> <span class="toc-text">设置IPV6</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#设置hosts翻墙"><span class="toc-number">1.2.</span> <span class="toc-text">设置hosts翻墙</span></a></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#目录"><span class="toc-number">1.</span> <span class="toc-text">目录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#入门介绍"><span class="toc-number">1.1.</span> <span class="toc-text">入门介绍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#申请Google_App_Engine并创建app"><span class="toc-number">1.2.</span> <span class="toc-text">申请Google App Engine并创建app</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#下载_goagent_并上传至_Google_App_Engine"><span class="toc-number">1.3.</span> <span class="toc-text">下载 goagent 并上传至 Google App Engine</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Chrome下安装Switchysharp"><span class="toc-number">1.4.</span> <span class="toc-text">Chrome下安装Switchysharp</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#最后"><span class="toc-number">1.5.</span> <span class="toc-text">最后</span></a></li></ol></li></ol>
  
   </div>
 

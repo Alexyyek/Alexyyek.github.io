@@ -4,7 +4,7 @@
   <subtitle><![CDATA[当你的才华还撑不起你的野心时，你就应该静下心来学习。]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://alexyyek.github.io/"/>
-  <updated>2014-12-30T13:08:43.509Z</updated>
+  <updated>2014-12-31T10:25:27.188Z</updated>
   <id>http://alexyyek.github.io/</id>
   
   <author>
@@ -13,6 +13,84 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[免费且使用便捷的翻墙方案]]></title>
+    <link href="http://alexyyek.github.io/2014/12/31/GFW/"/>
+    <id>http://alexyyek.github.io/2014/12/31/GFW/</id>
+    <published>2014-12-31T09:55:42.000Z</published>
+    <updated>2014-12-31T10:22:39.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="目录">目录</h2>
+<p>翻墙方法多如牛毛，但都因为自身的因素而各有利弊。Freegate使用简单，适合初学者，但开启后访问国内网站将出现问题；VPN有的收费有的免费，免费的VPN由于使用者众多网速low的一比，收费的能够提供更好的服务，但需要为之买单。而且从技术角度分析VPN加密流程会发现：你的机子-&gt;(加密)-&gt;VPN-&gt;(解密后的)-&gt;访问目标机子，就算你的机子和VPN之间怎么加密，在最终发给目标机子都会还原成没加密的。这并不是吓唬大家，只是万事有利有弊，自行取舍罢了。而上一篇<a href="http://alexyyek.github.io/2014/12/27/ipv6/" target="_blank" rel="external">改Hosts</a>的办法虽然简单，但能翻的网站有限，而且需要不断更新。</p>
+<p>下面推荐的是一种基于GAE（Google App Engine）+ goagent + switchysharp + chrome的翻墙之法，相对刚才介绍的方案，此方法上手较易，使用体验也非常不错（当你配置完后便能充分的感受到），并且完全免费。所以请不要害怕这过长的篇幅，按部就班10分钟左右搞定。</p>
+<p>那么让我们一起迎接2015这新世界吧。<br><br></p>
+<hr>
+<h3 id="入门介绍">入门介绍</h3>
+<ol>
+<li>GAE（Google App Engine）是一个开发、托管网络应用程序的平台；</li>
+<li>goagent是一个使用Python和Google Appengine SDK编写的代理软件；</li>
+<li>switch sharp是一个chrome插件，具体功能类似于Firefox的AutoProxy.</li>
+</ol>
+<h3 id="申请Google_App_Engine并创建app">申请Google App Engine并创建app</h3>
+<ul>
+<li>首先去注册一个google账户，没有绑定手机号码的建议<a href="https://security.google.com/settings/security/signinoptions/rescuephone" target="_blank" rel="external">绑定</a>。</li>
+<li>创建属于你的<a href="https://appengine.google.com/start/createapp" target="_blank" rel="external"><strong>Application</strong></a>，填写你的APP ID，</li>
+</ul>
+<p><strong>错误体位</strong>：</p>
+<p><center> <img src="http://alexyoung.qiniudn.com/GAE1.png" alt=""> <center></center></center></p>
+<p><strong>正确体位</strong></p>
+<p><center> <img src="http://alexyoung.qiniudn.com/GAE2.png" alt=""> <center></center></center></p>
+<p><strong>填写方式</strong></p>
+<p><center> <img src="http://alexyoung.qiniudn.com/GAE3.png" alt=""> <center></center></center></p>
+<ul>
+<li>一切正常的话就会看到下面的界面（告诉你App已经申请成功了）<br><center> <img src="http://alexyoung.qiniudn.com/GAE4.png" alt=""> <center></center></center></li>
+</ul>
+<p><br><br><strong>注意</strong>：GAE的check不一定可靠，可能出现提示available但是commit后提示<code>This application ID or version is already in use</code>的情况，所以请另换ID。现在每个用户可以创建25个APP，每个应用每天有1GB的免费流量。如果你经常下载或者观看视频建议多创建几个Google App Engine应用。<br><br></p>
+<hr>
+<h3 id="下载_goagent_并上传至_Google_App_Engine">下载 goagent 并上传至 Google App Engine</h3>
+<ul>
+<li>去Github下载 <a href="https://github.com/goagent/goagent" target="_blank" rel="external"><strong>goagent客户端</strong></a> 并解压，目前是3.2.3版</li>
+<li>修改<code>\local\proxy.ini</code>，把其中 appid = goagent 中的 goagent 改成你之前申请的应用的 appid 后保存。<br><center> <img src="http://alexyoung.qiniudn.com/GFW9.jpg" alt=""> <center></center></center></li>
+</ul>
+<p>如果要使用多个appid，appid之间用<code>|</code>隔开，如：<code>appid1|appid2|appid3</code>，每个 appid 必须确认上传成功才能使用</p>
+<blockquote>
+<p>[gae]<br>appid = appid1|appid2|appid3</p>
+</blockquote>
+<ul>
+<li>双击 server 文件夹下的 uploader.bat， 依次输入你的Application ID，邮箱地址和密码（如果设置了Gmail的两步验证请输入两步验证中生成的16位密码，即为独立应用单独生成的随机16位字符，而不是你的邮箱密码，Gmail两步验证在这里<a href="http://www.cooear.com/archives/168.htm" target="_blank" rel="external">详细介绍</a>）<br><center> <img src="http://alexyoung.qiniudn.com/GFW10.jpg" alt=""> <center></center></center></li>
+</ul>
+<p><br></p>
+<ul>
+<li>看到下面的提示便上传成功。<br><center> <img src="http://alexyoung.qiniudn.com/GFW6.jpg" alt=""> <center></center></center></li>
+</ul>
+<p><strong>注意</strong>：如果输完账户密码后出现：<code>AttributeError: can’t set attribute</code> 的问题，可尝试进入 <a href="https://www.google.com/settings/security" target="_blank" rel="external"><strong>Google 安全性</strong></a> 页面里看到了『帐户所授权限』 中的『不够安全的应用的访问权限』，进入设置之后，点击『启用』即可。<br><br></p>
+<hr>
+<h3 id="Chrome下安装Switchysharp">Chrome下安装Switchysharp</h3>
+<ul>
+<li>去chrome的<a href="https://chrome.google.com/webstore/category/home" target="_blank" rel="external">应用商店</a>安装Switchysharp</li>
+<li><p>下载好后Switchysharp图标会出现在chrome的右上角，点击选项<br><center> <img src="http://alexyoung.qiniudn.com/GFW11.jpg" alt=""> <center></center></center></p>
+</li>
+<li><p>在导入/导出界面，选择从文件恢复，选中<code>\local\SwitchyOptions.bak</code>确认导入<br><center> <img src="http://alexyoung.qiniudn.com/GFW8.jpg" alt=""> <center></center></center></p>
+</li>
+<li><p>成功导入后，选择自动切换模式即可<br><center> <img src="http://alexyoung.qiniudn.com/GFW12.jpg" alt=""> <center></center></center></p>
+</li>
+</ul>
+<p><strong>注意</strong>：使用Firefox浏览器和opera浏览器的同学去<a href="https://github.com/goagent/goagent/blob/wiki/InstallGuide.md" target="_blank" rel="external"><strong>这里</strong></a>看配置插件教程。<br><br></p>
+<hr>
+<h3 id="最后">最后</h3>
+<p>恭喜你已经成功配置好了插件，想去外网时记得先打开<code>local\goagent.exe</code>，最好管理员权限打开，如果嫌每次都打开麻烦，设置开机自动启动也OK，浏览器会根据你浏览的具体界面选择代理方式，一键都不用便可翻墙，这便是此方案便捷的地方。</p>
+<p>有兴趣的同学可以研究研究<a href="http://shadowsocks.cn/" target="_blank" rel="external">ShadowSocks</a>，ShadowSocks服务器端提供了各种版本，如Python、Nodejs、Go、C libev等等，安装配置过程极其简单。而用户端则可以在windows、mac、iOS和android上轻松运行。首先，当然你需要有一个shadowsocks账号。(￣∇￣;)</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[不要问我为什么翻墙，因为墙就在那里。]]>
+    
+    </summary>
+    
+      <category term="skill" scheme="http://alexyyek.github.io/tags/skill/"/>
+    
+      <category term="黑科技" scheme="http://alexyyek.github.io/categories/%E9%BB%91%E7%A7%91%E6%8A%80/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[对象和引用]]></title>
