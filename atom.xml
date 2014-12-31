@@ -4,7 +4,7 @@
   <subtitle><![CDATA[当你的才华还撑不起你的野心时，你就应该静下心来学习。]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://alexyyek.github.io/"/>
-  <updated>2014-12-31T10:25:27.188Z</updated>
+  <updated>2014-12-31T10:30:36.192Z</updated>
   <id>http://alexyyek.github.io/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://alexyyek.github.io/2014/12/31/GFW/"/>
     <id>http://alexyyek.github.io/2014/12/31/GFW/</id>
     <published>2014-12-31T09:55:42.000Z</published>
-    <updated>2014-12-31T10:22:39.000Z</updated>
+    <updated>2014-12-31T10:29:52.000Z</updated>
     <content type="html"><![CDATA[<h2 id="目录">目录</h2>
 <p>翻墙方法多如牛毛，但都因为自身的因素而各有利弊。Freegate使用简单，适合初学者，但开启后访问国内网站将出现问题；VPN有的收费有的免费，免费的VPN由于使用者众多网速low的一比，收费的能够提供更好的服务，但需要为之买单。而且从技术角度分析VPN加密流程会发现：你的机子-&gt;(加密)-&gt;VPN-&gt;(解密后的)-&gt;访问目标机子，就算你的机子和VPN之间怎么加密，在最终发给目标机子都会还原成没加密的。这并不是吓唬大家，只是万事有利有弊，自行取舍罢了。而上一篇<a href="http://alexyyek.github.io/2014/12/27/ipv6/" target="_blank" rel="external">改Hosts</a>的办法虽然简单，但能翻的网站有限，而且需要不断更新。</p>
 <p>下面推荐的是一种基于GAE（Google App Engine）+ goagent + switchysharp + chrome的翻墙之法，相对刚才介绍的方案，此方法上手较易，使用体验也非常不错（当你配置完后便能充分的感受到），并且完全免费。所以请不要害怕这过长的篇幅，按部就班10分钟左右搞定。</p>
@@ -72,7 +72,7 @@
 </li>
 <li><p>在导入/导出界面，选择从文件恢复，选中<code>\local\SwitchyOptions.bak</code>确认导入<br><center> <img src="http://alexyoung.qiniudn.com/GFW8.jpg" alt=""> <center></center></center></p>
 </li>
-<li><p>成功导入后，选择自动切换模式即可<br><center> <img src="http://alexyoung.qiniudn.com/GFW12.jpg" alt=""> <center></center></center></p>
+<li><p>成功导入后，想去外网时选择自动切换模式即可，不访问时便选择直接连接<br><center> <img src="http://alexyoung.qiniudn.com/GFW12.jpg" alt=""> <center></center></center></p>
 </li>
 </ul>
 <p><strong>注意</strong>：使用Firefox浏览器和opera浏览器的同学去<a href="https://github.com/goagent/goagent/blob/wiki/InstallGuide.md" target="_blank" rel="external"><strong>这里</strong></a>看配置插件教程。<br><br></p>
