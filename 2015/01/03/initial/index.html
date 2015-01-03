@@ -1,0 +1,545 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="baidu-site-verification" content="GliC1jSe3E" />
+  
+    <title>JAVA初始化 | AlexYoung&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="AlexYoung">
+    
+    <meta name="description" itemprop="description" content="Java采用构造器的概念（在创建对象时被自动调用的特殊方法），并额外提供垃圾回收器，来确保避免不安全的编程方式，本节主要讨论初始化的相关问题。">
+    
+    
+    
+    
+    <link rel="alternative" href="/atom.xml" title="AlexYoung&#39;s blog" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
+
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="AlexYoung&#39;s blog" title="AlexYoung&#39;s blog"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="AlexYoung&#39;s blog">AlexYoung&#39;s blog</a></h1>
+				<h2 class="blog-motto">当你的才华还撑不起你的野心时，你就应该静下心来学习。</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="Search" />
+						<input type="hidden" name="q" value="site:alexyyek.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2015/01/03/initial/" title="JAVA初始化" itemprop="url">JAVA初始化</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="https://plus.google.com/118224772589648180000?rel=author" title="AlexYoung" target="_blank" itemprop="author">AlexYoung</a>
+		
+  <p class="article-time">
+    <time datetime="2015-01-03T13:13:55.000Z" itemprop="datePublished"> 发表于 1月 3 2015</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#this关键字"><span class="toc-number">1.</span> <span class="toc-text">this关键字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#构造器初始化"><span class="toc-number">2.</span> <span class="toc-text">构造器初始化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化顺序"><span class="toc-number">2.1.</span> <span class="toc-text">初始化顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#静态数据初始化"><span class="toc-number">2.2.</span> <span class="toc-text">静态数据初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#显示的静态初始化"><span class="toc-number">2.3.</span> <span class="toc-text">显示的静态初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#非静态实例初始化"><span class="toc-number">2.4.</span> <span class="toc-text">非静态实例初始化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#待续"><span class="toc-number">3.</span> <span class="toc-text">待续</span></a></li></ol>
+		
+		</div>
+		
+		<p>初始化和清理是涉及安全的两个问题，许多C程序的错误都源于忘记初始化变量，当使用完一个元素时，也很容易忘记清理它。C++引入了构造器的概念，这是一个在创建对象时被自动调用的特殊方法，Java中也采用了构造器，并额外提供了垃圾回收器，对于不再使用的内存资源，垃圾回收器能自动将其释放。</p>
+<p>在Java中，通过提供构造器，类的设计者可确保每个对象都会得到初始化。创建对象时，如果类具有构造器，就会自动调用相应的构造器。我们首先明确一下this关键词在构造器中的作用，然后分析构造器的初始化流程。    </p>
+<h2 id="this关键字">this关键字</h2>
+<p>从本质上讲，<code>this</code>是一个指向对象的指针（引用）。通常写<code>this</code>的时候，都是指这个对象或当前对象。而在构造器中，如果为<code>this</code>添加参数列表，将产生对符合此参数列表的某个构造器的明确调用，从而可以直接调用其他构造器。</p>
+<p>首先看一个<a href="http://stackoverflow.com/questions/3728062/what-is-the-meaning-of-this-in-java" target="_blank" rel="external">stackoverflow</a>上的例子：</p>
+<figure class="highlight JAVA"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyThisTest</span> </span>{</div><div class="line">		<span class="keyword">private</span> <span class="keyword">int</span> a;</div><div class="line"></div><div class="line">		<span class="keyword">public</span> <span class="title">MyThisTest</span>() {</div><div class="line">			<span class="keyword">this</span>(<span class="number">42</span>); <span class="comment">// calls the other constructor</span></div><div class="line">		}</div><div class="line"></div><div class="line">		<span class="keyword">public</span> <span class="title">MyThisTest</span>(<span class="keyword">int</span> a) {</div><div class="line">			<span class="keyword">this</span>.a = a; <span class="comment">// assigns the value of the parameter a to the field of</span></div><div class="line">						<span class="comment">// the same name</span></div><div class="line">		}</div><div class="line"></div><div class="line">		<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">frobnicate</span>() {</div><div class="line">			<span class="keyword">int</span> a = <span class="number">1</span>;</div><div class="line"></div><div class="line">			System.out.println(a); <span class="comment">// refers to the local variable a</span></div><div class="line">			System.out.println(<span class="keyword">this</span>.a); <span class="comment">// refers to the field a</span></div><div class="line">			System.out.println(<span class="keyword">this</span>); <span class="comment">// refers to this entire object</span></div><div class="line">		}</div><div class="line"></div><div class="line">		<span class="keyword">public</span> String <span class="title">toString</span>() {</div><div class="line">			<span class="keyword">return</span> <span class="string">"MyThisTest a="</span> + a; <span class="comment">// refers to the field a</span></div><div class="line">		}</div><div class="line">		</div><div class="line">		MyThisTest increment(){</div><div class="line">			a++;</div><div class="line">			<span class="keyword">return</span> <span class="keyword">this</span>; <span class="comment">// refer to the reference of class MyThisTest</span></div><div class="line">		}</div><div class="line">	}</div></pre></td></tr></table></figure>
+
+<p>从这个例子可以总结<code>this</code>的几种关键用法：</p>
+<ol>
+<li>区分同名变量：<code>this</code>关键字是类内部当中对自己的一个引用，可以方便类中方法访问自己的属性。成员变量与方法内部的变量重名时，希望在方法内部调用成员变量，如<code>this.a = a</code></li>
+<li>返回类自身的引用，在<code>increment()</code>方法中通过<code>this</code>关键字返回了对当前对象的引用</li>
+<li>在当前类的一个构造函数当中调用另一个构造函数，在无参构造器中通过<code>this(42)</code>调用构造器<code>MyThisTest(int a)</code><br><br></li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">class Flower {</div><div class="line">		<span class="keyword">int</span> petals = <span class="number">0</span>;</div><div class="line">		String s = <span class="string">"initial value"</span>;</div><div class="line"></div><div class="line">		Flower() {</div><div class="line">			<span class="keyword">this</span>(<span class="string">"hello"</span>, <span class="number">5</span>);</div><div class="line">		}</div><div class="line"></div><div class="line">		Flower(<span class="keyword">int</span> petals) {</div><div class="line">			<span class="keyword">this</span>.petals = petals;</div><div class="line">		}</div><div class="line"></div><div class="line">		Flower(String s) {</div><div class="line">			<span class="keyword">this</span>.s = s;</div><div class="line">		}</div><div class="line"></div><div class="line">		Flower(String s, <span class="keyword">int</span> petals) {</div><div class="line">			<span class="keyword">this</span>(petals);</div><div class="line">			<span class="comment">/* Error : this(s);</span></div><div class="line">			 * Constructor call must be the first statement in a constructor */</div><div class="line">			<span class="keyword">this</span>.s = s;			</div><div class="line">		}</div><div class="line"></div><div class="line">		<span class="keyword">void</span> print() {</div><div class="line">			<span class="comment">/* Error : this(s);</span></div><div class="line">			 * can not call the constructor in any method other than a constructor. */</div><div class="line">			System.out.println(<span class="keyword">this</span>.petals + <span class="string">" "</span> + s);</div><div class="line">		}</div><div class="line">	}</div></pre></td></tr></table></figure>
+
+<p>上面的例子列出了一些要注意的使用情况：</p>
+<ol>
+<li>在构造方法中调用另一个构造方法，调用动作必须置于最起始的位置。</li>
+<li>在一个构造方法内只能调用一个构造方法。</li>
+<li>不能在构造方法以外的任何方法内调用构造方法。 </li>
+</ol>
+<h2 id="构造器初始化">构造器初始化</h2>
+<h3 id="初始化顺序">初始化顺序</h3>
+<ol>
+<li>变量定义的先后顺序决定了初始化的顺序</li>
+<li>但是不论变量定义在什么位置，都会在任何方法（包括构造器）被调用之前得到初始化</li>
+</ol>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">class House{</div><div class="line">	Window window1 = <span class="keyword">new</span> Window(<span class="number">1</span>);</div><div class="line">	House(){</div><div class="line">		System.out.println(<span class="string">"In House"</span>);</div><div class="line">		window3 = <span class="keyword">new</span> Window(<span class="number">33</span>);</div><div class="line">	}</div><div class="line">	Window window2 = <span class="keyword">new</span> Window(<span class="number">2</span>);</div><div class="line">	<span class="keyword">void</span> f(){System.out.println(<span class="string">"f()"</span>);}</div><div class="line">	Window window3 = <span class="keyword">new</span> Window(<span class="number">3</span>);</div><div class="line">}</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExplicitStatic</span> </span>{</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String[] args){</div><div class="line">		House h = <span class="keyword">new</span> House();</div><div class="line">		h.f();</div><div class="line">	}</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>在House类中，故意将几个Window对象的定义散布到各处，从而证明他们全部会在<strong>调用构造函器或其他方法之前</strong>得到初始化。此外window3在构造器内再次被初始化，第一次引用的对象将被丢弃，作为垃圾回收。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Windows:<span class="number">1</span></div><div class="line">Windows:<span class="number">2</span></div><div class="line">Windows:<span class="number">3</span></div><div class="line">In House</div><div class="line">Windows:<span class="number">33</span></div><div class="line">f()</div></pre></td></tr></table></figure>
+
+<p><br></p>
+<hr>
+<h3 id="静态数据初始化">静态数据初始化</h3>
+<p>无论创建多少个对象，静态数据都只占<strong>一份存储区域</strong>。静态数据初始化遵循以下原则：</p>
+<ul>
+<li>初始化的顺序是先静态对象，而后是非静态对象。</li>
+<li>静态数据成员的初始化只有在必要时才会进行。<ol>
+<li>创建类的对象             </li>
+<li>引用类的静态数据成员</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div></pre></td><td class="code"><pre><div class="line">class Window{</div><div class="line">	Window(<span class="keyword">int</span> marker){</div><div class="line">		System.out.println(<span class="string">"Window:"</span> + marker);</div><div class="line">	}</div><div class="line">	<span class="keyword">void</span> f1(<span class="keyword">int</span> marker){</div><div class="line">		System.out.println(<span class="string">"f1():"</span> + marker);</div><div class="line">	}</div><div class="line">}</div><div class="line"></div><div class="line">class House{</div><div class="line">	<span class="keyword">static</span> Window window1 = <span class="keyword">new</span> Window(<span class="number">1</span>);</div><div class="line">	House(){</div><div class="line">		System.out.println(<span class="string">"Table():"</span>);</div><div class="line">		window2.f1(<span class="number">1</span>);</div><div class="line">	}</div><div class="line">	<span class="keyword">void</span> f2(<span class="keyword">int</span> marker){</div><div class="line">		System.out.println(<span class="string">"f2():"</span> + marker);</div><div class="line">	}</div><div class="line">	<span class="keyword">static</span> Window window2 = <span class="keyword">new</span> Window(<span class="number">2</span>);</div><div class="line">}</div><div class="line"></div><div class="line">class People{</div><div class="line">	Window window3 = <span class="keyword">new</span> Window(<span class="number">3</span>);</div><div class="line">	<span class="keyword">static</span> Window window4 = <span class="keyword">new</span> Window(<span class="number">4</span>);</div><div class="line">	People(){</div><div class="line">		System.out.println(<span class="string">"People():"</span>);</div><div class="line">		window4.f1(<span class="number">2</span>);</div><div class="line">	}</div><div class="line">	<span class="keyword">void</span> f3(<span class="keyword">int</span> marker){</div><div class="line">		System.out.println(<span class="string">"f3():"</span> + marker);</div><div class="line">	}</div><div class="line">	<span class="keyword">static</span> Window window5 = <span class="keyword">new</span> Window(<span class="number">5</span>);</div><div class="line">}</div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExplicitStatic</span> </span>{</div><div class="line">	<span class="keyword">static</span> House house = <span class="keyword">new</span> House();</div><div class="line">	<span class="keyword">static</span> People people = <span class="keyword">new</span> People();</div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String[] args){</div><div class="line">		System.out.println(<span class="string">"Creating new House in main"</span>);</div><div class="line">		<span class="keyword">new</span> People();</div><div class="line">		System.out.println(<span class="string">"Creating new House in main"</span>);</div><div class="line">		<span class="keyword">new</span> People();</div><div class="line">		house.f2(<span class="number">1</span>);</div><div class="line">		people.f3(<span class="number">1</span>);</div><div class="line">	}</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<ol>
+<li>要加载main()，必须加载ExplicitStatic类，然后其静态域house和people被初始化，这导致他们对应的类也被加载。类House内先初始化静态数据成员window1和window2，然后初始化构造器，调用类Window的f1()方法；类People内同理，注意先初始化静态成员，后非静态成员，所以顺序是4,5,3.</li>
+<li>main函数中生成新的People对象，由于之前类People中静态成员加载过，故不再加载。</li>
+</ol>
+<p>输出结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">Window:<span class="number">1</span></div><div class="line">Window:<span class="number">2</span></div><div class="line">Table():</div><div class="line">f1():<span class="number">1</span></div><div class="line">Window:<span class="number">4</span></div><div class="line">Window:<span class="number">5</span></div><div class="line">Window:<span class="number">3</span></div><div class="line">People():</div><div class="line">f1():<span class="number">2</span></div><div class="line">Creating <span class="keyword">new</span> House in main</div><div class="line">Window:<span class="number">3</span></div><div class="line">People():</div><div class="line">f1():<span class="number">2</span></div><div class="line">Creating <span class="keyword">new</span> House in main</div><div class="line">Window:<span class="number">3</span></div><div class="line">People():</div><div class="line">f1():<span class="number">2</span></div><div class="line">f2():<span class="number">1</span></div><div class="line">f3():<span class="number">1</span></div></pre></td></tr></table></figure>
+
+
+<p><br></p>
+<hr>
+<h3 id="显示的静态初始化">显示的静态初始化</h3>
+<p>Java允许将多个静态初始化动作组织成一个特殊的“静态子句”（静态块）。与其他静态初始化动作一样，仅执行一次。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ExplicitStatic</span> </span>{</div><div class="line">    <span class="comment">//  static Cups cup3 = new Cups();</span></div><div class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String[] args){</div><div class="line">		Cups.cup1.f(<span class="number">99</span>);</div><div class="line">	}</div><div class="line">}</div><div class="line"></div><div class="line">class Cup{</div><div class="line">	Cup(<span class="keyword">int</span> marker){</div><div class="line">		System.out.println(<span class="string">"Cup:"</span> + marker);</div><div class="line">	}</div><div class="line">	<span class="keyword">void</span> f(<span class="keyword">int</span> marker){</div><div class="line">		System.out.println(<span class="string">"f:"</span> + marker);</div><div class="line">	}</div><div class="line">}</div><div class="line"></div><div class="line">class Cups{</div><div class="line">	<span class="keyword">static</span> Cup cup1;</div><div class="line">	<span class="keyword">static</span> Cup cup2;</div><div class="line">	<span class="keyword">static</span>{                 <span class="comment">//静态块</span></div><div class="line">		cup1 = <span class="keyword">new</span> Cup(<span class="number">1</span>);</div><div class="line">		cup2 = <span class="keyword">new</span> Cup(<span class="number">2</span>);</div><div class="line">	}</div><div class="line">	Cups(){</div><div class="line">		System.out.println(<span class="string">"Cups"</span>);</div><div class="line">	}</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>程序访问Cups的静态成员cup1，类Cups初始化，首先初始化静态数据成员cup1、cup2，<strong>由于这里并没有生成类Cups的对象</strong>，所以类Cups的无参构造函数并不执行。<br>输出结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Cup:<span class="number">1</span></div><div class="line">Cup:<span class="number">2</span></div><div class="line">f:<span class="number">99</span></div></pre></td></tr></table></figure>
+
+<p>如果把main方法上面的cup3的注释去掉，那么由于生成了Cups类的对象，此时输出结果变成：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Cup:<span class="number">1</span></div><div class="line">Cup:<span class="number">2</span></div><div class="line">Cups</div><div class="line">f:<span class="number">99</span></div></pre></td></tr></table></figure>
+
+<p><br></p>
+<hr>
+<h3 id="非静态实例初始化">非静态实例初始化</h3>
+<p>非静态初始化与静态初始化子句一模一样，只不过少了<code>static</code>关键字。这种语法对于支持“匿名内部类”的初始化时必须的，但是它也使得你可以保证无论调用了哪个显示构造器，某些操作都会发生。同时它不再具备静态对象初始化的优先级，所以可能先初始化构造器，后执行实例初始化。</p>
+<h2 id="待续">待续</h2>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/Java/">Java</a>
+</div>
+
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/coding/">coding</a>
+  </div>
+
+</div>
+
+
+<div class="article-share" id="share">
+
+  <div data-url="https://alexyyek.github.io/2015/01/03/initial/" data-title="JAVA初始化 | AlexYoung&#39;s blog" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2014/12/31/2014/"  title="写在2014边上">
+ <strong>下一篇：</strong><br/> 
+ <span>写在2014边上
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section class="comment">
+	<div class="ds-thread"></div>
+</section>
+
+
+<section class="comment">
+  <div id="disqus_thread">
+    <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  </div>
+</section>
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#this关键字"><span class="toc-number">1.</span> <span class="toc-text">this关键字</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#构造器初始化"><span class="toc-number">2.</span> <span class="toc-text">构造器初始化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化顺序"><span class="toc-number">2.1.</span> <span class="toc-text">初始化顺序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#静态数据初始化"><span class="toc-number">2.2.</span> <span class="toc-text">静态数据初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#显示的静态初始化"><span class="toc-number">2.3.</span> <span class="toc-text">显示的静态初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#非静态实例初始化"><span class="toc-number">2.4.</span> <span class="toc-text">非静态实例初始化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#待续"><span class="toc-number">3.</span> <span class="toc-text">待续</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/Java/" title="Java">Java<sup>17</sup></a></li>
+		
+			<li><a href="/categories/生活感悟/" title="生活感悟">生活感悟<sup>1</sup></a></li>
+		
+			<li><a href="/categories/黑科技/" title="黑科技">黑科技<sup>2</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/coding/" title="coding">coding<sup>10</sup></a></li>
+		
+			<li><a href="/tags/leetcode/" title="leetcode">leetcode<sup>6</sup></a></li>
+		
+			<li><a href="/tags/stack/" title="stack">stack<sup>3</sup></a></li>
+		
+			<li><a href="/tags/skill/" title="skill">skill<sup>3</sup></a></li>
+		
+			<li><a href="/tags/Tree/" title="Tree">Tree<sup>2</sup></a></li>
+		
+			<li><a href="/tags/hash/" title="hash">hash<sup>2</sup></a></li>
+		
+			<li><a href="/tags/Arrays/" title="Arrays">Arrays<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Bit-Manipulation/" title="Bit Manipulation">Bit Manipulation<sup>1</sup></a></li>
+		
+			<li><a href="/tags/heap/" title="heap">heap<sup>1</sup></a></li>
+		
+			<li><a href="/tags/life/" title="life">life<sup>1</sup></a></li>
+		
+			<li><a href="/tags/dfs/" title="dfs">dfs<sup>1</sup></a></li>
+		
+			<li><a href="/tags/consectetur/" title="consectetur">consectetur<sup>0</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+      <li><a href="http://www.jianshu.com/users/c30afb47d730/latest_articles" target="_blank" title="读立写生">读立写生</a></li>
+      <li><a href="http://wmbriggs.com/blog/" target="_blank" title="WILLIAM M. BRIGGS">WILLIAM M. BRIGGS</a></li> 
+	  <li><a href="https://www.byvoid.com/" target="_blank" title="Beyond the Void">Beyond the Void</a></li> 
+	  <li><a href="https://oj.leetcode.com/" target="_blank" title="LeetCode">LeetCode</a></li> 
+	  </ul>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+     <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=120&fansRow=2&ptype=1&speed=0&skin=1&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=1397989251&verifier=23b91096&dpc=1"></iframe>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div align="center">
+<br/>
+	欢迎第
+	<a href="http://www.amazingcounters.com"><img border="0" src="http://cc.amazingcounters.com/counter.php?i=3183127&c=9549694" alt="AmazingCounters.com">
+	</a>
+	位访问者
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Labeling is cheap. Show me the story <br/>
+			 </p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		<a href="https://github.com/Alexyyek" target="_blank" class="icon-github" title="github"></a>
+		
+		
+		
+		
+		
+		
+		<a href="https://www.douban.com/people/57383464" target="_blank" class="icon-douban" title="豆瓣"></a>
+		
+		
+		<a href="https://plus.google.com/118224772589648180000?rel=author" target="_blank" class="icon-google_plus" title="Google+"></a>
+		
+		
+		<a href="mailto:alexyyek@gmail.com" target="_blank" class="icon-email" title="Email Me"></a>
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://zespia.tw/hexo/" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Pacman">Jacman</a> © 2015 
+		
+		<a href="https://alexyyek.github.io/about" target="_blank" title="AlexYoung">AlexYoung</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<a href="#" class="overlay" id="qrcode"></a>',
+  '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+  $('.article-share-qrcode').click(function(){
+    var imgSrc = $('#qrcode-pic').attr('data-src');
+    $('#qrcode-pic').attr('src', imgSrc);
+    $('#qrcode-pic').load(function(){
+        $('.qrcode strong').text(' ');
+    });
+  });
+});     
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"alexyyek"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F140dd3dc3eb949d6e77762baa6202ce9' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+<script type="text/x-mathjax-config"> 
+MathJax.Hub.Config({ 
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]} 
+}); 
+</script>
+<script type="text/javascript"
+   src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+<!-- Analytics Begin -->
+
+
+
+<script type="text/javascript">
+var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
+document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F140dd3dc3eb949d6e77762baa6202ce9' type='text/javascript'%3E%3C/script%3E"));
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+  </body>
+</html>
