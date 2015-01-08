@@ -4,7 +4,7 @@
   <subtitle><![CDATA[当你的才华还撑不起你的野心时，你就应该静下心来学习。]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://alexyyek.github.io/"/>
-  <updated>2015-01-06T12:53:59.781Z</updated>
+  <updated>2015-01-08T14:40:38.299Z</updated>
   <id>http://alexyyek.github.io/</id>
   
   <author>
@@ -13,6 +13,54 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[编译与解释]]></title>
+    <link href="http://alexyyek.github.io/2015/01/08/CompileAndInterpreter/"/>
+    <id>http://alexyyek.github.io/2015/01/08/CompileAndInterpreter/</id>
+    <published>2015-01-08T14:20:56.000Z</published>
+    <updated>2015-01-08T14:40:07.000Z</updated>
+    <content type="html"><![CDATA[<p>很多文章和书籍习惯将高级编程语言分成编译型语言和解释型语言，其实这是有误导成分的，如果你从编程语言底层分析其运行过程，会发现编译与解释往往并不是独立存在的，下面分析理解其内部机理。</p>
+<h2 id="解析器与解释器">解析器与解释器</h2>
+<p>首先来明确两个基本概念：解析器是<a href="http://en.wikipedia.org/wiki/Parsing" target="_blank" rel="external">parser</a>，而解释器是<a href="http://en.wikipedia.org/wiki/Interpreter_computing" target="_blank" rel="external">interpreter</a>。两者不是同一样东西。</p>
+<p><code>解析器</code>是编译器/解释器的重要组成部分，也可以用在IDE之类的地方；其主要作用是进行语法分析，提取出句子的结构。</p>
+<p>广义来说输入一般是程序的源码，输出一般是<a href="http://en.wikipedia.org/wiki/Parse_tree" target="_blank" rel="external">语法树</a>（syntax tree，也叫parse tree等）或<a href="http://en.wikipedia.org/wiki/Abstract_syntax_tree" target="_blank" rel="external">抽象语法树</a>（abstract syntax tree，AST）。</p>
+<p>广义的解析器里一般包含：</p>
+<ol>
+<li>扫描器（scanner，也叫tokenizer或者lexical analyzer，词法分析器）。扫描器的输入一般是文本，经过词法分析，输出是将文本切割为单词的流。</li>
+<li>狭义的解析器（parser，也叫syntax analyzer，语法分析器）。狭义的解析器输入是单词的流，经过语法分析，输出是语法树或者精简过的AST。</li>
+</ol>
+<p>来看一段源码：$i = a + b * c$</p>
+<p><center>　<img src="http://alexyoung.qiniudn.com/parser.png" alt=""> <center></center></center></p>
+<p>其中词法分析由扫描器完成，语法分析由狭义的解析器完成。 </p>
+<p><code>解释器</code>则是实现程序执行的一种实现方式，与<code>编译器</code>相对。它直接实现程序源码的语义，输入是程序源码，输出则是执行源码得到的计算结果；编译器的输入与解释器相同，而输出是用别的语言实现了输入源码的语义的程序。通常编译器的输入语言比输出语言高级，但不一定；也有输入输出是同种语言的情况，此时编译器很可能主要用于优化代码。 </p>
+<p>把同样的源码分别输入到编译器与解释器中，得到的输出不同： </p>
+<p><center> <img src="http://alexyoung.qiniudn.com/parser1.png" alt=""> <center></center></center></p>
+<p>值得留意的是，编译器生成出来的代码执行后的结果应该跟解释器输出的结果一样——它们都应该实现源码所指定的语义。</p>
+<h2 id="“编译器”与“编译型语言”">“编译器”与“编译型语言”</h2>
+<p>一种高级编程语言，从源代码开始，一直到被执行生成相应的动作，大约经历了这几个步骤：</p>
+<p><center> 源代码 ====&gt; 中间表示形式（e.g obj） ====&gt; 基本操作序列 ====&gt; 生成最终动作 <center></center></center></p>
+<p>编译型语言的代表是C，源代码被编译之后生成中间文件（.o和.obj），然后用链接器和汇编器生成机器码，也就是一系列基本操作的序列，机器码最后被执行生成最终动作。编译生成了目标文件，而这个目标文件是针对特定的 CPU 体系的，为 ARM 生成的目标文件，不能被用于 MIPS 的 CPU。这段代码在编译过程中就已经被翻译成了目标 CPU 指令，所以，如果这个程序需要在另外一种 CPU 上面运行，这个代码就必须重新编译。</p>
+<p>解释型的语言以Ruby为例，也经历了这些步骤，不同的是，C语言会把那些从源代码“变”来的基本操作序列（保存）起来，而Ruby直接将这些生成的基本操作序列（Ruby虚拟机）指令丢给Ruby虚拟机执行然后产生动作了。即解释型语言同样也可能存在某种编译过程，但他们编译生成的通常是一种『平台无关』的中间代码，这种代码一般不是针对特定的 CPU 平台，他们是在运行过程中才被翻译成目标 CPU 指令的，因而，在 ARM CPU 上能执行，换到 MIPS 也能执行，换到 X86 也能执行，不需要重新对源代码进行编译。</p>
+<p>所以我们看到的现象是，编译型语言要先编译再运行，而解释性语言直接“运行”源代码。</p>
+<p>换个角度说，采用编译和解释方式实现虚拟机最大的区别就在于是否存下目标代码：编译的话会把输入的源程序以某种单位（例如基本块/函数/方法/trace等）翻译生成为目标代码，并存下来（无论是存在内存中还是磁盘上，无所谓），后续执行可以复用之；解释的话则是把源程序中的指令逐条解释，不生成也不存下目标代码，后续执行没有多少可复用的信息。</p>
+<h2 id="“解释器”与“解释型语言”">“解释器”与“解释型语言”</h2>
+<p>很多资料会说，Python、Ruby、JavaScript都是“解释型语言”，是通过解释器来实现的。这么说其实很容易引起误解：<strong>语言一般只会定义其抽象语义，而不会强制性要求采用某种实现方式</strong>。</p>
+<p>例如说C一般被认为是“编译型语言”，但C的解释器也是存在的，例如<a href="http://www.softintegration.com/" target="_blank" rel="external">Ch</a>。同样，C++也有解释器版本的实现，例如<a href="https://root.cern.ch/drupal/content/cint" target="_blank" rel="external">Cint</a>。 </p>
+<p>一般被称为“解释型语言”的是主流实现为解释器的语言，但并不是说它就无法编译。例如说经常被认为是“解释型语言”的Scheme就有好几种编译器实现，其中率先支持R6RS规范的大部分内容的是Ikarus，支持在x86上编译Scheme；它最终不是生成某种虚拟机的字节码，而是直接生成x86机器码。 </p>
+<p>解释器就是个黑箱，输入是源码，输出就是输入程序的执行结果，对用户来说中间没有独立的“编译”步骤。这非常抽象，内部是怎么实现的都没关系，只要能实现语义就行。你可以写一个C语言的解释器，里面只是先用普通的C编译器把源码编译为in-memory image，然后直接调用那个image去得到运行结果；用户拿过去，发现直接输入源码可以得到源程序对应的运行结果就满足需求了，无需在意解释器这个“黑箱子”里到底是什么。 </p>
+<p>实际上很多解释器内部是以“编译器+虚拟机”的方式来实现的，先通过编译器将源码转换为AST或者字节码，然后由虚拟机去完成实际的执行。<strong>所谓“解释型语言”并不是不用编译，而只是不需要用户显式去使用编译器得到可执行代码而已</strong> 。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[很多文章习惯将高级编程语言分成编译型语言和解释型语言，其实这是有误导成分的。语言一般只会定义其抽象语义，而不会强制性要求采用某种实现方式。]]>
+    
+    </summary>
+    
+      <category term="coding" scheme="http://alexyyek.github.io/tags/coding/"/>
+    
+      <category term="JVM" scheme="http://alexyyek.github.io/categories/JVM/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[博客文章汇总目录]]></title>
@@ -1471,49 +1519,6 @@
 ]]></content>
     <summary type="html">
     <![CDATA[Given a string containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid. The brackets must close in the correct order, `()` and `()[]{}` are all valid but `(]` and `([)]` are not.]]>
-    
-    </summary>
-    
-      <category term="stack" scheme="http://alexyyek.github.io/tags/stack/"/>
-    
-      <category term="leetcode" scheme="http://alexyyek.github.io/tags/leetcode/"/>
-    
-      <category term="Java" scheme="http://alexyyek.github.io/categories/Java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Min Stack]]></title>
-    <link href="http://alexyyek.github.io/2014/11/19/Stack/"/>
-    <id>http://alexyyek.github.io/2014/11/19/Stack/</id>
-    <published>2014-11-19T12:54:53.000Z</published>
-    <updated>2014-11-28T14:50:39.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="Min_Stack">Min Stack</h2>
-<p>Question : Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.<br><a id="more"></a>   </p>
-<ul>
-<li>push(x) — Push element x onto stack.</li>
-<li>pop() — Removes the element on top of the stack.</li>
-<li>top() — Get the top element.</li>
-<li>getMin() — Retrieve the minimum element in the stack.<br><br></li>
-</ul>
-<hr>
-<h3 id="Best_solution">Best solution</h3>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MinStackBest</span> </span>{</div><div class="line">	Stack&lt;Long&gt; stack;</div><div class="line">	<span class="keyword">long</span> min = <span class="number">0</span>;</div><div class="line">	<span class="keyword">public</span> <span class="title">MinStackBest</span>() {</div><div class="line">		stack = <span class="keyword">new</span> Stack&lt;Long&gt;();</div><div class="line">	}</div><div class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">push</span>(<span class="keyword">int</span> x) {</div><div class="line">		<span class="keyword">if</span> (stack.isEmpty()) {</div><div class="line">			stack.push(<span class="number">0</span>L);</div><div class="line">			min = x;</div><div class="line">		} <span class="keyword">else</span> {</div><div class="line">			stack.push(x - min);</div><div class="line">			<span class="keyword">if</span> (x &lt; min) {</div><div class="line">				min = x;</div><div class="line">			}</div><div class="line">		}</div><div class="line">	}</div><div class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pop</span>() {</div><div class="line">		<span class="keyword">if</span> (stack.isEmpty()) {</div><div class="line">			<span class="keyword">return</span>;</div><div class="line">		}</div><div class="line">		<span class="keyword">long</span> pop = stack.pop();</div><div class="line">		<span class="keyword">if</span> (pop &lt; <span class="number">0</span>) {</div><div class="line">			min = min - pop;</div><div class="line">		}</div><div class="line">	}</div><div class="line">	<span class="keyword">public</span> <span class="keyword">int</span> <span class="title">top</span>() {</div><div class="line">		<span class="keyword">long</span> top = stack.peek();</div><div class="line">		<span class="keyword">if</span> (top &gt; <span class="number">0</span>) {</div><div class="line">			<span class="keyword">return</span> (<span class="keyword">int</span>) (min + top);</div><div class="line">		} <span class="keyword">else</span> {</div><div class="line">			<span class="keyword">return</span> (<span class="keyword">int</span>) min;</div><div class="line">		}</div><div class="line">	}</div><div class="line">	<span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getMin</span>() {</div><div class="line">		<span class="keyword">return</span> (<span class="keyword">int</span>) min;</div><div class="line">	}</div></pre></td></tr></table></figure>
-
-<p>The thought is to store the gap between the current value and min value, while the only problem is int is 4 bit<br>so the Max gap = Integer.MAXVALUE - Integer.MINVALUE, and that value beyond int, so the author init the min value as long.</p>
-<p><br></p>
-<h3 id="Another_solution">Another solution</h3>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MinStack</span> </span>{</div><div class="line">	</div><div class="line">	<span class="keyword">static</span> class Element{</div><div class="line">		<span class="keyword">final</span> <span class="keyword">int</span> value;</div><div class="line">		<span class="keyword">final</span> <span class="keyword">int</span> min;</div><div class="line">		Element(<span class="keyword">int</span> value, <span class="keyword">int</span> min){</div><div class="line">			<span class="keyword">this</span>.value = value;</div><div class="line">			<span class="keyword">this</span>.min = min;</div><div class="line">		}</div><div class="line">	}</div><div class="line">	</div><div class="line">	Stack&lt;Element&gt;stack = <span class="keyword">new</span> Stack&lt;Element&gt;();</div><div class="line">	</div><div class="line">	<span class="keyword">public</span> <span class="keyword">void</span> <span class="title">push</span>(<span class="keyword">int</span> x) {</div><div class="line">		<span class="keyword">int</span> min = (stack.isEmpty()) ? x : Math.min(x, stack.peek().min);</div><div class="line">		stack.push(<span class="keyword">new</span> Element(x, min));</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">pop</span>() {</div><div class="line">    	stack.pop();</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">top</span>() {</div><div class="line">    	<span class="keyword">return</span> stack.peek().value;</div><div class="line">    }</div><div class="line"></div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getMin</span>() {</div><div class="line">        <span class="keyword">return</span> stack.peek().min;</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p><br></p>
-<h2 id="Review_Stack">Review Stack</h2>
-<p>Here’s the source code, compose by one Constructor and five Method</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line"><span class="javadoc">/**</span></div><div class="line">	 * 构造函数</div><div class="line">	 */</div><div class="line">	<span class="keyword">public</span> <span class="title">Stack</span>() {</div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="javadoc">/**</span></div><div class="line">	 * push函数：将元素存入栈顶</div><div class="line">	 */</div><div class="line">	<span class="keyword">public</span> E <span class="title">push</span>(E item) {</div><div class="line">		<span class="comment">// 将元素存入栈顶。</span></div><div class="line">		<span class="comment">// addElement()的实现在Vector.java中</span></div><div class="line">		addElement(item);</div><div class="line"></div><div class="line">		<span class="keyword">return</span> item;</div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="javadoc">/**</span></div><div class="line">	 * pop函数：返回栈顶元素，并将其从栈中删除</div><div class="line">	 */</div><div class="line">	<span class="keyword">public</span> <span class="keyword">synchronized</span> E <span class="title">pop</span>() {</div><div class="line">		E obj;</div><div class="line">		<span class="keyword">int</span> len = size();</div><div class="line"></div><div class="line">		obj = peek();</div><div class="line">		<span class="comment">// 删除栈顶元素，removeElementAt()的实现在Vector.java中</span></div><div class="line">		removeElementAt(len - <span class="number">1</span>);</div><div class="line"></div><div class="line">		<span class="keyword">return</span> obj;</div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="javadoc">/**</span></div><div class="line">	 * peek函数：返回栈顶元素，不执行删除操作</div><div class="line">	 */</div><div class="line">	<span class="keyword">public</span> <span class="keyword">synchronized</span> E <span class="title">peek</span>() {</div><div class="line">		<span class="keyword">int</span> len = size();</div><div class="line"></div><div class="line">		<span class="keyword">if</span> (len == <span class="number">0</span>)</div><div class="line">			<span class="keyword">throw</span> <span class="keyword">new</span> EmptyStackException();</div><div class="line">		<span class="comment">// 返回栈顶元素，elementAt()具体实现在Vector.java中</span></div><div class="line">		<span class="keyword">return</span> elementAt(len - <span class="number">1</span>);</div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="javadoc">/**</span></div><div class="line">	 * 栈是否为空</div><div class="line">	 */</div><div class="line">	<span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">empty</span>() {</div><div class="line">		<span class="keyword">return</span> size() == <span class="number">0</span>;</div><div class="line">	}</div><div class="line"></div><div class="line">	<span class="javadoc">/**</span></div><div class="line">	 * 查找“元素o”在栈中的位置：由栈底向栈顶方向数</div><div class="line">	 */</div><div class="line">	<span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">int</span> <span class="title">search</span>(Object o) {</div><div class="line">		<span class="comment">// 获取元素索引，elementAt()具体实现在Vector.java中</span></div><div class="line">		<span class="keyword">int</span> i = lastIndexOf(o);</div><div class="line"></div><div class="line">		<span class="keyword">if</span> (i &gt;= <span class="number">0</span>) {</div><div class="line">			<span class="keyword">return</span> size() - i;</div><div class="line">		}</div><div class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">	}</div></pre></td></tr></table></figure>
-
-]]></content>
-    <summary type="html">
-    <![CDATA[<h2 id="Min_Stack">Min Stack</h2>
-<p>Question : Design a stack that supports push, pop, top, and retrieving the minimum element in constant time.<br>]]>
     
     </summary>
     
