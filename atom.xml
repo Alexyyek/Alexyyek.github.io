@@ -4,7 +4,7 @@
   <subtitle><![CDATA[当你的才华还撑不起你的野心时，你就应该静下心来学习。]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://alexyyek.github.io/"/>
-  <updated>2015-01-21T05:54:26.676Z</updated>
+  <updated>2015-03-04T14:34:42.232Z</updated>
   <id>http://alexyyek.github.io/</id>
   
   <author>
@@ -13,6 +13,96 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[Java多态性]]></title>
+    <link href="http://alexyyek.github.io/2015/03/04/Polymorphism/"/>
+    <id>http://alexyyek.github.io/2015/03/04/Polymorphism/</id>
+    <published>2015-03-04T13:39:25.000Z</published>
+    <updated>2015-03-04T14:34:19.000Z</updated>
+    <content type="html"><![CDATA[<p>面向对象编程有三大特性：封装、继承、多态。</p>
+<p>封装隐藏了类的内部实现机制，可以在不影响使用的情况下改变类的内部结构，同时也保护了数据。对外界而已它的内部细节是隐藏的，暴露给外界的只是它的访问方法。</p>
+<p>继承是为了重用父类代码。两个类若存在IS-A的关系就可以使用继承。同时继承也为实现多态做了铺垫。</p>
+<p>多态就是指程序中定义的引用变量所指向的具体类型和通过该引用变量发出的方法调用在编程时并不确定，而是在程序运行期间才确定，即一个引用变量倒底会指向哪个类的实例对象，该引用变量发出的方法调用到底是哪个类中实现的方法，必须在由程序运行期间才能决定。因为在程序运行时才确定具体的类，这样，不用修改源程序代码，就可以让引用变量绑定到各种不同的类实现上，从而导致该引用调用的具体方法随之改变，即不修改程序代码就可以改变程序运行时所绑定的具体代码，让程序可以选择多个运行状态，这就是多态性。</p>
+<p>多态也称作动态绑定。</p>
+<h2 id="静态绑定">静态绑定</h2>
+<p>静态绑定又名前期绑定。</p>
+<p>如果编译器可以在编译阶段就完成绑定，就叫作静态绑定或前期绑定。基本上实例方法都在运行时绑定。</p>
+<p>所有的静态方法<code>static</code>都在编译时绑定，所以静态方法是静态绑定的。因为静态方法是属于类的方法，可以通过类名来访问(我们也应该使用类名来访问静态方法，而不是使用对象引用来访问)，所以要访问它们就必须在编译阶段就使用编译类型信息来进行绑定。这也就解释了为什么静态方法实际上不能被重写。</p>
+<p>为了防止方法被他人覆盖，我们会将某个方法声明为<code>final</code>（private方法属于final方法），这样做可以有效的关闭动态绑定，或者说告诉编译器不需要对其进行动态绑定。这样编译器就可以为final方法调用生成更有效的代码。</p>
+<p>类似的，访问成员变量也是静态绑定的，因为Java不支持(实际上是不鼓励)成员变量的多态行为。下面看个例子：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">class SuperClass{</div><div class="line">...</div><div class="line"><span class="keyword">public</span> String someVariable = <span class="string">"Some Variable in SuperClass"</span>;</div><div class="line">...</div><div class="line">}</div><div class="line"> </div><div class="line">class SubClass extends SuperClass{</div><div class="line">...</div><div class="line"><span class="keyword">public</span> String someVariable = <span class="string">"Some Variable in SubClass"</span>;</div><div class="line">...</div><div class="line">}</div><div class="line"></div><div class="line">SuperClass superClass1 = <span class="keyword">new</span> SuperClass();</div><div class="line">SuperClass superClass2 = <span class="keyword">new</span> SubClass();</div><div class="line"> </div><div class="line">System.out.println(superClass1.someVariable);</div><div class="line">System.out.println(superClass2.someVariable);</div></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Some Variable in SuperClass</div><div class="line">Some Variable in SuperClass</div></pre></td></tr></table></figure>
+
+<p>我们可以发现成员变量由对象引用声明的类型决定，是由编译器在编译阶段就知道的信息，所以是静态绑定。另外一个静态绑定的例子是私有的方法，因为它们不会被继承，编译器在编译阶段就完成私有方法的绑定了。</p>
+<h2 id="动态绑定">动态绑定</h2>
+<p>动态绑定又名后期绑定。</p>
+<p>动态绑定是指编译器在编译阶段不知道要调用哪个方法，直到运行时才能确定。Java中除了<code>static</code>方法和<code>final</code>方法之外，其他所有方法都是后期绑定。让我们用个例子来解释。譬如我们有一个叫作’SuperClass’的父类，还有一个继承它的子类’SubClass’。现在SuperClass引用也可以赋给SubClass类型的对象。如果SuperClass中有个someMethod()的方法，而子类也重写了这个方法，那么当调用SuperClass引用的这个方法的时候，编译器不知道该调用父类还是子类的方法，因为编译器不知道对象到底是什么类型，只有到运行时才知道这个引用指向什么对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">SuperClass superClass1 = <span class="keyword">new</span> SuperClass();</div><div class="line">SuperClass superClass2 = <span class="keyword">new</span> SubClass();</div><div class="line">...</div><div class="line"> </div><div class="line">superClass1.someMethod(); <span class="comment">// SuperClass version is called</span></div><div class="line">superClass2.someMethod(); <span class="comment">// SubClass version is called</span></div></pre></td></tr></table></figure>
+
+<p>我们可以看到虽然对象引用superClass1和superClass2都是SuperClass类型的，但是在运行时它们分别指向SuperClass和SubClass类型的对象。</p>
+<p>所以在编译阶段，编译器不清楚调用引用的someMethod()到底是调用子类还是父类的该方法。</p>
+<p>所以方法的动态绑定是基于实际的对象类型，而不是它们声明的对象引用类型。</p>
+<h2 id="缺陷">缺陷</h2>
+<ul>
+<li>“覆盖”私有方法</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PrivateOverride</span></span>{</div><div class="line">    <span class="keyword">private</span> <span class="keyword">void</span> <span class="title">f</span>(){system.out.println(<span class="string">"private f()"</span>);}</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String[] args){</div><div class="line">    PrivateOverride po = <span class="keyword">new</span> PrivateOverride();</div><div class="line">    po.f();</div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line">class Derived extends PrivateOverride{</div><div class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">f</span>(){system.out.println(<span class="string">"public f()"</span>);}</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>输出</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="title">f</span>()</div></pre></td></tr></table></figure>
+
+<p>我们期望输出public f()，<strong>但是private方法被自动认为是final方法，而且对导出类是自动屏蔽的</strong>。</p>
+<p>因此Derived中的f()方法是一个全新的方法，虽然和PrivateOverride中的方法同名…</p>
+<p>所以在导出类中，对于基类的private方法，最好采用不同的名字。</p>
+<ul>
+<li>域与静态方法：如静态绑定中例子一样，任何域访问操作都是由编译器解析，因此不是多态的。</li>
+</ul>
+<h2 id="构造器与多态">构造器与多态</h2>
+<h3 id="构造器的调用顺序">构造器的调用顺序</h3>
+<p>下面的例子展示了组合、继承以及多态在构建顺序上的作用：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">class Meal{</div><div class="line">    Meal(){print(<span class="string">"Meal()"</span>);}</div><div class="line">}</div><div class="line"></div><div class="line">class Bread{</div><div class="line">    Bread(){print(<span class="string">"Bread()"</span>);}</div><div class="line">}</div><div class="line"></div><div class="line">class Cheese{</div><div class="line">    Cheese(){print(<span class="string">"Cheese()"</span>);}</div><div class="line">}</div><div class="line"></div><div class="line">class Lunch extends Meal{</div><div class="line">    Lunch(){print(<span class="string">"Lunch()"</span>);}</div><div class="line">}</div><div class="line"></div><div class="line">class PortableLunch extends Meal{</div><div class="line">    PortableLunch(){print(<span class="string">"PortableLunch()"</span>);}</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Sandwich</span> <span class="title">extend</span> <span class="title">PortableLunch</span> </span>{</div><div class="line">    <span class="keyword">private</span> Bread b = <span class="keyword">new</span> Bread;</div><div class="line">    <span class="keyword">private</span> Cheese c = <span class="keyword">new</span> Cheese;</div><div class="line">    <span class="keyword">public</span> <span class="title">Sandwich</span>(){print(<span class="string">"Sandwich()"</span>)}</div><div class="line">    </div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String[] args)  {</div><div class="line">        <span class="keyword">new</span> Sandwich();</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<ol>
+<li>调用基类构造器</li>
+<li>按声明顺序调用成员的初始化方法</li>
+<li>调用导出类构造器的主体</li>
+</ol>
+<p>因此输出结果为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Meal()</div><div class="line">Lunch()</div><div class="line">PortableLunch()</div><div class="line">Bread()</div><div class="line">Cheese()</div><div class="line">Sandwich()</div></pre></td></tr></table></figure>
+
+<h3 id="构造器内部的多态方法的行为">构造器内部的多态方法的行为</h3>
+<p>如果在一个构造器内部调用正在构造的对象的动态绑定方法，就要用到那个方法被覆盖后的定义。然后，这个方法所操纵的成员可能还未进行初始化——这可能会导致灾难。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">class Glyph {</div><div class="line">    <span class="keyword">void</span> draw() {print(<span class="string">"Glyph()"</span>);}</div><div class="line">    Glyph() {</div><div class="line">    print(<span class="string">"Glyph() before draw()"</span>);</div><div class="line">    draw();</div><div class="line">    print(<span class="string">"Glyph() after draw()"</span>);</div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line">class RoundGlyph extends Glyph  {</div><div class="line">    <span class="keyword">private</span> <span class="keyword">int</span> radius = <span class="number">1</span>;</div><div class="line">    RoundGlyph(<span class="keyword">int</span> r)   {</div><div class="line">        radius = r;</div><div class="line">        print(<span class="string">"RoundGlyph.RoundGlyph.radius = "</span> + radius);</div><div class="line">    }</div><div class="line">    </div><div class="line">    <span class="keyword">void</span> draw() {</div><div class="line">        print(<span class="string">"RoundGlyph.RoundGlyph.radius = "</span> + radius);</div><div class="line">    }</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PlyConstructor</span> </span>{</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String[] args){</div><div class="line">        <span class="keyword">new</span> RoundGlyph(<span class="number">5</span>);</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>上一节讲述的初始化顺序其实并不完整，实际过程是：</p>
+<ol>
+<li>在其他任何事物发生之前，将分配给对象的存储空间初始化为二进制的零</li>
+<li>调用基类构造器。由于步骤1，发现radius是0</li>
+<li>按照声明的顺序调用成员的初始化方法。</li>
+<li>调用导出类的构造器主题</li>
+</ol>
+<p>输出结果为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">Glyph() before draw()</div><div class="line">RoundGlyph.RoundGlyph.radius = <span class="number">0</span></div><div class="line">Glyph() after draw()</div><div class="line">RoundGlyph.RoundGlyph.radius = <span class="number">5</span></div></pre></td></tr></table></figure>
+
+<p><br></p>
+<blockquote>
+<p>Thinking in Java : As a result, a good guideline for constructors is, “Do as little as possible to set the object into a good state, and if you can possibly avoid it, don’t call any other methods in this class.” </p>
+</blockquote>
+<p>The only safe methods to call inside a constructor are those that are final in the base class. (This also applies to private methods, which are automatically final.) These cannot be overridden and thus cannot produce this kind of surprise. You may not always be able to follow this guideline, but it’s something to strive towards.</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[多态是一项让程序员将改变的事物与未变的事物分离开来的重要技术。]]>
+    
+    </summary>
+    
+      <category term="coding" scheme="http://alexyyek.github.io/tags/coding/"/>
+    
+      <category term="Java" scheme="http://alexyyek.github.io/categories/Java/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[Java复用类]]></title>
@@ -1668,33 +1758,6 @@
     </summary>
     
       <category term="dfs" scheme="http://alexyyek.github.io/tags/dfs/"/>
-    
-      <category term="leetcode" scheme="http://alexyyek.github.io/tags/leetcode/"/>
-    
-      <category term="Java" scheme="http://alexyyek.github.io/categories/Java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Trapping Rain Water]]></title>
-    <link href="http://alexyyek.github.io/2014/12/04/TrappingRainWater/"/>
-    <id>http://alexyyek.github.io/2014/12/04/TrappingRainWater/</id>
-    <published>2014-12-04T07:17:18.000Z</published>
-    <updated>2014-12-04T07:49:17.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="Trapping_Rain_Water">Trapping Rain Water</h2>
-<p>Question : Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it is able to trap after raining.<br><a id="more"></a><br>For example:<br>Given [0,1,0,2,1,0,1,3,2,1,2,1], return 6.</p>
-<p><img src="http://leetcode.com/wp-content/uploads/2012/08/rainwatertrap.png" alt=""></p>
-<h3 id="Best_Solution">Best Solution</h3>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Solution</span> </span>{</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> <span class="title">trap</span>(<span class="keyword">int</span>[] A) {</div><div class="line">		<span class="keyword">int</span> a = <span class="number">0</span>;</div><div class="line">		<span class="keyword">int</span> b = A.length - <span class="number">1</span>;</div><div class="line">		<span class="keyword">int</span> max = <span class="number">0</span>;</div><div class="line">		<span class="keyword">int</span> leftmax = <span class="number">0</span>;</div><div class="line">		<span class="keyword">int</span> rightmax = <span class="number">0</span>;</div><div class="line">		<span class="keyword">while</span> (a &lt;= b) {</div><div class="line">			leftmax = Math.max(leftmax, A[a]);</div><div class="line">			rightmax = Math.max(rightmax, A[b]);</div><div class="line">			<span class="keyword">if</span> (leftmax &lt; rightmax) {</div><div class="line">				max += (leftmax - A[a]); </div><div class="line">				a++;</div><div class="line">			} <span class="keyword">else</span> {</div><div class="line">				max += (rightmax - A[b]);</div><div class="line">				b--;</div><div class="line">			}</div><div class="line">		}</div><div class="line">		<span class="keyword">return</span> max;</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p><strong>Analyze</strong> : I calculated the stored water at each index a and b in my code. At the start of every loop, I update the current maximum height from left side (that is from A[0,1…a]) and the maximum height from right side(from A[b,b+1…n-1]). if(leftmax &lt; rightmax) then, at least (leftmax-A[a]) water can definitely be stored no matter what happens between [a,b] since we know there is a barrier at the rightside(rightmax &gt; leftmax).</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[Given n non-negative integers representing an elevation map where the width of each bar is 1, compute how much water it is able to trap after raining.]]>
-    
-    </summary>
-    
-      <category term="Arrays" scheme="http://alexyyek.github.io/tags/Arrays/"/>
     
       <category term="leetcode" scheme="http://alexyyek.github.io/tags/leetcode/"/>
     
