@@ -4,7 +4,7 @@
   <subtitle><![CDATA[当你的才华还撑不起你的野心时，你就应该静下心来学习。]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://alexyyek.github.io/"/>
-  <updated>2015-03-04T14:34:42.232Z</updated>
+  <updated>2015-03-06T13:41:29.224Z</updated>
   <id>http://alexyyek.github.io/</id>
   
   <author>
@@ -15,11 +15,179 @@
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
   
   <entry>
+    <title><![CDATA[抽象类和接口]]></title>
+    <link href="http://alexyyek.github.io/2015/03/06/Interface/"/>
+    <id>http://alexyyek.github.io/2015/03/06/Interface/</id>
+    <published>2015-03-06T13:31:27.000Z</published>
+    <updated>2015-03-06T13:38:48.000Z</updated>
+    <content type="html"><![CDATA[<blockquote>
+<p>Thinking in Java ： 接口和内部类为我们提供了一种将接口与实现分离的更加结构化的方法。</p>
+</blockquote>
+<h2 id="抽象类">抽象类</h2>
+<p>在面向对象的概念中，所有的对象都是通过类来描绘的，但是反过来，并不是所有的类都是用来描绘对象的，如果一个类中没有包含足够的信息来描绘一个具体的对象，这样的类就是抽象类。</p>
+<p>抽象方法的声明规则：抽象方法只包含一个方法名，而没有方法体（无花括号）：abstract void f(); </p>
+<p>以抽象类Shapes为例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Shapes</span> </span>{</div><div class="line">    <span class="keyword">public</span> <span class="keyword">int</span> width, height;</div><div class="line">    <span class="keyword">public</span> <span class="title">Shapes</span>(<span class="keyword">int</span> width, <span class="keyword">int</span> height) {</div><div class="line">        <span class="keyword">this</span>.width = width;</div><div class="line">        <span class="keyword">this</span>.height = height;</div><div class="line">    }</div><div class="line">    <span class="keyword">abstract</span> <span class="keyword">double</span> getArea();</div><div class="line">    <span class="keyword">abstract</span> <span class="keyword">double</span> getPerimeter();</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>当Square类继承Shapes时，它提供了getArea和getPerimeter方法的实现：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Square</span> <span class="keyword">extends</span> <span class="title">Shapes</span> </span>{</div><div class="line">    <span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getArea</span>() {</div><div class="line">        <span class="keyword">return</span> (width * height);</div><div class="line">    }</div><div class="line">    <span class="keyword">public</span> <span class="keyword">double</span> <span class="title">getPerimeter</span>() {</div><div class="line">        <span class="keyword">return</span> (<span class="number">2</span> * width + <span class="number">2</span> * height);</div><div class="line">    }</div><div class="line">    <span class="keyword">public</span> <span class="title">Square</span>(<span class="keyword">int</span> width, <span class="keyword">int</span> height) {</div><div class="line">        <span class="keyword">super</span>(width, height);</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>包含抽象方法的类叫做抽象类，如果一个类包含一个或多个抽象方法，该类必须被限定为抽象的。</p>
+<p>如果从一个抽象类继承，并想创建该导出类的对象，那么就必须为基类中的所有抽象方法提供方法定义。如果选择不做，那么导出类便也是抽象类，编译器会强制用<code>abstract</code>关键字来限定这个类。</p>
+<p>抽象类不能被实例化，如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Public class Test{</div><div class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span>(String[] args)  {</div><div class="line">        Shapes s1 = <span class="keyword">new</span> Square();</div><div class="line">        Square s2 = <span class="keyword">new</span> Square();</div><div class="line">        </div><div class="line">        s1.getArea();</div><div class="line">        s2.getPerimeter();</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>在使用抽象类时需要注意几点：</p>
+<ol>
+<li>抽象类不能被实例化，实例化的工作应该交由它的子类来完成。但类的其它功能依然存在，成员变量、成员方法和构造方法的访问方式和普通类一样。</li>
+<li>抽象方法必须由子类来进行<code>重写</code>。</li>
+<li>只要包含一个抽象方法的抽象类，该方法必须要定义成抽象类，不管是否还包含有其他方法。</li>
+<li>抽象类中可以包含具体的方法，当然也可以不包含抽象方法。</li>
+<li>abstract不能与final并列修饰同一个类。</li>
+<li>abstract不能与private、static、final或native并列修饰同一个方法。</li>
+</ol>
+<blockquote>
+<p> Think in java：创建抽象类和抽象方法非常有用,因为他们可以使类的抽象性明确起来,并告诉用户和编译器打算怎样使用他们.抽象类还是有用的重构器,因为它们使我们可以很容易地将公共方法沿着继承层次结构向上移动。</p>
+</blockquote>
+<h2 id="接口">接口</h2>
+<p>接口是一种比抽象类更加抽象的一系列方法的声明，是一些方法特征的集合，一个接口只有方法的特征没有方法的实现，因此这些方法可以在不同的地方被不同的类实现，而这些实现可以具有不同的行为（功能）。</p>
+<p>接口建立类与类之间的协议，它所提供的只是一种形式，而没有具体的实现。实现该接口的实现类<strong>必须要实现该接口的所有方法</strong>。</p>
+<p>接口是抽象类的延伸，Java了保证数据安全是不能多重继承的，也就是说继承只能存在一个父类。但是接口不同，一个类可以同时实现多个接口，不管这些接口之间有没有关系，所以接口弥补了抽象类不能多重继承的缺陷，但是推荐继承和接口共同使用，因为这样既可以保证数据安全性又可以实现多重继承。</p>
+<p>以Externalizable接口为例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Externalizable</span> <span class="keyword">extends</span> <span class="title">Serializable</span> </span>{</div><div class="line"></div><div class="line">    <span class="keyword">void</span> writeExternal(ObjectOutput out) <span class="keyword">throws</span> IOException;</div><div class="line"> </div><div class="line">    <span class="keyword">void</span> readExternal(ObjectInput in) <span class="keyword">throws</span> IOException, ClassNotFoundException;</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>当你实现这个接口时，你就需要实现上面的两个方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Employee</span> <span class="keyword">implements</span> <span class="title">Externalizable</span> </span>{</div><div class="line"> </div><div class="line">    <span class="keyword">int</span> employeeId;</div><div class="line">    String employeeName;</div><div class="line"> </div><div class="line">    <span class="annotation">@Override</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">readExternal</span>(ObjectInput in) <span class="keyword">throws</span> IOException, ClassNotFoundException {</div><div class="line">        employeeId = in.readInt();</div><div class="line">        employeeName = (String) in.readObject();</div><div class="line"> </div><div class="line">    }</div><div class="line"> </div><div class="line">    <span class="annotation">@Override</span></div><div class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title">writeExternal</span>(ObjectOutput out) <span class="keyword">throws</span> IOException {</div><div class="line"> </div><div class="line">        out.writeInt(employeeId);</div><div class="line">        out.writeObject(employeeName);</div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>在使用接口过程中需要注意如下几个问题：</p>
+<ol>
+<li>Interface的所有<strong>方法访问权限</strong>自动被声明为<code>public</code>。确切的说只能为public，当然你可以显示的声明为protected、private，但是编译会出错.</li>
+<li>接口中可以定义“成员变量”，或者说是不可变的常量，因为接口中的“成员变量”会自动变为为<code>public static final</code>。可以通过类命名直接访问：ImplementClass.name。</li>
+<li>接口中不存在实现的方法。</li>
+<li>实现接口的非抽象类必须要实现该接口的所有方法。抽象类可以不用实现。</li>
+<li>不能使用new操作符实例化一个接口，但可以声明一个接口变量，该变量必须引用(refer to)一个实现该接口的类的对象。可以使用 instanceof 检查一个对象是否实现了某个特定的接口。例如：if(anObject instanceof Comparable)。</li>
+<li>在实现多接口的时候一定要避免方法名的重复。</li>
+</ol>
+<h2 id="抽象类与接口的区别">抽象类与接口的区别</h2>
+<p>尽管抽象类和接口之间存在较大的相同点，甚至有时候还可以互换，但这样并不能弥补他们之间的差异之处。下面将从语法层次和设计层次两个方面对抽象类和接口进行阐述。</p>
+<h3 id="语法层次">语法层次</h3>
+<p>在语法层次，java语言对于抽象类和接口分别给出了不同的定义。下面已Demo类来说明他们之间的不同之处。<br>使用抽象类来实现:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Demo</span> </span>{</div><div class="line">    <span class="keyword">abstract</span> <span class="keyword">void</span> method1();</div><div class="line">    </div><div class="line">    <span class="keyword">void</span> method2(){</div><div class="line">        <span class="comment">//具体实现</span></div><div class="line">    }</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>使用接口来实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">interface Demo {</div><div class="line">    <span class="keyword">void</span> method1();</div><div class="line">    <span class="keyword">void</span> method2();</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>抽象类方式中，抽象类可以拥有任意范围的成员数据，同时也可以拥有自己的非抽象方法.</p>
+<p>但是接口方式中，它仅能够有静态、不能修改的成员数据（但是我们一般是不会在接口中使用成员数据），同时它所有的方法都必须是抽象的。在某种程度上来说，接口是抽象类的特殊化。</p>
+<p>对子类而言，它只能继承一个抽象类（这是java为了数据安全而考虑的），但是却可以实现多个接口。</p>
+<p><br></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">抽象类</th>
+<th style="text-align:center">接口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">实现</td>
+<td style="text-align:center">子类使用extends关键字来继承抽象类,它需要提供抽象类中所有声明的方法的实现。</td>
+<td style="text-align:center">子类使用关键字implements来实现接口,它需要提供接口中所有声明的方法的实现</td>
+</tr>
+<tr>
+<td style="text-align:center">构造器</td>
+<td style="text-align:center">抽象类可以有构造器</td>
+<td style="text-align:center">接口不能有构造器</td>
+</tr>
+<tr>
+<td style="text-align:center">方法</td>
+<td style="text-align:center">抽象类中可以拥有自己的成员变量和非抽象类方法</td>
+<td style="text-align:center">接口中只能存在静态的不可变的成员数据（不过一般都不在接口中定义成员数据），而且它的所有方法都是抽象的</td>
+</tr>
+<tr>
+<td style="text-align:center">访问修饰符</td>
+<td style="text-align:center">抽象方法可以有public、protected和default这些修饰符</td>
+<td style="text-align:center">接口方法默认修饰符是public。你不可以使用其它修饰符。</td>
+</tr>
+<tr>
+<td style="text-align:center">main方法</td>
+<td style="text-align:center">抽象方法可以有main方法并且我们可以运行它</td>
+<td style="text-align:center">接口没有main方法，因此我们不能运行它</td>
+</tr>
+<tr>
+<td style="text-align:center">多继承</td>
+<td style="text-align:center">抽象方法可以继承一个类和实现多个接口</td>
+<td style="text-align:center">接口只可以继承一个或多个其它接口</td>
+</tr>
+<tr>
+<td style="text-align:center">速度</td>
+<td style="text-align:center">它比接口速度要快</td>
+<td style="text-align:center">接口是稍微有点慢的，因为它需要时间去寻找在类中实现的方法。</td>
+</tr>
+</tbody>
+</table>
+<p><br></p>
+<h3 id="设计层次">设计层次</h3>
+<p>上面只是从语法层次和编程角度来区分它们之间的关系，这些都是低层次的，要真正使用好抽象类和接口，我们就必须要从较高层次来区分了。只有从设计理念的角度才能看出它们的本质所在。一般来说他们存在如下三个不同点：</p>
+<ol>
+<li><strong><code>抽象层次不同</code></strong>。抽象类是对类抽象，而接口是对行为的抽象。抽象类是对整个类整体进行抽象，包括属性、行为，但是接口却是对类局部（行为）进行抽象。</li>
+<li><strong><code>跨域不同</code></strong>。抽象类所跨域的是具有相似特点的类，而接口却可以跨域不同的类。我们知道抽象类是从子类中发现公共部分，然后泛化成抽象类，子类继承该父类即可，但是接口不同。实现它的子类可以不存在任何关系，共同之处。例如猫、狗可以抽象成一个动物类抽象类，具备叫的方法。鸟、飞机可以实现飞Fly接口，具备飞的行为，这里我们总不能将鸟、飞机共用一个父类吧！<strong>所以说抽象类所体现的是一种继承关系</strong>，要想使得继承关系合理，父类和派生类之间必须存在”is-a” 关系，即父类和派生类在概念本质上应该是相同的。对于接口则不然，并不要求接口的实现者和接口定义在概念本质上是一致的，仅仅是实现了接口定义的契约而已。</li>
+<li><strong><code>设计层次不同</code></strong>。对于抽象类而言，它是自下而上来设计的，我们要先知道子类才能抽象出父类，而接口则不同，它根本就不需要知道子类的存在，只需要定义一个规则即可，至于什么子类、什么时候怎么实现它一概不知。比如我们只有一个猫类在这里，如果你这是就抽象成一个动物类，是不是设计有点儿过度？我们起码要有两个动物类，猫、狗在这里，我们在抽象他们的共同点形成动物抽象类吧！所以说抽象类往往都是通过重构而来的！但是接口就不同，比如说飞，我们根本就不知道会有什么东西来实现这个飞接口，怎么实现也不得而知，我们要做的就是事前定义好飞的行为接口。<strong>所以说抽象类是自底向上抽象而来的，接口是自顶向下设计出来的</strong>。</li>
+</ol>
+<p>为了更好的阐述他们之间的区别，下面将使用一个例子来说明:</p>
+<p>我们有一个Door的抽象概念，它具备两个行为open()和close()，此时我们可以定义通过抽象类和接口来定义这个抽象概念：</p>
+<p>抽象类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">abstract</span> class Door{</div><div class="line">    <span class="keyword">abstract</span> <span class="keyword">void</span> open();</div><div class="line">    <span class="keyword">abstract</span> <span class="keyword">void</span> close();</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>接口：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">interface Door{</div><div class="line">    <span class="keyword">void</span> open();</div><div class="line">    <span class="keyword">void</span> close();</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>至于其他的具体类可以通过使用extends使用抽象类方式定义Door或者Implements使用接口方式定义Door，这里发现两者并没有什么很大的差异。</p>
+<p>但是现在如果我们需要门具有报警的功能，那么该如何实现呢？</p>
+<ul>
+<li>解决方案一：给Door增加一个报警方法:clarm();</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">abstract</span> class Door{</div><div class="line">    <span class="keyword">abstract</span> <span class="keyword">void</span> open();</div><div class="line">    <span class="keyword">abstract</span> <span class="keyword">void</span> close();</div><div class="line">    <span class="keyword">abstract</span> <span class="keyword">void</span> clarm();</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">interface Door{</div><div class="line">    <span class="keyword">void</span> open();</div><div class="line">    <span class="keyword">void</span> close();</div><div class="line">    <span class="keyword">void</span> clarm();</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>这种方法违反了面向对象设计中的一个核心原则：ISP (Interface Segregation Principle)，在Door的定义中把Door概念本身固有的行为方法和另外一个概念”报警器”的行为方 法混在了一起。这样引起的一个问题是那些仅仅依赖于Door这个概念的模块会因为”报警器”这个概念的改变而改变，反之依然。</p>
+<p>ISP（Interface Segregation Principle）：面向对象的一个核心原则。它表明使用多个专门的接口比使用单一的总接口要好。一个类对另外一个类的依赖性应当是建立在最小的接口上的。一个接口代表一个角色，不应当将不同的角色都交给一个接口。没有关系的接口合并在一起，形成一个臃肿的大接口，这是对角色和接口的污染。</p>
+<ul>
+<li>解决方案二</li>
+</ul>
+<p>既然open()、close()和alarm()属于两个不同的概念，那么我们依据ISP原则将它们分开定义在两个代表两个不同概念的抽象类里面，定义的方式有三种：</p>
+<ol>
+<li>两个都使用抽象类来定义。</li>
+<li>两个都使用接口来定义。</li>
+<li>一个使用抽象类定义，一个是用接口定义。</li>
+</ol>
+<p>由于Java不支持多继承所以第一种是不可行的。后面两种都是可行的，<strong>但是选择何种就反映了你对问题域本质的理解</strong>。</p>
+<p>如果选择第二种都是接口来定义，那么就反映了两个问题：1、我们可能没有理解清楚问题域，AlarmDoor在概念本质上到底是门还报警器。2、如果我们对问题域的理解没有问题，比如我们在分析时确定了AlarmDoor在本质上概念是一致的，那么我们在设计时就没有正确的反映出我们的设计意图。因为你使用了两个接口来进行定义，他们概念的定义并不能够反映上述含义。</p>
+<p>第三种，如果我们对问题域的理解是这样的：AlarmDoor本质上Door，但同时它也拥有报警的行为功能，这个时候我们使用第三种方案恰好可以阐述我们的设计意图。AlarmDoor本质是们，所以对于这个概念我们使用抽象类来定义，同时AlarmDoor具备报警功能，说明它能够完成报警概念中定义的行为功能，所以alarm可以使用接口来进行定义。如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">abstract</span> class Door{</div><div class="line">    <span class="keyword">abstract</span> <span class="keyword">void</span> open();</div><div class="line">    <span class="keyword">abstract</span> <span class="keyword">void</span> close();</div><div class="line">}</div><div class="line"></div><div class="line">interface Alarm{</div><div class="line">    <span class="keyword">void</span> alarm();</div><div class="line">}</div><div class="line"></div><div class="line">class AlarmDoor extends Door implements Alarm{</div><div class="line">    <span class="keyword">void</span> open(){}</div><div class="line">    <span class="keyword">void</span> close(){}</div><div class="line">    <span class="keyword">void</span> alarm(){}</div><div class="line">}</div></pre></td></tr></table></figure>
+
+<p>这种实现方式基本上能够明确的反映出我们对于问题领域的理解，正确的揭示我们的设计意图。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[Interfaces and abstract classes provide more structured way to separate interface from implementation.]]>
+    
+    </summary>
+    
+      <category term="coding" scheme="http://alexyyek.github.io/tags/coding/"/>
+    
+      <category term="Java" scheme="http://alexyyek.github.io/categories/Java/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[Java多态性]]></title>
     <link href="http://alexyyek.github.io/2015/03/04/Polymorphism/"/>
     <id>http://alexyyek.github.io/2015/03/04/Polymorphism/</id>
     <published>2015-03-04T13:39:25.000Z</published>
-    <updated>2015-03-04T14:34:19.000Z</updated>
+    <updated>2015-03-04T14:36:31.000Z</updated>
     <content type="html"><![CDATA[<p>面向对象编程有三大特性：封装、继承、多态。</p>
 <p>封装隐藏了类的内部实现机制，可以在不影响使用的情况下改变类的内部结构，同时也保护了数据。对外界而已它的内部细节是隐藏的，暴露给外界的只是它的访问方法。</p>
 <p>继承是为了重用父类代码。两个类若存在IS-A的关系就可以使用继承。同时继承也为实现多态做了铺垫。</p>
@@ -92,6 +260,7 @@
 <p>Thinking in Java : As a result, a good guideline for constructors is, “Do as little as possible to set the object into a good state, and if you can possibly avoid it, don’t call any other methods in this class.” </p>
 </blockquote>
 <p>The only safe methods to call inside a constructor are those that are final in the base class. (This also applies to private methods, which are automatically final.) These cannot be overridden and thus cannot produce this kind of surprise. You may not always be able to follow this guideline, but it’s something to strive towards.</p>
+<p>分享一篇较为通俗的<a href="http://www.cnblogs.com/chenssy/p/3372798.html" target="_blank" rel="external">讲解</a></p>
 ]]></content>
     <summary type="html">
     <![CDATA[多态是一项让程序员将改变的事物与未变的事物分离开来的重要技术。]]>
@@ -411,7 +580,7 @@
     <link href="http://alexyyek.github.io/2015/01/06/sticky/"/>
     <id>http://alexyyek.github.io/2015/01/06/sticky/</id>
     <published>2015-01-06T12:00:49.000Z</published>
-    <updated>2015-01-14T12:56:01.000Z</updated>
+    <updated>2015-03-06T13:41:19.000Z</updated>
     <content type="html"><![CDATA[<p>为了方便大家更好的梳理本博客的资源，更快的检索自己需要的博文，现将文章涉及的知识来源作如下归类，以后发表新的教程也会在本置顶帖内<strong>同步更新</strong>，后期考虑将加入更多的博客以外的资源链接，欢迎关注AlexYoung’s blog，与我一同成长。</p>
 <h2 id="Thinking_in_Java系列">Thinking in Java系列</h2>
 <ul>
@@ -424,6 +593,10 @@
 <li><p><a href="http://alexyyek.github.io/2015/01/12/Inherit/" target="_blank" rel="external"><strong>Java访问权限控制</strong></a></p>
 </li>
 <li><p><a href="http://alexyyek.github.io/2015/01/14/Reusing/" target="_blank" rel="external"><strong>Java复用类</strong></a></p>
+</li>
+<li><p><a href="http://alexyyek.github.io/2015/03/04/Polymorphism/" target="_blank" rel="external"><strong>Java多态性</strong></a></p>
+</li>
+<li><p><a href="http://alexyyek.github.io/2015/03/06/Interface/" target="_blank" rel="external"><strong>抽象类和接口</strong></a></p>
 </li>
 </ul>
 <h2 id="算法导论系列">算法导论系列</h2>
@@ -1718,48 +1891,6 @@
       <category term="heap" scheme="http://alexyyek.github.io/tags/heap/"/>
     
       <category term="coding" scheme="http://alexyyek.github.io/tags/coding/"/>
-    
-      <category term="Java" scheme="http://alexyyek.github.io/categories/Java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[Count And Say]]></title>
-    <link href="http://alexyyek.github.io/2014/12/06/CountAndSay/"/>
-    <id>http://alexyyek.github.io/2014/12/06/CountAndSay/</id>
-    <published>2014-12-06T09:31:42.000Z</published>
-    <updated>2014-12-06T09:46:52.000Z</updated>
-    <content type="html"><![CDATA[<h2 id="Count_and_Say">Count and Say</h2>
-<p>Question : The count-and-say sequence is the sequence of integers beginning as follows:<br><code>1, 11, 21, 1211, 111221, ...</code></p>
-<p><code>1</code> is read off as <code>one 1</code> or <code>11</code>.<br><code>11</code> is read off as <code>two 1s</code> or <code>21</code>.<br><code>21</code> is read off as <code>one 2, then one 1</code> or <code>1211</code>.<br>Given an integer <code>n</code>, generate the nth sequence.<br><a id="more"></a> </p>
-<h3 id="Best_solution">Best solution</h3>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">countAndSay</span>(<span class="keyword">int</span> n) {</div><div class="line">	<span class="keyword">if</span> (n &lt;= <span class="number">0</span>) {</div><div class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">	}</div><div class="line"></div><div class="line">	String first = <span class="string">"1"</span>;</div><div class="line">	<span class="keyword">int</span> count = <span class="number">1</span>;</div><div class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n; i++) {</div><div class="line">		StringBuilder sb = <span class="keyword">new</span> StringBuilder();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; first.length(); j++) {</div><div class="line">			<span class="keyword">if</span> (j &lt; first.length() - <span class="number">1</span></div><div class="line">					&& (first.charAt(j) == first.charAt(j + <span class="number">1</span>))) {</div><div class="line">				count++;</div><div class="line">			} <span class="keyword">else</span> {</div><div class="line">				sb.append(count + <span class="string">""</span> + first.charAt(j));</div><div class="line">				count = <span class="number">1</span>;</div><div class="line">			}</div><div class="line">		}</div><div class="line">		first = sb.toString();</div><div class="line">	}</div><div class="line">	<span class="keyword">return</span> first;</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p><strong>Analyze</strong> : 题目非常简单，序列迭代规则已经列出，求第n次迭代的值。基本方法判断相邻两个字符是否一样，算出每一次的序列值，迭代到n次为止。其实也可以用递归的方法来做，给出第n-1次的规则，求第n次的值。<br><br></p>
-<hr>
-<p>比较有意思的是用DFS的思想来解决此题，代码如下：</p>
-<h3 id="DFS">DFS</h3>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> String s = <span class="string">"1"</span>;</div><div class="line"><span class="keyword">public</span> String <span class="title">countSay</span>(<span class="keyword">int</span> n) {</div><div class="line">    <span class="keyword">if</span>(n &lt; <span class="number">1</span>) <span class="keyword">return</span> <span class="string">""</span>;</div><div class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i &lt; n; i++)</div><div class="line">        dfs(s.length());</div><div class="line">    <span class="keyword">return</span> s;</div><div class="line">}</div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span>(<span class="keyword">int</span> length) {</div><div class="line">    <span class="keyword">if</span> (length == <span class="number">0</span>) <span class="keyword">return</span>;</div><div class="line">    <span class="keyword">int</span> count = <span class="number">1</span>, i = <span class="number">0</span>;</div><div class="line">    <span class="keyword">while</span> (i &lt; length - <span class="number">1</span> && s.charAt(i) == s.charAt(<span class="number">1</span> + i)) {</div><div class="line">        count++;</div><div class="line">        i++;</div><div class="line">    }</div><div class="line">    s = s.substring(i + <span class="number">1</span>) + count + s.charAt(i);</div><div class="line">    dfs(length - count);</div><div class="line">}</div></pre></td></tr></table></figure>
-
-<p><strong>Analyze</strong> : 深度优先算法的思路也很简单，比如第4次迭代结果为1211，现在进行第5次迭代</p>
-<ul>
-<li>树<code>1-2-1-1</code>根节点为<code>1</code>，出现一次所以值变成<code>11</code>,树变成<code>2-1-1</code>，所以整体值为<code>21111</code>；</li>
-<li>第二次运算<code>2</code>出现一次，值为<code>12</code>，树还剩<code>1-1</code>，所以整体值为<code>111112</code>，注意这里前面11是待统计的树<code>1-1</code>,中间的11是第一次的运算值，最后的12是第二次的运算值；</li>
-<li>由于树<code>1-1</code>中<code>1</code>出现了两次，所以值为<code>21</code>，s = s.substring(i + 1) + count + s.charAt(i) = 111221</li>
-</ul>
-<h3 id="More">More</h3>
-<p>这道题在leetcode上的表述略有不清，我第一次就把此题误解为给定任意整数n，去求此整数的第n次迭代值<br>比如5-&gt;15-&gt;1115-&gt;3115-&gt;132115-&gt;1113122115，结果发现高估此题了…<br>既然都写了就列在下面吧</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">countAndSay</span>(<span class="keyword">int</span> n) {</div><div class="line">	<span class="keyword">if</span> (n &lt; <span class="number">0</span>) {</div><div class="line">		<span class="keyword">return</span> <span class="keyword">null</span>;</div><div class="line">	}</div><div class="line">	String word = String.valueOf(n);</div><div class="line">	<span class="keyword">while</span> (n &gt; <span class="number">0</span>) {</div><div class="line">		<span class="keyword">int</span> count = <span class="number">1</span>;</div><div class="line">		StringBuffer sBuffer = <span class="keyword">new</span> StringBuffer();</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; word.length(); i++) {</div><div class="line">			<span class="keyword">if</span> (i &lt; word.length() - <span class="number">1</span></div><div class="line">					&& word.charAt(i) == word.charAt(i + <span class="number">1</span>)) {</div><div class="line">				count++;</div><div class="line">			} <span class="keyword">else</span> {</div><div class="line">				sBuffer.append(count).append(word.charAt(i));</div><div class="line">				count = <span class="number">1</span>;</div><div class="line">			}</div><div class="line">		}</div><div class="line">		word = sBuffer.toString();</div><div class="line">		n--;</div><div class="line">	}</div><div class="line">	<span class="keyword">return</span> word;</div><div class="line">}</div></pre></td></tr></table></figure>
-
-]]></content>
-    <summary type="html">
-    <![CDATA[The count-and-say sequence is the sequence of integers beginning as follows 1, 11, 21, 1211, 111221, ... , Given an integer n, generate the nth sequence.]]>
-    
-    </summary>
-    
-      <category term="dfs" scheme="http://alexyyek.github.io/tags/dfs/"/>
-    
-      <category term="leetcode" scheme="http://alexyyek.github.io/tags/leetcode/"/>
     
       <category term="Java" scheme="http://alexyyek.github.io/categories/Java/"/>
     
