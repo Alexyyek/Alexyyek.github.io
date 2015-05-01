@@ -4,7 +4,7 @@
   <subtitle><![CDATA[当你的才华还撑不起你的野心时，你就应该静下心来学习。]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://alexyyek.github.io/"/>
-  <updated>2015-04-12T11:14:19.805Z</updated>
+  <updated>2015-05-01T09:08:41.940Z</updated>
   <id>http://alexyyek.github.io/</id>
   
   <author>
@@ -13,6 +13,126 @@
   </author>
   
   <generator uri="http://zespia.tw/hexo/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[LinkedList]]></title>
+    <link href="http://alexyyek.github.io/2015/05/01/LinkedList/"/>
+    <id>http://alexyyek.github.io/2015/05/01/LinkedList/</id>
+    <published>2015-05-01T09:00:09.000Z</published>
+    <updated>2015-05-01T09:04:51.000Z</updated>
+    <content type="html"><![CDATA[<p>本篇博客重点剖析继承Collection接口中的LinkedList类，JDK源码版本基于1.8.0_25。</p>
+<h2 id="LinkedList概述">LinkedList概述</h2>
+<p>LinkedList与ArrayList一样实现List接口，只是ArrayList是List接口的大小可变数组的实现，LinkedList是List接口链表的实现。基于链表实现的方式使得LinkedList在插入和删除时更优于ArrayList，而随机访问则比ArrayList逊色些。LinkedList继承于AbstractSequentialList，实现了List, Deque, Cloneable, java.io.Serializable这些接口。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">java.lang.Object</div><div class="line">   ↳     java.util.AbstractCollection&lt;E&gt;</div><div class="line">         ↳     java.util.AbstractList&lt;E&gt;</div><div class="line">               ↳     java.util.AbstractSequentialList&lt;E&gt;</div><div class="line">                     ↳     java.util.LinkedList&lt;E&gt;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">LinkedList</span>&lt;<span class="title">E</span>&gt;</span></div><div class="line">    <span class="keyword">extends</span> <span class="title">AbstractSequentialList</span>&lt;<span class="title">E</span>&gt;</div><div class="line">    <span class="keyword">implements</span> <span class="title">List</span>&lt;<span class="title">E</span>&gt;, <span class="title">Deque</span>&lt;<span class="title">E</span>&gt;, <span class="title">Cloneable</span>, <span class="title">java</span>.<span class="title">io</span>.<span class="title">Serializable</span> {}</div></pre></td></tr></table></figure>
+
+<ul>
+<li>继承 AbstractSequentialList：双向链表，可以被当作堆栈、队列或双端队列进行操作。</li>
+<li>Deque 接口：为 add、poll 提供先进先出队列操作，从而能将LinkedList当作双端队列使用。</li>
+<li>Cloneable接口：覆盖了函数clone()，Returns a shallow copy of this ArrayList instance.</li>
+<li>Serializable接口：ArrayList支持序列化，能通过序列化去传输。</li>
+</ul>
+<p>稍微提及一下AbstractSequentialList，AbstractSequentialList继承AbstractList，对其中的方法进行再抽象，不同于动态数组列表ArrayList。</p>
+<p>AbstractSequentialList在功能上，最大限度地减少了实现受“连续访问”数据存储（如链接列表）支持的此接口所需的工作。说白了就是你的列表需要快速的添加删除数据等，用此抽象类，若是需要快速随机的访问数据等用AbstractList抽象类。</p>
+<blockquote>
+<p>JDK 1.8.0_25：This class provides a skeletal implementation of the List interface to minimize the effort required to implement this interface backed by a “<strong>sequential access</strong>“ data store. </p>
+</blockquote>
+<p>同ArrayList一样，LinkedList中的操作不是线程安全的，所以为了防止意外的非同步访问，最好在创建时声明：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">List list = Collections.synchronizedList(<span class="keyword">new</span> LinkedList(...));</div></pre></td></tr></table></figure>
+
+<p>LinkedList与Collection的关系：</p>
+<p><center> <img src="http://alexyoung.qiniudn.com/272345393446232.jpg" alt=""> <center></center></center></p>
+<p>LinkedList包含三个重要的成员：first、last 和 size。</p>
+<ul>
+<li><code>transient Node&lt;E&gt; first</code>：双向链表的表头，它是双向链表节点所对应的类Node的实例。Node中包含成员变量：prev, next, item。</li>
+<li><code>transient Node&lt;E&gt; last</code>：双向链表的表尾。</li>
+<li><code>transient int size</code>：双向链表中节点的个数。</li>
+</ul>
+<h2 id="构造方法">构造方法</h2>
+<p>LinkedList实现了一个双向列表，由first字段和last字段指向列表的头部和尾部。列表的每个节点是一个Node对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">E</span>&gt; </span>{</div><div class="line">        E item;</div><div class="line">        Node&lt;E&gt; next;</div><div class="line">        Node&lt;E&gt; prev;</div><div class="line"></div><div class="line">        Node(Node&lt;E&gt; prev, E element, Node&lt;E&gt; next) {</div><div class="line">            <span class="keyword">this</span>.item = element;</div><div class="line">            <span class="keyword">this</span>.next = next;</div><div class="line">            <span class="keyword">this</span>.prev = prev;</div><div class="line">        }</div><div class="line">    }</div></pre></td></tr></table></figure>
+
+<p>LinkedList提供了两个构造方法：LinkedList()和LinkedList(Collection&lt;? extends E&gt; c)。</p>
+<p>前一个构造方法为空，里面不含任何元素。后者构造一个包含指定 collection 中的元素的列表。构造函数首先会调用LinkedList()，构造一个空列表，然后调用了addAll()方法将Collection中的所有元素添加到列表中。addAll()源码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">addAll</span>(<span class="keyword">int</span> index, Collection&lt;? extends E&gt; c) {</div><div class="line">        <span class="comment">//若插入的位置小于0或者大于链表长度，则抛出IndexOutOfBoundsException异常</span></div><div class="line">        checkPositionIndex(index);</div><div class="line">        </div><div class="line">        Object[] a = c.toArray();</div><div class="line">        <span class="keyword">int</span> numNew = a.length;<span class="comment">//插入元素个数</span></div><div class="line">        <span class="keyword">if</span> (numNew == <span class="number">0</span>)</div><div class="line">            <span class="keyword">return</span> <span class="keyword">false</span>;</div><div class="line"></div><div class="line">        Node&lt;E&gt; pred, succ;     <span class="comment">//定义前导与后继</span></div><div class="line">        <span class="keyword">if</span> (index == size) {    <span class="comment">//如果在队尾插入</span></div><div class="line">            succ = <span class="keyword">null</span>;    <span class="comment">//后继置空</span></div><div class="line">            pred = last;    <span class="comment">//前导指向队尾元素last</span></div><div class="line">        } <span class="keyword">else</span> {            <span class="comment">//在指定位置插入</span></div><div class="line">            succ = node(index); <span class="comment">//后继指向该位置</span></div><div class="line">            pred = succ.prev;   <span class="comment">//先导指向前一个元素</span></div><div class="line">        }</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (Object o : a) {</div><div class="line">            <span class="annotation">@SuppressWarnings</span>(<span class="string">"unchecked"</span>) E e = (E) o;</div><div class="line">            Node&lt;E&gt; newNode = <span class="keyword">new</span> Node&lt;&gt;(pred, e, <span class="keyword">null</span>);<span class="comment">//创建一个新节点，指定先导，后继置空</span></div><div class="line">            <span class="keyword">if</span> (pred == <span class="keyword">null</span>)<span class="comment">//如果先导不存在</span></div><div class="line">                first = newNode;<span class="comment">//表头first指向此节点</span></div><div class="line">            <span class="keyword">else</span></div><div class="line">                pred.next = newNode;<span class="comment">//先导存在，则将其next指向新节点</span></div><div class="line">            pred = newNode;<span class="comment">//先导移动，继续创建新节点</span></div><div class="line">        }</div><div class="line"></div><div class="line">        <span class="keyword">if</span> (succ == <span class="keyword">null</span>) {</div><div class="line">            last = pred;</div><div class="line">        } <span class="keyword">else</span> {</div><div class="line">            pred.next = succ;</div><div class="line">            succ.prev = pred;</div><div class="line">        }</div><div class="line"></div><div class="line">        size += numNew;</div><div class="line">        modCount++;</div><div class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">    }</div></pre></td></tr></table></figure>
+
+<h2 id="外部方法">外部方法</h2>
+<p>LinkedList提供了一堆linkXX和unlinkXX辅助方法，用来往列表中插入元素和删除元。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">方法名</th>
+<th style="text-align:center">用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">linkFirst</td>
+<td style="text-align:center">插入头部</td>
+</tr>
+<tr>
+<td style="text-align:center">linkLast</td>
+<td style="text-align:center">插入尾部</td>
+</tr>
+<tr>
+<td style="text-align:center">linkBefore</td>
+<td style="text-align:center">插入到某个节点前</td>
+</tr>
+<tr>
+<td style="text-align:center">unlinkFirst</td>
+<td style="text-align:center">删除头部</td>
+</tr>
+<tr>
+<td style="text-align:center">unlinkLast</td>
+<td style="text-align:center">删除尾部</td>
+</tr>
+<tr>
+<td style="text-align:center">unlink</td>
+<td style="text-align:center">删除某节点</td>
+</tr>
+</tbody>
+</table>
+<p>接下来是一些向外暴露的接口的方法，get、remove、add等类型的方法。用到了之前的那些辅助方法。还有一些获取当前状态的方法，比如size、isEmpty、contains，一些方法是父类的方法。</p>
+<p>唯一值得拿出来说的是在get、set、add、remove中都有调用的node方法，它将输入的index与链表长度的1/2进行对比，如果小于链表长度的一半，就从表头first开始操作；否则就从last开始，从而节省一半的查找时间。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">Node&lt;E&gt; node(<span class="keyword">int</span> index) {</div><div class="line">        <span class="comment">// assert isElementIndex(index);</span></div><div class="line"></div><div class="line">        <span class="keyword">if</span> (index &lt; (size &gt;&gt; <span class="number">1</span>)) {</div><div class="line">            Node&lt;E&gt; x = first;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; index; i++)</div><div class="line">                x = x.next;</div><div class="line">            <span class="keyword">return</span> x;</div><div class="line">        } <span class="keyword">else</span> {</div><div class="line">            Node&lt;E&gt; x = last;</div><div class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = size - <span class="number">1</span>; i &gt; index; i--)</div><div class="line">                x = x.prev;</div><div class="line">            <span class="keyword">return</span> x;</div><div class="line">        }</div><div class="line">    }</div></pre></td></tr></table></figure>
+
+<p>此外遍历LinkedList时切忌不要sillyB到使用随机访问去遍历，建议使用迭代器或for循环。不然你将感受到地狱。</p>
+<h2 id="fast-fail机制">fast-fail机制</h2>
+<p>讲了ArrayList和LinkedList，最后讲讲两者面对多线程对同一个集合操作时，可能会产生的fail-fast事件。</p>
+<p>fail-fast 机制是java集合(Collection)中的一种错误机制。简单来说就是当某一个线程遍历list的过程中，list的内容被另外一个线程所改变了；就会抛出ConcurrentModificationException异常，产生fail-fast事件。</p>
+<h3 id="解决方案">解决方案</h3>
+<p>fail-fast机制，是一种错误检测机制。它只能被用来检测错误，因为JDK并不保证fail-fast机制一定会发生。若在多线程环境下使用fail-fast机制的集合，建议使用“java.util.concurrent包下的类”去取代“java.util包下的类”。</p>
+<p>所以，本例中只需要将ArrayList替换成java.util.concurrent包下对应的类即可。即，将代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> List&lt;String&gt; list = <span class="keyword">new</span> ArrayList&lt;String&gt;();</div></pre></td></tr></table></figure>
+
+<p>替换为</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> List&lt;String&gt; list = <span class="keyword">new</span> CopyOnWriteArrayList&lt;String&gt;();</div></pre></td></tr></table></figure>
+
+<h3 id="抛出异常原理">抛出异常原理</h3>
+<p>原理很简单，在AbstractList里定义了一个叫modCount的玩意。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">protected</span> <span class="keyword">transient</span> <span class="keyword">int</span> modCount = <span class="number">0</span>;</div></pre></td></tr></table></figure>
+
+<p>这货存在的全部意义就是在有操作对List进行修改时，自加一。例如在ArrayList里的 ensureExplicitCapacity 方法，remove方法，clear方法等等。</p>
+<p>产生fail-fast事件，是通过抛出ConcurrentModificationException异常来触发的。而ConcurrentModificationException是在操作Iterator时抛出的异常。</p>
+<p>再查看Iterator的源码你会发现，Iterator里定义了一个叫expectedModCount的变量，<code>初始化等于modCount的值</code>。</p>
+<p>所以每次遍历List中的元素的时候，都会比较 expectedModCount 和 modCount 是否相等。如果不相等则抛出异常。</p>
+<p>那么什么时候 modCount 不等于 expectedModCount呢？查看ArrayList的源码，如上面所说，无论是 ensureExplicitCapacity()、add()、remove()，还是clear()，只要涉及到修改集合中的元素个数时，都会改变modCount的值。</p>
+<p>总结一下就是当多个线程对同一个集合进行操作的时候，某线程访问集合的过程中，该集合的内容被其他线程所改变(即其它线程通过add、remove、clear等方法，改变了modCount的值)；这时，就会抛出ConcurrentModificationException异常，产生fail-fast事件。</p>
+<h3 id="解决原理">解决原理</h3>
+<p>查看和ArrayList对应的CopyOnWriteArrayList的源码。举个最简单的例子add方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span>(E e) {</div><div class="line">       <span class="keyword">final</span> ReentrantLock lock = <span class="keyword">this</span>.lock;</div><div class="line">       lock.lock();</div><div class="line">       <span class="keyword">try</span> {</div><div class="line">           Object[] elements = getArray(); <span class="comment">//copy一份原来的array</span></div><div class="line">           <span class="keyword">int</span> len = elements.length;</div><div class="line">           Object[] newElements = Arrays.copyOf(elements, len + <span class="number">1</span>); </div><div class="line">           newElements[len] = e; <span class="comment">//在copy的数组上add</span></div><div class="line">           setArray(newElements); <span class="comment">//原有引用指向修改后的数据</span></div><div class="line">           <span class="keyword">return</span> <span class="keyword">true</span>;</div><div class="line">       } <span class="keyword">finally</span> {</div><div class="line">           lock.unlock();</div><div class="line">       }</div><div class="line">   }</div></pre></td></tr></table></figure>
+
+<p>CopyOnWriteArrayList的add、set、remove等会改变原数组的方法中，都是先copy一份原来的array，再在copy数组上进行add、set、remove操作。然后把原有数据的引用改成指向修改后的数据，这就才不影响COWIterator那份数组。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[The LinkedList class extends AbstractSequentialList and implements the List interface. LinkedList supports sequential access data store.]]>
+    
+    </summary>
+    
+      <category term="coding" scheme="http://alexyyek.github.io/tags/coding/"/>
+    
+      <category term="Java" scheme="http://alexyyek.github.io/categories/Java/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[ArrayList]]></title>
@@ -960,7 +1080,7 @@
     <link href="http://alexyyek.github.io/2015/01/06/sticky/"/>
     <id>http://alexyyek.github.io/2015/01/06/sticky/</id>
     <published>2015-01-06T12:00:49.000Z</published>
-    <updated>2015-03-06T13:41:19.000Z</updated>
+    <updated>2015-05-01T09:07:27.000Z</updated>
     <content type="html"><![CDATA[<p>为了方便大家更好的梳理本博客的资源，更快的检索自己需要的博文，现将文章涉及的知识来源作如下归类，以后发表新的教程也会在本置顶帖内<strong>同步更新</strong>，后期考虑将加入更多的博客以外的资源链接，欢迎关注AlexYoung’s blog，与我一同成长。</p>
 <h2 id="Thinking_in_Java系列">Thinking in Java系列</h2>
 <ul>
@@ -977,6 +1097,12 @@
 <li><p><a href="http://alexyyek.github.io/2015/03/04/Polymorphism/" target="_blank" rel="external"><strong>Java多态性</strong></a></p>
 </li>
 <li><p><a href="http://alexyyek.github.io/2015/03/06/Interface/" target="_blank" rel="external"><strong>抽象类和接口</strong></a></p>
+</li>
+<li><p><a href="http://alexyyek.github.io/2015/04/06/Collection/" target="_blank" rel="external"><strong>JAVA容器类</strong></a></p>
+</li>
+<li><p><a href="http://alexyyek.github.io/2015/04/12/ArrayList/" target="_blank" rel="external"><strong>ArrayList</strong></a></p>
+</li>
+<li><p><a href="http://alexyyek.github.io/2015/05/01/LinkedList/" target="_blank" rel="external"><strong>LinkedList</strong></a></p>
 </li>
 </ul>
 <h2 id="算法导论系列">算法导论系列</h2>
@@ -2059,68 +2185,6 @@
 ]]></content>
     <summary type="html">
     <![CDATA[当多个关键字映射到同一槽位时，便发生哈希碰撞。主要解决方案有两种，一种是基于链表的链地址法，另一种则是开放寻址法。]]>
-    
-    </summary>
-    
-      <category term="hash" scheme="http://alexyyek.github.io/tags/hash/"/>
-    
-      <category term="coding" scheme="http://alexyyek.github.io/tags/coding/"/>
-    
-      <category term="Java" scheme="http://alexyyek.github.io/categories/Java/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[散列函数]]></title>
-    <link href="http://alexyyek.github.io/2014/12/11/hash/"/>
-    <id>http://alexyyek.github.io/2014/12/11/hash/</id>
-    <published>2014-12-11T14:12:51.000Z</published>
-    <updated>2014-12-15T10:31:00.000Z</updated>
-    <content type="html"><![CDATA[<p>一个好的散列函数应满足<code>简单一致</code>散列的假设：每个关键字都等可能的散列到m个槽位的任何一个之中，并与其它的关键字已被散列到哪个槽位无关。</p>
-<h2 id="除法散列法">除法散列法</h2>
-<p>在用来设计散列函数的除法散列法中，通过取k除以m的余数，将关键字k映射到m个槽中的某一个上，即散列函数为:</p>
-<p><center> $$h(k)=k mod m$$ <center></center></center></p>
-<p>当应用除法散列法时，要避免选择m的某些值，m常常选择与近2的整数幂的不太接近的<code>素数</code>。<br><strong>Explain</strong>：如果 $m=2^p$，二进制除法相当于右位移<code>&gt;&gt;</code>，例如<code>111010&gt;&gt;3</code>,即除以$2^3$，右移3位变为<code>111</code>，<code>010</code>则作为余数被移除，故在做取余操作时值为<code>010</code>,即为k的p个最低位数字。</p>
-<h2 id="乘法散列法">乘法散列法</h2>
-<p>乘法散列法整体包含两步：</p>
-<ul>
-<li>用关键字k乘上常数<code>A(0&lt;A&lt;1)</code>，并去除kA的小数部分</li>
-<li>用m乘以这个值，再取结果的底<code>floor</code><br>公式：    <code>h(k)=Math.floor[m(kA mod 1)]</code><br><center><img src="http://alexyoung.qiniudn.com/26822401_1334109664MN4j.png" alt=""><center></center></center></li>
-</ul>
-<p><strong>STEP</strong>：</p>
-<ul>
-<li>假设某计算机的字长为 $w$ 位，而 $k$ 正好可容于一个字中（$k&lt;2^w$)</li>
-<li>现在选取范围$[0，2^w]$内的任意数值 $s$，$k×s$ 即可用$R_1·2^w+R_0$来表示</li>
-<li>因此$(k·A) mod 1=k·s/2^w$就是将$k×s$整体向右平移 $w$ 位，此时$R_0$即为小数部分</li>
-<li>再乘以$2^m$相当于左移 $m$ 位，散列值 $h(k)$ 为$R_0$的前m位。</li>
-</ul>
-<h2 id="全域散列">全域散列</h2>
-<p>如果让某个与你作对的人来选择要散列的关键字，那么他会选择全部散列到同一槽位的n个关键字，使得<code>平均检索时间</code>为<code>O(n)</code>，任何一个特定的散列函数都无法避免这种最坏情况的发生。唯一有效的改进方法是<code>随机的选择散列函数</code>，使之独立于要存储的关键字，这便是全域散列(universal hashing)，无论对手如何选择关键字，平均性态都很好。</p>
-<p><strong>步骤</strong></p>
-<ul>
-<li>选择一个足够大的<code>质数</code>$p$，使得每个关键字都落在 $[0, p-1]$ 范围内；</li>
-<li>集合$Z_p$ = $\{0,1,…,p-1\}$，集合$Z^*_p$= $\{1,2,…,p-1\}$，对于任何 $a \in Z^*_p$，$b \in Z_p$，定义散列函数 $h_{a,b}$：</li>
-</ul>
-<p><center> $h_{a,b}(k) = ((ak+b)\ mod \ p)\ mod \ m$ <center></center></center></p>
-<p>假定关键字的范围大于散列表的槽位数，即 $p&gt;m$，对 $a$而言有<code>p</code>种选择，对 $b$ 而言有<code>p-1</code>种可能，所以 $H_{a,b}$有<code>p(p-1)</code>种可能性。当随机的选择关键字$k \not= l$，两者发生碰撞的概率不大于<code>1/m</code>。</p>
-<p><strong>Proof</strong>：<br>考虑 $Z_p $ 中两个不同的关键字 $k$ 和 $l$，即 $k \not= l$，对某一给定的随机散列函数$h_{a,b}$</p>
-<p><center> $r=(ak+b)\ mod\ p$         ,      $s=(al+b)\ mod \ p$ <center></center></center></p>
-<p>此处必有 $ r\not= s$，因为 $r-s = a(k-l)\ mod\ p$</p>
-<p><code>p</code>为质数，故<code>a</code>和<code>k-l</code>模<code>p</code>均不为0，因此在模<code>p</code>这一层次上，尚不出现冲突。</p>
-<p>故对于某个给定的<code>r</code>值，<code>s</code>的可能取值为余下的<code>p-1</code>种，其中满足$s \not= r$且$r \equiv s(mod \ p)$的值的数目至多为$(p-1)/m$，所以<code>s</code>与<code>r</code>发生碰撞的概率至多为 $((p-1)/m)/(p-1)=1/m$</p>
-<p>$H_{a,b}$是全域的。</p>
-<h2 id="完美哈希">完美哈希</h2>
-<p>当键值是<code>static</code>(即固定不变)的时候，我们可以涉及方案使得最差情况下的查询性能也很出色，这就是完美哈希。实际上，很多地方都会用到静态关键字集合。比如一种语言的保留字集合，一张CD-ROM里的文件名集合。而完美哈希可以在<code>最坏情况</code>下以<code>O(1)</code>复杂度查找，性能非常出色的。<br>完美哈希的思想就是采用两级的框架，每一级上都用全域哈希：</p>
-<p><center> <img src="http://7rf27k.com1.z0.glb.clouddn.com/30143317-b1a1356610cb4d6eb8cda2a1e9f36eba.png" alt=""> <center></center></center></p>
-<p>完美哈希的结构如上图。具体来说，第一级和带链表的哈希非常的相似，只是第一级发生冲突后后面接的不是链表，而是一个新的哈希表。后面那个哈希结构，我们可以看到前端存储了一些哈希表的基本性质：$m$ 是哈希表槽数；$a,b$ 全域哈希函数要确定的两个值(一般是随机选然后确定下来的)，后面跟着哈希表。</p>
-<p>为了保证不冲突，<strong>每个二级哈希表的数量是第一级映射到这个槽中元素个数的平方</strong>，这样可以保证整个哈希表非常的稀疏。下面给出一个定理，能更清楚的看到设置 $m=n^2$的作用。</p>
-<p><strong>定理</strong>：设$H$是一类全域哈希函数，哈希表的槽数 $m=n^2$。 那么，如果我们用一个随机函数 $h \in H$把 $n$ 个keys映射到表中。冲突次数的期望最多是1/2.</p>
-<p><strong>Proof</strong>：根据全域哈希的定义，对任意选出的哈希函数h，表中2个给定keys冲突的概率是 $1/m$,即 $1/n^2$<br>且总共有$C_2^n$可能的键值对，那么冲突次数的期望就是：</p>
-<p><center> $C_2^n/n^2=n(n−1)/2·n^2 &lt; 1/2$   <center></center></center></p>
-<p>证毕！</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[一个好的散列函数应满足简单一致散列的假设：每个关键字都等可能的散列到m个槽位的任何一个之中，并与其它的关键字已被散列到哪个槽位无关。]]>
     
     </summary>
     
